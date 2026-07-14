@@ -4,6 +4,7 @@
     top: 20px;
     right: 20px;
     display: flex;
+    align-items: center;
     gap: 8px;
     z-index: var(--z-navigation);
 }
@@ -13,14 +14,18 @@
     backdrop-filter: blur(10px);
     border: 2px solid rgba(255,255,255,0.3);
     color: white;
-    padding: 10px 18px;
-    font-size: 1.1em;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    font-size: 1.5em;
     font-weight: bold;
+    line-height: 1;
     border-radius: 8px;
     cursor: pointer;
     transition: all var(--transition-normal);
-    min-width: 45px;
-    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .nav-btn:hover {

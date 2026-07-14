@@ -1,18 +1,20 @@
-/* Theme trigger button */
+/* Theme trigger button — inline dans la barre de navigation, avant les flèches */
 .theme-trigger {
-    position: fixed;
-    bottom: 18px;
-    right: 18px;
-    width: 46px;
-    height: 46px;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.4);
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(6px);
     color: #fff;
-    font-size: 1.3em;
+    font-size: 1.2em;
+    line-height: 1;
+    padding: 0;
     cursor: pointer;
-    z-index: 9999;
     transition: transform var(--transition-fast), background var(--transition-fast);
 }
 

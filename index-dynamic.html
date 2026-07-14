@@ -19,9 +19,6 @@
     <!-- Progress Bar -->
     <div class="progress-bar" id="progressBar"></div>
 
-    <!-- Theme switch button -->
-    <button class="theme-trigger" onclick="openThemePopup()" title="Changer de thème" aria-label="Changer de thème">🎨</button>
-
     <!-- Slide Container - Slides will be loaded dynamically -->
     <div class="slide-container">
         <!-- Slides loaded from separate files via slideLoader.js -->
@@ -29,8 +26,9 @@
 
     <!-- Navigation -->
     <div class="navigation">
-        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">◀ Précédent</button>
-        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Suivant ▶</button>
+        <button class="theme-trigger" onclick="openThemePopup()" title="Changer de thème" aria-label="Changer de thème">🎨</button>
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" title="Précédent" aria-label="Précédent">←</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)" title="Suivant" aria-label="Suivant">→</button>
     </div>
 
     <!-- Slide Indicators -->
@@ -100,6 +98,35 @@
             </div>
         </div>
     </div>
+
+    <!-- Plein écran automatique (au 1er geste utilisateur — les navigateurs
+         bloquent le fullscreen sans interaction) + bascule avec la touche F -->
+    <script>
+    (function () {
+        function goFullscreen() {
+            var el = document.documentElement;
+            if (!document.fullscreenElement && el.requestFullscreen) {
+                el.requestFullscreen().catch(function () {});
+            }
+        }
+        function onceFullscreen() {
+            goFullscreen();
+            window.removeEventListener('click', onceFullscreen);
+            window.removeEventListener('keydown', onceFullscreen);
+        }
+        window.addEventListener('click', onceFullscreen);
+        window.addEventListener('keydown', onceFullscreen);
+        // Tentative immédiate (souvent bloquée, sans effet secondaire)
+        goFullscreen();
+        // Touche F : basculer le plein écran
+        window.addEventListener('keydown', function (e) {
+            if (e.key === 'f' || e.key === 'F') {
+                if (document.fullscreenElement) { document.exitFullscreen(); }
+                else { goFullscreen(); }
+            }
+        });
+    })();
+    </script>
 
     <!-- JavaScript Modules -->
     <script type="module" src="js/main.js"></script>
