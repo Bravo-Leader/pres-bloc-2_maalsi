@@ -1,7 +1,7 @@
 /* Theme trigger button */
 .theme-trigger {
     position: fixed;
-    top: 18px;
+    bottom: 18px;
     right: 18px;
     width: 46px;
     height: 46px;
