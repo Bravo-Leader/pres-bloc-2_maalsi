@@ -1,0 +1,25 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+# Un seul déploiement à la fois (évite les rebuilds concurrents)
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Déclenche le déploiement sur le VPS via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: 75.119.136.141
+          username: root
+          key: ${{ secrets.VPS_SSH_KEY }}
+          # La clé est restreinte côté serveur par un « forced command » :
+          # quel que soit le script envoyé, le VPS exécute /apps/pres-bloc-2_maalsi/deploy.sh
+          script: deploy
