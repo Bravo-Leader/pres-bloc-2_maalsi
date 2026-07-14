@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time'Eats — Cadre PMO du portefeuille IT · Go/No-Go</title>
+
+    <!-- CSS Modules -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/slides.css">
+    <link rel="stylesheet" href="css/layouts.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/zoom-modal.css">
+    <link rel="stylesheet" href="css/theme-popup.css">
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Theme switch button -->
+    <button class="theme-trigger" onclick="openThemePopup()" title="Changer de thème" aria-label="Changer de thème">🎨</button>
+
+    <!-- Slide Container - Slides will be loaded dynamically -->
+    <div class="slide-container">
+        <!-- Slides loaded from separate files via slideLoader.js -->
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">◀ Précédent</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Suivant ▶</button>
+    </div>
+
+    <!-- Slide Indicators -->
+    <div class="slide-indicator" id="slideIndicator"></div>
+
+    <!-- Zoom Modal -->
+    <div class="zoom-modal" id="zoomModal">
+        <div class="close-zoom" onclick="closeZoom()">✕</div>
+        <div class="zoom-content" id="zoomContent">
+            <img id="zoomImage" src="" alt="Zoomed diagram">
+        </div>
+        <div class="zoom-controls">
+            <button class="zoom-btn" onclick="zoomIn()" title="Zoom In">+</button>
+            <button class="zoom-btn" onclick="resetZoom()" title="Reset">⟲</button>
+            <button class="zoom-btn" onclick="zoomOut()" title="Zoom Out">−</button>
+        </div>
+    </div>
+
+    <!-- Theme Popup -->
+    <div class="theme-popup-overlay" id="themePopupOverlay">
+        <div class="theme-popup">
+            <div class="theme-popup-header">
+                <h3>🎨 Choisir un thème</h3>
+                <button class="theme-popup-close" onclick="closeThemePopup()">✕</button>
+            </div>
+            <div class="theme-options">
+                <div class="theme-option" onclick="selectTheme('dark')">
+                    <div class="theme-name">Dark</div>
+                    <div class="theme-colors"><div class="color-swatch" style="background:#667eea"></div><div class="color-swatch" style="background:#764ba2"></div></div>
+                    <div class="theme-labels">Violet</div>
+                </div>
+                <div class="theme-option" onclick="selectTheme('light')">
+                    <div class="theme-name">Light</div>
+                    <div class="theme-colors"><div class="color-swatch" style="background:#e4e8ec"></div><div class="color-swatch" style="background:#b0bec5"></div></div>
+                    <div class="theme-labels">Clair</div>
+                </div>
+                <div class="theme-option" onclick="selectTheme('cesi')">
+                    <div class="theme-name">CESI</div>
+                    <div class="theme-colors"><div class="color-swatch" style="background:#1e3a5f"></div><div class="color-swatch" style="background:#f39200"></div></div>
+                    <div class="theme-labels">Orange/Bleu</div>
+                </div>
+                <div class="theme-option" onclick="selectTheme('green')">
+                    <div class="theme-name">Green</div>
+                    <div class="theme-colors"><div class="color-swatch" style="background:#11998e"></div><div class="color-swatch" style="background:#38ef7d"></div></div>
+                    <div class="theme-labels">Éco</div>
+                </div>
+                <div class="theme-option" onclick="selectTheme('sunset')">
+                    <div class="theme-name">Sunset</div>
+                    <div class="theme-colors"><div class="color-swatch" style="background:#ff6a00"></div><div class="color-swatch" style="background:#ee0979"></div></div>
+                    <div class="theme-labels">Chaud</div>
+                </div>
+                <div class="theme-option" onclick="selectTheme('ocean')">
+                    <div class="theme-name">Ocean</div>
+                    <div class="theme-colors"><div class="color-swatch" style="background:#2193b0"></div><div class="color-swatch" style="background:#6dd5ed"></div></div>
+                    <div class="theme-labels">Bleu/Cyan</div>
+                </div>
+                <div class="theme-option" onclick="selectTheme('midnight')">
+                    <div class="theme-name">Midnight</div>
+                    <div class="theme-colors"><div class="color-swatch" style="background:#232526"></div><div class="color-swatch" style="background:#414345"></div></div>
+                    <div class="theme-labels">Sombre</div>
+                </div>
+                <div class="theme-option" onclick="selectTheme('corporate')">
+                    <div class="theme-name">Corporate</div>
+                    <div class="theme-colors"><div class="color-swatch" style="background:#34495e"></div><div class="color-swatch" style="background:#5d6d7e"></div></div>
+                    <div class="theme-labels">Pro</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/matrixCarousel.js"></script>
+</body>
+</html>

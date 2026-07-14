@@ -1,0 +1,48 @@
+<div class="slide" data-slide="7">
+    <div class="slide-header">
+        <div class="slide-number">Slide 7 / 16 — Critère C3</div>
+        <h2>📊 Tableau de bord portefeuille : priorisation cotée</h2>
+    </div>
+    <div class="slide-content">
+        <div class="scrollable-content">
+            <h3 style="margin-bottom:6px;">Modèle de priorisation — 5 critères pondérés, cotation 1 à 5</h3>
+            <table>
+                <thead><tr><th>Critère</th><th>Poids</th><th>Cotation (1 → 5)</th></tr></thead>
+                <tbody>
+                    <tr><td>Importance stratégique</td><td><span class="weight-badge">35 %</span></td><td>1 = faible · 5 = critique</td></tr>
+                    <tr><td>Rentabilité attendue</td><td><span class="weight-badge">25 %</span></td><td>1 = ROI faible · 5 = ROI élevé</td></tr>
+                    <tr><td>Maîtrise des risques</td><td><span class="weight-badge">20 %</span></td><td>1 = très risqué · 5 = maîtrisé</td></tr>
+                    <tr><td>Dépendances critiques</td><td><span class="weight-badge">10 %</span></td><td>nb projets bloqués : 0→1pt … 4+→5pts</td></tr>
+                    <tr><td>Urgence réglementaire</td><td><span class="weight-badge">10 %</span></td><td>5 si réglementaire, 1 sinon</td></tr>
+                </tbody>
+            </table>
+            <p style="margin:8px 0;"><strong>Score = Σ (cotation × poids)</strong> —
+               <span class="badge" style="background:rgba(46,204,113,0.35)">Vert ≥ 3,50</span>
+               <span class="badge" style="background:rgba(243,156,18,0.35)">Ambre 2,75–3,49</span>
+               <span class="badge" style="background:rgba(231,76,60,0.35)">Rouge &lt; 2,75</span></p>
+
+            <h3 style="margin:14px 0 6px;">Priorisation des 11 projets (onglet Portefeuille du Cockpit)</h3>
+            <table>
+                <thead><tr><th>Projet</th><th>Imp.</th><th>Rent.</th><th>Risq.</th><th>Dép.</th><th>Règl.</th><th>Score</th><th>Statut</th></tr></thead>
+                <tbody>
+                    <tr><td>Refonte Web</td><td>5</td><td>5</td><td>2</td><td>4</td><td>1</td><td><strong>3,80</strong></td><td><span class="badge" style="background:rgba(46,204,113,0.35)">Vert</span></td></tr>
+                    <tr><td>CRM</td><td>5</td><td>3</td><td>4</td><td>4</td><td>1</td><td><strong>3,70</strong></td><td><span class="badge" style="background:rgba(46,204,113,0.35)">Vert</span></td></tr>
+                    <tr><td>App Mobile Clients</td><td>5</td><td>5</td><td>3</td><td>1</td><td>1</td><td><strong>3,70</strong></td><td><span class="badge" style="background:rgba(46,204,113,0.35)">Vert</span></td></tr>
+                    <tr><td>MFA</td><td>5</td><td>3</td><td>4</td><td>3</td><td>1</td><td><strong>3,60</strong></td><td><span class="badge" style="background:rgba(46,204,113,0.35)">Vert</span></td></tr>
+                    <tr><td>Sauvegarde Cloud</td><td>5</td><td>3</td><td>5</td><td>1</td><td>1</td><td><strong>3,60</strong></td><td><span class="badge" style="background:rgba(46,204,113,0.35)">Vert</span></td></tr>
+                    <tr><td>App Mobile Fourn.</td><td>5</td><td>5</td><td>2</td><td>1</td><td>1</td><td><strong>3,50</strong></td><td><span class="badge" style="background:rgba(46,204,113,0.35)">Vert</span></td></tr>
+                    <tr><td>MAJ Outils Paie</td><td>5</td><td>1</td><td>4</td><td>1</td><td>5</td><td><strong>3,40</strong></td><td><span class="badge" style="background:rgba(243,156,18,0.35)">Ambre</span></td></tr>
+                    <tr><td>Office 365</td><td>4</td><td>2</td><td>3</td><td>5</td><td>1</td><td><strong>3,00</strong></td><td><span class="badge" style="background:rgba(243,156,18,0.35)">Ambre</span></td></tr>
+                    <tr><td>CI/CD</td><td>3</td><td>3</td><td>3</td><td>5</td><td>1</td><td><strong>2,90</strong></td><td><span class="badge" style="background:rgba(243,156,18,0.35)">Ambre</span></td></tr>
+                    <tr><td>Stockage &amp; Fichiers</td><td>4</td><td>3</td><td>3</td><td>1</td><td>1</td><td><strong>2,85</strong></td><td><span class="badge" style="background:rgba(243,156,18,0.35)">Ambre</span></td></tr>
+                    <tr><td>Migration Azure</td><td>3</td><td>4</td><td>1</td><td>3</td><td>1</td><td><strong>2,55</strong></td><td><span class="badge" style="background:rgba(231,76,60,0.35)">Rouge</span></td></tr>
+                </tbody>
+            </table>
+            <p style="margin-top:8px; opacity:0.85;"><strong>Lecture PMO :</strong> Office 365 (Ambre) bloque 3 projets Vert → priorité de planning absolue. Migration Azure (Rouge) → accompagnement ESN spécialisé impératif.</p>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <span>Time'Eats · Cellule PMO</span>
+        <span>C3 — Supervision &amp; priorisation cotée</span>
+    </div>
+</div>
