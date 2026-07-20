@@ -4,7 +4,7 @@
     "subtitle": "Supervision du portefeuille & pilotage du projet Refonte Web",
     "institution": "Time'Eats · Cellule PMO — CESI MAALSI 2025-2026",
     "footer": "Time'Eats · Cellule PMO | Go/No-Go portefeuille IT",
-    "totalSlides": 16
+    "totalSlides": 17
   },
   "slides": [
     { "id": 1, "type": "title", "title": "Cadre PMO du portefeuille IT" },
@@ -14,14 +14,15 @@
     { "id": 5, "type": "table", "title": "C1 — Méthodologie hybride à 4 piliers" },
     { "id": 6, "type": "table", "title": "C2 — Référentiel documentaire & rubriques clés" },
     { "id": 7, "type": "table", "title": "C3 — Tableau de bord portefeuille : priorisation cotée" },
-    { "id": 8, "type": "table", "title": "Projet sélectionné : Refonte Web" },
-    { "id": 9, "type": "content", "title": "C4 — Plan de management projet" },
-    { "id": 10, "type": "diagram-content", "title": "C4 — Planification : WBS & jalons (Gantt)" },
-    { "id": 11, "type": "content", "title": "C4 — Budget, risques & communication" },
-    { "id": 12, "type": "content", "title": "C5 — Triangle d'or & escalade (M+1)" },
-    { "id": 13, "type": "table", "title": "C6 — Clôture & PV de recette" },
-    { "id": 14, "type": "content", "title": "C7 — Amélioration continue (PDCA)" },
-    { "id": 15, "type": "content", "title": "Coût, bénéfices & déploiement" },
-    { "id": 16, "type": "end", "title": "Go / No-Go ?" }
+    { "id": 8, "type": "table", "title": "C3 & C5 — KPI projet ⇔ portefeuille : la cascade" },
+    { "id": 9, "type": "table", "title": "Projet sélectionné : Refonte Web" },
+    { "id": 10, "type": "content", "title": "C4 — Plan de management projet" },
+    { "id": 11, "type": "diagram-content", "title": "C4 — Planification : WBS & jalons (Gantt)" },
+    { "id": 12, "type": "content", "title": "C4 — Budget, risques & communication" },
+    { "id": 13, "type": "content", "title": "C5 — Triangle d'or & escalade (M+1)" },
+    { "id": 14, "type": "table", "title": "C6 — Clôture & PV de recette" },
+    { "id": 15, "type": "content", "title": "C7 — Amélioration continue (PDCA)" },
+    { "id": 16, "type": "content", "title": "Coût, bénéfices & déploiement" },
+    { "id": 17, "type": "end", "title": "Go / No-Go ?" }
   ]
 }
