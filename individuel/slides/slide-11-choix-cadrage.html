@@ -1,0 +1,42 @@
+<div class="slide" data-slide="11">
+    <div class="slide-header">
+        <div class="slide-number">Slide 11 / 16 — Compétence 2</div>
+        <h2>🎬 Le projet retenu : Office 365 — et pourquoi lui</h2>
+    </div>
+    <div class="slide-content">
+        <div class="scrollable-content">
+        <div class="grid-stats">
+            <div class="stat-card"><div class="stat-number">100 K€</div><div class="stat-label">plafond ferme</div></div>
+            <div class="stat-card"><div class="stat-number">220 j/h</div><div class="stat-label">dont 120 ESN au forfait</div></div>
+            <div class="stat-card"><div class="stat-number">3 mois</div><div class="stat-label">13/04 → 17/07/2026</div></div>
+            <div class="stat-card"><div class="stat-number">200</div><div class="stat-label">salariés, 5 sites</div></div>
+        </div>
+        <div class="content-box" style="margin-top:14px;">
+            <h3>Trois raisons, toutes issues de l'analyse de portefeuille</h3>
+            <p><strong>1.</strong> C'est le projet le plus critique pour l'ordonnancement — <strong>C3 = 5/5, seul projet à ce niveau</strong> : il conditionne quatre projets représentant 900 K€. Un mois de retard sur Office 365, c'est un mois de retard sur plus de la moitié du portefeuille en valeur.</p>
+            <p style="margin-top:6px;"><strong>2.</strong> Son profil illustre exactement la valeur ajoutée d'un PMO : 6<sup>e</sup> au classement stratégique, 10<sup>e</sup> à la rentabilité, il serait déprioritisé par toute lecture naïve. <span class="highlight">Seule l'analyse des dépendances impose de le placer en tête de planning.</span></p>
+            <p style="margin-top:6px;"><strong>3.</strong> Il démarre immédiatement et mobilise les <strong>26 documents</strong> du référentiel : c'est le meilleur banc d'essai de ce qui est proposé.</p>
+        </div>
+        <h3 style="margin:14px 0 6px;">Cadrage — d'où l'on part, où l'on va</h3>
+        <table>
+            <thead><tr><th>Domaine</th><th>Situation actuelle</th><th>Situation cible</th></tr></thead>
+            <tbody>
+                <tr><td>Messagerie</td><td>Exchange 2016 au siège, serveur unique, aucun plan de continuité</td><td>Exchange Online, 200 boîtes, haute disponibilité assurée par l'éditeur</td></tr>
+                <tr><td>Fichiers</td><td>Partages réseau par site, droits non revus depuis 2021</td><td>OneDrive + SharePoint, droits repris et documentés</td></tr>
+                <tr><td>Collaboration</td><td>Aucune — téléphone et pièces jointes</td><td>Teams : réunions, canaux par site et par projet, coédition</td></tr>
+                <tr><td>Identités</td><td>AD local, mot de passe seul</td><td>Entra ID synchronisé, authentification unique, MFA sur les comptes à privilèges</td></tr>
+            </tbody>
+        </table>
+        <h3 style="margin:14px 0 6px;">Périmètre — ce qui est dedans, ce qui est dehors</h3>
+        <table>
+            <thead><tr><th style="width:12%">&nbsp;</th><th>Contenu</th></tr></thead>
+            <tbody>
+                <tr><td><span class="badge" style="background:rgba(46,204,113,0.35)">IN</span></td><td>Tenant M365 E3 · Entra ID Connect et SSO · migration des 200 boîtes et des partages · 5 sites SharePoint et 12 équipes Teams · bureautique sur 200 postes · MFA des comptes à privilèges · rétention, partage externe et DLP · formation des 200 salariés et 10 <em>key users</em> · recettes · transfert en exploitation · décommissionnement d'Exchange</td></tr>
+                <tr><td><span class="badge" style="background:rgba(231,76,60,0.35)">OUT</span></td><td>MFA généralisé <em>(projet MFA)</em> · serveurs métiers <em>(projet Azure)</em> · GED métier <em>(projet Stockage)</em> · sauvegarde tierce du tenant <em>(projet Sauvegarde Cloud)</em> · téléphonie Teams · Power Platform · intranet · archives antérieures à 2022</td></tr>
+            </tbody>
+        </table>
+        <p style="margin-top:10px;"><strong>⚠️ Les frontières sont des risques.</strong> Quatre exclusions sur sept renvoient à un autre projet du portefeuille — chacune est doublée d'une <strong>réunion d'interface mensuelle</strong>. Sans ce dispositif, une exclusion devient un trou de couverture : typiquement la sauvegarde des données du tenant, que beaucoup croient assurée par l'éditeur alors qu'elle relève du client.</p>
+        </div>
+    </div>
+    <div class="slide-footer"><span>Time'Eats · Cellule PMO</span><span>Office 365 — cadrage</span></div>
+</div>

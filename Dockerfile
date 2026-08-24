@@ -13,4 +13,10 @@ RUN set -e; cd /usr/share/nginx/html; \
     sed -i "s|src=\"js/\([A-Za-z0-9_.-]*\.js\)\"|src=\"js/\1?v=${CACHE_BUST}\"|g" index-dynamic.html; \
     sed -i "s|from '\./\([A-Za-z0-9_.-]*\.js\)'|from './\1?v=${CACHE_BUST}'|g" js/main.js
 
+# Présentation du travail individuel, servie sur /individuel
+RUN set -e; cd /usr/share/nginx/html/individuel; \
+    sed -i "s|href=\"css/\([A-Za-z0-9_.-]*\.css\)\"|href=\"css/\1?v=${CACHE_BUST}\"|g" index.html index-dynamic.html; \
+    sed -i "s|src=\"js/\([A-Za-z0-9_.-]*\.js\)\"|src=\"js/\1?v=${CACHE_BUST}\"|g" index.html index-dynamic.html; \
+    sed -i "s|from '\./\([A-Za-z0-9_.-]*\.js\)'|from './\1?v=${CACHE_BUST}'|g" js/main.js
+
 EXPOSE 80

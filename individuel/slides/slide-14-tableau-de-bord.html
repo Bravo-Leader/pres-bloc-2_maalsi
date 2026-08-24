@@ -1,0 +1,38 @@
+<div class="slide" data-slide="14">
+    <div class="slide-header">
+        <div class="slide-number">Slide 14 / 16 — Compétence 2</div>
+        <h2>📈 Le tableau de bord : un dispositif d'alerte, pas un reporting</h2>
+    </div>
+    <div class="slide-content">
+        <div class="scrollable-content">
+        <p style="margin-bottom:10px;"><strong>16 indicateurs sur 4 axes</strong>, chacun dérivé d'un objectif SMART, chacun avec une cible, un seuil et une règle d'escalade fixée d'avance. Extrait à fin mai 2026 (M+1, après le jalon J2) :</p>
+        <table>
+            <thead><tr><th>Réf.</th><th>Indicateur</th><th>Valeur</th><th>Cible</th><th>Statut</th><th>Commentaire</th></tr></thead>
+            <tbody>
+                <tr><td>—</td><td>Avancement physique</td><td>41 %</td><td>45 %</td><td><span class="badge" style="background:rgba(243,156,18,0.35)">Ambre</span></td><td>Retard concentré sur le lot L2</td></tr>
+                <tr><td>K1</td><td>Budget consommé</td><td>43 K€</td><td>≤ 45 K€</td><td><span class="badge" style="background:rgba(46,204,113,0.35)">Vert</span></td><td>Conforme au profil de dépense</td></tr>
+                <tr><td>K2</td><td>IPC (coûts)</td><td>0,95</td><td>≥ 0,95</td><td><span class="badge" style="background:rgba(243,156,18,0.35)">Ambre</span></td><td>Au seuil, à surveiller</td></tr>
+                <tr style="font-weight:600;"><td>K3</td><td>Coût final estimé (EAC)</td><td>105 K€</td><td>≤ 100 K€</td><td><span class="badge badge-critical">Rouge</span></td><td><strong>Dépassement projeté de 5 K€</strong></td></tr>
+                <tr><td>K5</td><td>IPD (délais)</td><td>0,91</td><td>≥ 0,95</td><td><span class="badge" style="background:rgba(243,156,18,0.35)">Ambre</span></td><td>Décalage de 4 jours sur L3</td></tr>
+                <tr><td>K6</td><td>Jalons tenus</td><td>3 / 3</td><td>100 %</td><td><span class="badge" style="background:rgba(46,204,113,0.35)">Vert</span></td><td>J0, J1, J2 franchis</td></tr>
+                <tr><td>K9</td><td>Migration sans erreur</td><td>100 %</td><td>≥ 99 %</td><td><span class="badge" style="background:rgba(46,204,113,0.35)">Vert</span></td><td>Aucune perte sur le pilote</td></tr>
+                <tr><td>K10</td><td>Anomalies bloquantes</td><td>0</td><td>0</td><td><span class="badge" style="background:rgba(46,204,113,0.35)">Vert</span></td><td>3 anomalies mineures en cours</td></tr>
+                <tr><td>K16</td><td>Satisfaction formation</td><td>4,3 / 5</td><td>≥ 4,0</td><td><span class="badge" style="background:rgba(46,204,113,0.35)">Vert</span></td><td>2 sessions <em>key users</em></td></tr>
+            </tbody>
+        </table>
+
+        <div class="content-box" style="margin-top:14px;">
+            <h3>⚙️ Le seuil est franchi — la séquence s'enclenche</h3>
+            <p><strong>Constat</strong> — EAC à 105 K€ pour un plafond ferme de 100 K€ ; l'écart excède la réserve (2 K€). Rapport d'écarts P4-17 obligatoire.</p>
+            <p style="margin-top:5px;"><strong>Cause racine</strong> — deux risques de la baseline se sont matérialisés ensemble : R2 (nettoyage de l'annuaire : 9 j/h au lieu de 4) et R1 (18 boîtes &gt; 30 Go exigeant un archivage non prévu au forfait).</p>
+            <p style="margin-top:5px;"><strong>Options</strong> — (a) rallonge de 5 K€ : <em>écartée</em>, le budget est un plafond ferme ; (b) réserve + absorption interne : <em>écartée</em>, équipes déjà saturées ; (c) arbitrage de périmètre.</p>
+            <p style="margin-top:5px;"><strong>Décision</strong> — l'archivage des 18 boîtes volumineuses sort du périmètre et bascule en option post-Go-Live dans le projet Stockage d'octobre. Économie 6 K€, <strong>EAC ramené à 99 K€</strong>. Formalisé par la demande de changement P3-14 approuvée en COPIL du 03/06.</p>
+            <p style="margin-top:5px;"><strong>Suivi</strong> — les 4 jours de retard sont absorbés par la marge de clôture : <span class="highlight">le Go-Live du 17/07 n'est pas remis en cause</span> — l'information attendue par les quatre projets aval, communiquée le jour même.</p>
+        </div>
+
+        <p style="margin-top:12px;"><strong>Ce mode opératoire est le standard des 11 projets :</strong> seuil franchi → rapport d'écarts → cause → options chiffrées → arbitrage de périmètre → demande de changement tracée. <em>Sur un budget plafonné, la variable d'ajustement est toujours le périmètre, jamais l'enveloppe ni la qualité.</em></p>
+        <p style="margin-top:8px; opacity:0.85;"><strong>Remontée vers le portefeuille :</strong> K2 et K5 alimentent les agrégats du PMO. La circulation est strictement ascendante — le projet nourrit le portefeuille, le portefeuille n'impose pas d'action corrective au projet. Cette règle évite la double commande, principale cause de rejet des PMO par les équipes.</p>
+        </div>
+    </div>
+    <div class="slide-footer"><span>Time'Eats · Cellule PMO</span><span>Office 365 — tableau de bord</span></div>
+</div>
