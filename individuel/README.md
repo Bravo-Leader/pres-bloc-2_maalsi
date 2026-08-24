@@ -1,7 +1,7 @@
 # Présentation — Superviser le portefeuille projets de la DSI
 
 Support de restitution du travail individuel d'évaluation de bloc.
-**16 slides**, architecture modulaire (une slide = un fichier HTML).
+**21 slides**, architecture modulaire (une slide = un fichier HTML). Calibré pour une restitution de **10 minutes**.
 
 ## Lancer
 
@@ -23,26 +23,33 @@ python -m http.server 8000
 | Changer de thème | bouton 🎨 — 8 thèmes disponibles |
 | Zoomer un schéma | clic sur l'icône de zoom d'un diagramme |
 
-## Plan
+## Plan — 21 slides, calibré pour 10 minutes
 
-| # | Slide | Compétence |
+Environ 30 secondes par slide. Une idée par slide, peu de texte.
+
+| # | Slide | Bloc |
 |---|---|---|
 | 1 | Titre | — |
-| 2 | Contexte : un problème de portefeuille, pas de projets | — |
-| 3 | Démarche : 4 questions, 6 livrables | — |
-| 4 | Stratégie SI en 4 axes et contrainte capacitaire | C1 |
-| 5 | Référentiel documentaire : 26 modèles, 5 phases | C1 |
-| 6 | Contrat documentaire : matrice projets × livrables | C1 |
-| 7 | Grille de priorisation : 6 critères pondérés | C1 |
-| 8 | Tableau de bord n°1 — priorisation stratégique | C1 |
-| 9 | Tableau de bord n°2 — rentabilité seule et sa divergence | C1 |
-| 10 | Trois lectures radar (SVG natif) | C1 |
-| 11 | Choix du projet Office 365 et cadrage | C2 |
-| 12 | Plan de management (1/2) : objectifs, WBS, planning | C2 |
-| 13 | Plan de management (2/2) : budget, risques, communication | C2 |
-| 14 | Tableau de bord de suivi et décision d'arbitrage | C2 |
-| 15 | Recette, PV et documents de clôture | C3 |
-| 16 | Capitalisation, mesure de l'impact et conclusion | C3 |
+| 2 | Le portefeuille en 4 chiffres | Contexte |
+| 3 | Ce n'est pas un problème de projets | Contexte |
+| 4 | Mon mandat | Contexte |
+| 5 | Deux instruments, un projet pilote | Proposition |
+| 6 | La stratégie SI en 4 axes | C1 |
+| 7 | La vraie contrainte : la capacité | C1 |
+| 8 | Le référentiel : 26 documents, 5 phases | C1 |
+| 9 | Chaque document a son modèle vierge | C1 |
+| 10 | Le contrat documentaire | C1 |
+| 11 | La grille : 6 critères pondérés | C1 |
+| 12 | Le classement stratégique | C1 |
+| 13 | La rentabilité seule et sa divergence | C1 |
+| 14 | Le radar : la forme d'un projet | C1 |
+| 15 | Le pilote : Office 365, et pourquoi | C2 |
+| 16 | Périmètre : dedans / dehors | C2 |
+| 17 | Planning : 7 jalons, 16 semaines | C2 |
+| 18 | Budget et risque critique | C2 |
+| 19 | L'indicateur qui déclenche la décision | C2 |
+| 20 | Clôture et capitalisation | C3 |
+| 21 | Ce que je demande | Conclusion |
 
 ## Structure
 
