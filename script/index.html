@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kit oral Time'Eats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --bg:#F2F4F1; --bg-2:#E8ECE9; --ink:#182320; --muted:#5C6A65; --accent:#0E6B5A; --accent-ink:#0A4F43; --accent-soft:#D9ECE5;
+  --line:#D2DAD6; --card:#FFFFFF; --good:#1E7F4F; --warn:#A8701A; --bad:#B23A3A; --good-soft:#DDF1E5; --warn-soft:#F7EBD2; --bad-soft:#F6DEDE;
+  --shadow:0 1px 2px rgba(24,35,32,.06),0 8px 24px rgba(24,35,32,.06);
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#121816; --bg-2:#0D1210; --ink:#E6ECE8; --muted:#97A59F; --accent:#5CC8A8; --accent-ink:#8FDCC4; --accent-soft:#173A32;
+  --line:#26312D; --card:#182220; --good:#5CC88F; --warn:#E0B060; --bad:#F08A8A; --good-soft:#163526; --warn-soft:#3A2D12; --bad-soft:#3E1F1F;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  --bg:#121816; --bg-2:#0D1210; --ink:#E6ECE8; --muted:#97A59F; --accent:#5CC8A8; --accent-ink:#8FDCC4; --accent-soft:#173A32;
+  --line:#26312D; --card:#182220; --good:#5CC88F; --warn:#E0B060; --bad:#F08A8A; --good-soft:#163526; --warn-soft:#3A2D12; --bad-soft:#3E1F1F;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Sans 3","Segoe UI",system-ui,sans-serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink);text-decoration-thickness:1px;text-underline-offset:2px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono,.tc,.qn,code{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace;font-variant-numeric:tabular-nums}
+code{font-size:.9em;background:var(--bg-2);padding:.05em .35em;border-radius:4px}
+h1,h2,h3,h4{font-family:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(30px,5vw,44px);font-weight:700;letter-spacing:-.02em}
+h2{font-size:clamp(24px,3.2vw,32px);font-weight:700;letter-spacing:-.015em}
+h3{font-size:20px;font-weight:700}
+h4{font-size:18px;font-weight:700;text-wrap:pretty}
+p{margin:0 0 .8em}
+strong{font-weight:600}
+ul,ol{margin:0 0 .8em;padding-left:1.3em}
+li{margin-bottom:.25em}
+li::marker{color:var(--accent)}
+
+.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1080px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:15px;letter-spacing:.01em;white-space:nowrap}
+.mark{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;font-size:13px;letter-spacing:.04em}
+nav.sections{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+nav.sections a{font-size:14px;font-weight:600;text-decoration:none;color:var(--muted);padding:6px 10px;border-radius:999px;border:1px solid transparent}
+nav.sections a:hover{color:var(--ink);border-color:var(--line)}
+nav.sections a.active{color:var(--accent-ink);background:var(--accent-soft);border-color:transparent}
+
+.hero{max-width:1080px;margin:0 auto;padding:44px 20px 12px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:10px}
+.hero p{max-width:62ch;color:var(--muted);font-size:18px;margin-top:10px}
+.facts{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;box-shadow:var(--shadow);min-width:120px}
+.fact b{display:block;font-family:"JetBrains Mono",monospace;font-size:20px;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+.fact span{font-size:13px;color:var(--muted)}
+
+main{max-width:1080px;margin:0 auto;padding:12px 20px 80px}
+section.part{padding:36px 0 8px;border-top:1px solid var(--line);margin-top:28px;scroll-margin-top:64px}
+section.part>h2{margin-bottom:6px}
+.part-sub{color:var(--muted);margin:0 0 22px;max-width:70ch}
+.prose>p,.prose>ul,.prose>ol,.prose>h2,.prose>h3,.lede>p,.lede>ul{max-width:72ch}
+.prose h2{font-size:22px;margin:28px 0 10px}
+.prose h3,.extras h2{font-size:19px;margin:24px 0 8px}
+.lede{color:var(--ink);max-width:72ch;margin-bottom:18px}
+
+.table-wrap{overflow-x:auto;margin:0 0 22px;border:1px solid var(--line);border-radius:12px;background:var(--card);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+thead th{position:sticky;top:0;background:var(--bg-2);text-align:left;font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line)}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600}
+#grille th:nth-child(1){width:2.5ch}
+#grille th:nth-child(2){width:24%}
+#grille th:nth-child(3){width:9ch}
+#grille th:nth-child(4){width:12ch}
+#grille td:nth-child(3){white-space:nowrap;font-family:"JetBrains Mono",monospace;font-size:13px}
+td.st{font-weight:600}
+td.st.good{color:var(--good);background:var(--good-soft)}
+td.st.warn{color:var(--warn);background:var(--warn-soft)}
+td.st.bad{color:var(--bad);background:var(--bad-soft)}
+#glossaire td:first-child{white-space:nowrap;font-family:"JetBrains Mono",monospace;font-weight:600;font-size:13.5px;color:var(--accent-ink)}
+#glossaire table{font-size:15px}
+
+.strip{position:relative;height:58px;margin:8px 0 26px;border-top:2px solid var(--line)}
+.strip .tick{position:absolute;left:var(--at);transform:translateX(-100%);padding-top:8px;text-align:right}
+.strip .tick::before{content:"";position:absolute;right:0;top:-2px;width:2px;height:10px;background:var(--accent)}
+.strip .tick b{display:block;font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--accent-ink)}
+.strip .tick span{font-size:11px;color:var(--muted);white-space:nowrap}
+@media (max-width:640px){.strip .tick span{display:none}}
+
+.cues{display:flex;flex-direction:column;gap:14px}
+.cue,.line{display:grid;grid-template-columns:96px 1fr;gap:0 18px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow);scroll-margin-top:64px}
+.tc{display:flex;flex-direction:column;gap:2px;border-right:1px solid var(--line);padding-right:12px}
+.tc .n{font-size:26px;font-weight:600;color:var(--accent-ink);line-height:1}
+.tc .dur{font-size:15px;font-weight:600;margin-top:6px}
+.tc .cum{font-size:12px;color:var(--muted)}
+.cue-body{max-width:72ch;min-width:0}
+.cue-body h3{margin-bottom:6px}
+.cue-body p:last-child,.cue-body ul:last-child{margin-bottom:0}
+.grid-tag{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);padding:2px 8px;border-radius:999px;margin:0 0 8px}
+.script .cue-body p{font-size:18px;line-height:1.6}
+.extras{max-width:72ch;margin-top:26px}
+@media (max-width:640px){.cue,.line{grid-template-columns:1fr;gap:8px}.tc{flex-direction:row;align-items:baseline;gap:12px;border-right:0;border-bottom:1px solid var(--line);padding:0 0 8px}}
+
+.qa-group{margin:30px 0 12px;font-size:20px}
+.qa{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:14px 0;border-top:1px solid var(--line);scroll-margin-top:64px}
+.qn{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink);font-weight:600;font-size:14px}
+.qa-body{max-width:72ch;min-width:0}
+.qa-body h4{margin-bottom:6px}
+.qa-body p:last-child{margin-bottom:0}
+
+footer{max-width:1080px;margin:0 auto;padding:20px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+
+@media print{
+  .top,.strip{display:none}
+  body{background:#fff;color:#000;font-size:11.5pt}
+  section.part{break-before:page;border-top:0}
+  .cue,.line,.table-wrap{box-shadow:none;break-inside:avoid}
+  a{color:inherit;text-decoration:none}
+}</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <div class="brand"><span class="mark">TE</span>Kit oral · Time'Eats PMO</div>
+  <nav class="sections" aria-label="Sections">
+    <a href="#grille">Grille</a><a href="#notes">Notes</a><a href="#script">Script</a><a href="#questions">Questions</a><a href="#glossaire">Glossaire</a>
+  </nav>
+</div></header>
+<div class="hero">
+  <div class="eyebrow">Restitution individuelle · CESI MAALSI · Superviser le portefeuille projets de la DSI</div>
+  <h1>Piloter un portefeuille, pas onze projets</h1>
+  <p>Tout ce qu'il faut avoir sous la main avant et pendant l'oral : la conformité à la grille d'évaluation, les notes de parole minutées, le script complet, les questions probables du jury et le glossaire.</p>
+  <div class="facts">
+    <div class="fact"><b>21</b><span>slides</span></div>
+    <div class="fact"><b>10:00</b><span>durée cible</span></div>
+    <div class="fact"><b>20 pts</b><span>10 critères de la grille</span></div>
+    <div class="fact"><b>42</b><span>questions préparées</span></div>
+  </div>
+</div>
+<main>
+<section class="part" id="grille"><h2>Conformité à la grille d'évaluation</h2><p class="part-sub">Critère par critère : où l'oral y répond, ce qui manque, ce qu'il faut dire.</p><div class="prose"><p>Grille INFMSIAL2V — 20 points, 10 critères. Lettre : A ≥ 16 · B 12–15,99 · C 8–11,99 · D &lt;&nbsp;8.</p>
+<p>La consigne te place « dans la position d&#39;un responsable de la cellule PMO » : le fil <em>pourquoi une PMO / pourquoi un Responsable PMO</em> est légitime, mais la grille note des <strong>livrables</strong>. Chaque critère doit donc être <em>visible ou dit</em> pendant l&#39;oral.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Critère (points)</th>
+<th>Slides</th>
+<th>Statut</th>
+<th>Ce qu&#39;il faut dire — ou ajouter</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Référentiel documentaire : au minimum charte, cahier des charges, budget, planning, gestion des risques ; état de l&#39;art ; charte graphique de l&#39;entreprise (<strong>3</strong>)</td>
+<td>10, 11</td>
+<td class="st warn">⚠️ Partiel</td>
+<td>Nommer les 5 modèles minimaux de la grille : P1-01 charte, P1-02ter cahier des charges, P2-08 budget, P2-07 planning, P2-09 risques. Dire que chaque modèle porte le <strong>bandeau à la charte graphique Time&#39;Eats</strong>, un cartouche de versions et une consigne de remplissage par rubrique. Le mot « charte graphique » n&#39;apparaît nulle part dans le deck.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Critères cohérents avec la stratégie SI, elle-même clairement exposée (<strong>1</strong>)</td>
+<td>8, 12</td>
+<td class="st good">✅</td>
+<td>Slide 8 expose les 4 axes, slide 12 rattache chaque critère. Prononcer la règle : « tout critère qui ne se rattache pas à un axe est écarté ».</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Cotations factuelles, qui argumentent le choix des projets et leur priorité (<strong>2</strong>)</td>
+<td>12, 13, 14, 15</td>
+<td class="st warn">⚠️ Partiel</td>
+<td>Les échelles écrites sont citées mais <strong>aucun calcul n&#39;est montré</strong>. Donner l&#39;exemple Office 365 à l&#39;oral : 0,30×4 + 0,20×2 + 0,20×5 + 0,15×3 + 0,10×1 + 0,05×3 = <strong>3,30</strong>. Ajouter le test de sensibilité : ±5 points sur C1 ne change ni le trio de tête ni le dernier.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Objectifs, enjeux et contraintes du projet identifiés et pris en compte dans le plan de management (<strong>1</strong>)</td>
+<td>16</td>
+<td class="st good">✅</td>
+<td>La slide 16 affiche désormais les <strong>6 objectifs SMART</strong> (200/200 boîtes sans perte · interruption ≤ 4 h · 5 sites + 12 équipes · adoption ≥ 75 % · MFA des admins · ≤ 100 K€ au 17/07) et les <strong>3 contraintes structurantes</strong> (date imposée par les 4 projets aval · plafond ferme 100 K€ · 3 administrateurs). À l&#39;oral, ajouter les enjeux : livrer le socle avant les 4 projets aval, sortir d&#39;une messagerie sans plan de continuité, tenir le RGPD.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Plan de management : charte, cahier des charges fonctionnel, budget, planning, gestion des risques, plan de communication (<strong>3</strong>)</td>
+<td>16, 17</td>
+<td class="st good">✅</td>
+<td>La carte « Plan de management — 6 composants » de la slide 16 nomme la charte signée le 13/04, le cahier des charges de 62 exigences, le planning, le budget en 6 postes, les 10 risques P×I et le plan de communication (9 actions, 10 key users). À l&#39;oral, détailler la communication : 9 parties prenantes, « communiquer par l&#39;outil que l&#39;on déploie », fermeture des anciens partages au 31/08 — et renvoyer à la slide 17 pour les risques.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Indicateurs et outils de suivi permettent de respecter les attendus (<strong>2</strong>)</td>
+<td>18</td>
+<td class="st good">✅</td>
+<td>16 KPI <strong>dérivés des 6 objectifs</strong>, 4 axes, seuils fixés d&#39;avance, règle d&#39;escalade écrite. Le lien objectifs → indicateurs est exactement ce que le critère demande : le dire explicitement.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Plan de test exhaustif, valide toutes les étapes du projet (<strong>2</strong>)</td>
+<td>19</td>
+<td class="st warn">⚠️ Partiel</td>
+<td>136 cas et 100 % des 62 exigences sont sur la slide. Ajouter à l&#39;oral : 6 campagnes techniques T1–T6 (78 cas) + 8 scénarios fonctionnels F1–F8 (58 cas), critères d&#39;entrée / sortie par campagne, recetteur ≠ réalisateur, matrice de traçabilité exigence → cas, VSR de 30 jours.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>PV de recette : couvre les fonctionnalités attendues, garantit la qualité, tient compte des référentiels (<strong>1</strong>)</td>
+<td>19</td>
+<td class="st warn">⚠️ Partiel</td>
+<td>Mentionner le <strong>modèle générique en 12 rubriques</strong> (une trame, deux déclinaisons P5-19 / P5-20), les 3 issues possibles (sans réserve / avec réserves / refusée), « toute réserve sans échéance est bloquante », et l&#39;ébauche Office 365 : prononcée <strong>avec 2 réserves datées</strong>, 80 % du forfait libéré, 20 % après VSR.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Capitalisation : améliorations pertinentes — révision du référentiel, méthode de gestion de projet, canaux de communication (<strong>2</strong>)</td>
+<td>19, 20</td>
+<td class="st warn">⚠️ Partiel</td>
+<td>La grille cite <strong>trois familles</strong> : les nommer telles quelles. <strong>Référentiel</strong> : E1 rubrique « qualité des données d&#39;entrée » dans P1-02, E3 clause de nommage des intervenants dans P1-02ter, E6 test négatif obligatoire dans le plan de test. <strong>Méthode</strong> : E5 relevé bimensuel des coûts sur tout projet &lt; 4 mois. <strong>Canaux de communication</strong> : E4 « communiquer par l&#39;outil que l&#39;on déploie » inscrit dans P2-11. Plus E2 : fiche permanente « contraintes d&#39;infrastructure par site » en base de connaissance.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Qualité : orthographe, vocabulaire, structure, schémas et tableaux lisibles et commentés (<strong>1 + 2</strong>)</td>
+<td>toutes</td>
+<td class="st good">✅</td>
+<td>À l&#39;oral : <strong>commenter chaque tableau et graphique</strong> (radar, classement, KPI, indicateurs d&#39;effets) — jamais un visuel sans lecture. C&#39;est écrit noir sur blanc dans les consignes.</td>
+</tr>
+</tbody></table></div>
+<h2>Bilan</h2>
+<ul>
+<li><strong>Couverts</strong> : critères 2, 4, 5, 6, 10 — soit 10 points visibles sur les slides.</li>
+<li><strong>Partiels</strong> : 1, 3, 7, 8, 9 — tous couvrables <strong>à l&#39;oral sans toucher aux slides</strong> ; le script complet (<code>script-complet.md</code>) intègre chacun de ces points.</li>
+</ul>
+<p>La slide 16 a été complétée (carte « Plan de management — 6 composants », ligne « 6 objectifs SMART · 3 contraintes ») dans les deux versions. Un ajout reste possible si tu veux que le jury <em>voie</em> l&#39;élément plutôt que de l&#39;entendre : slide 10, mention « modèles à la charte graphique Time&#39;Eats » (critère 1).</p>
+<h2>Points de vigilance</h2>
+<ul>
+<li><strong>26 vs 14 documents</strong> : le dossier écrit « Office 365 mobilise les 26 documents » ; l&#39;oral dit « 26 prévus, 14 produits à ce jour ». Assumer l&#39;écart : « au moment de la restitution, le projet est en cadrage / planification ; les 12 autres sont des documents de vie, de clôture, ou pas encore mis en place ».</li>
+<li><strong>2 mois vs 3 mois</strong> : le contexte annonce 2 mois pour Office 365, le tableau 3. Tu as retenu 3 mois, cohérent avec 220 j/h, et signalé l&#39;écart — c&#39;est justement le rôle de la fiche P1-03 de rendre ces contradictions visibles.</li>
+<li><strong>Refonte Web exclue</strong> : c&#39;est le projet imposé du travail de groupe ; le dire si on te demande pourquoi tu ne l&#39;as pas choisie comme pilote.</li>
+<li><strong>Rythme</strong> : le jury est orienté gestion de projet et portefeuille. Les slides 4–7 (pourquoi une PMO) doivent tenir en 2 minutes pour laisser 8 minutes aux instruments et au pilote.</li>
+</ul>
+</div></section>
+<section class="part" id="notes"><h2>Notes de parole</h2><p class="part-sub">Feuille de régie : durée par slide, cumul, message clé, ce qu'il faut dire, transition.</p><div class="lede"><p>Chaque slide : durée cible et cumul, message clé, ce qu&#39;il faut dire, chiffres à avoir en tête, transition. Les mentions <strong>[grille n°X]</strong> signalent les éléments attendus par la grille d&#39;évaluation qui ne sont pas écrits sur la slide : il faut les <em>dire</em>.</p>
+<p>Repères de temps : slide 7 → 3:05 · slide 11 → 4:50 · slide 14 → 6:15 · slide 17 → 7:55 · slide 21 → 10:00. Si tu es en retard à la slide 11, raccourcis les slides 13–14 (lire le tableau, sauter le détail).</p>
+</div>
+<div class="strip" aria-label="Repères de temps">
+  <div class="tick" style="--at:30.8%"><b>3:05</b><span>fin du bloc PMO · slide 7</span></div>
+  <div class="tick" style="--at:48.3%"><b>4:50</b><span>contrat documentaire · 11</span></div>
+  <div class="tick" style="--at:62.5%"><b>6:15</b><span>rentabilité seule · 14</span></div>
+  <div class="tick" style="--at:79.2%"><b>7:55</b><span>risque de portefeuille · 17</span></div>
+  <div class="tick" style="--at:100%"><b>10:00</b><span>demande · 21</span></div>
+</div>
+<div class="cues"><article class="cue" id="slide-01">
+  <div class="tc"><span class="n">01</span><span class="dur">0:15</span><span class="cum">→ 0:15</span></div>
+  <div class="cue-body"><h3>Titre</h3><p><strong>Message</strong> — On ne pilote pas 11 projets, on pilote un portefeuille.</p>
+<ul>
+<li>Se présenter en une phrase : chef de projet à la DSI de Time&#39;Eats, formé au PMO, mandaté par le comité de direction.</li>
+<li>Annoncer le plan en trois temps : pourquoi une PMO, ce qu&#39;elle instrumente, ce qu&#39;elle rend décidable.</li>
+</ul>
+<p><strong>Transition</strong> — « D&#39;abord, de quoi parle-t-on. »</p>
+</div>
+</article>
+<article class="cue" id="slide-02">
+  <div class="tc"><span class="n">02</span><span class="dur">0:20</span><span class="cum">→ 0:35</span></div>
+  <div class="cue-body"><h3>Le portefeuille en quatre chiffres</h3><p><strong>Message</strong> — Un portefeuille lourd pour une DSI de 21 personnes qui doit aussi assurer le service courant.</p>
+<ul>
+<li>Lire les quatre chiffres : 11 projets, 1 700 K€, 2 320 j/h, 21 personnes.</li>
+<li>Préciser les ressources rares : 3 administrateurs systèmes, 6 développeurs, 5 chefs de projet.</li>
+<li>L&#39;ambition : 1 million de clients et 10 000 partenaires à deux ans, 25 % de part de marché à cinq ans.</li>
+</ul>
+<p><strong>Transition</strong> — « Et pourtant, le problème n&#39;est pas là où on le croit. »</p>
+</div>
+</article>
+<article class="cue" id="slide-03">
+  <div class="tc"><span class="n">03</span><span class="dur">0:25</span><span class="cum">→ 1:00</span></div>
+  <div class="cue-body"><h3>Ce n'est pas un problème de projets</h3><p><strong>Message</strong> — Pris un par un, aucun projet n&#39;est hors de portée ; pris ensemble, ils se concurrencent.</p>
+<ul>
+<li>Trois colonnes : un par un / ensemble / sans règle commune.</li>
+<li>Les trois risques : dérive budgétaire non détectée, effet domino sur les dépendances, épuisement des équipes.</li>
+<li>Phrase à poser : « C&#39;est un problème de portefeuille, et un portefeuille ne se pilote pas comme une somme de projets. »</li>
+</ul>
+<p><strong>Transition</strong> — « C&#39;est exactement le vide que comble une PMO. »</p>
+</div>
+</article>
+<article class="cue" id="slide-04">
+  <div class="tc"><span class="n">04</span><span class="dur">0:35</span><span class="cum">→ 1:35</span></div>
+  <div class="cue-body"><h3>Pourquoi créer une PMO ?</h3><p><strong>Message</strong> — Chaque chef de projet voit son projet ; personne ne voit le portefeuille.</p>
+<ul>
+<li>Quatre apports : une méthode commune (référentiel), une règle d&#39;arbitrage (priorisation), une vue consolidée (tableau de bord de portefeuille), une mémoire (capitalisation).</li>
+<li>Définition : cellule garante de la méthode, du référentiel et du reporting consolidé.</li>
+<li>Ne pas s&#39;attarder : le jury attend les instruments, pas la théorie.</li>
+</ul>
+<p><strong>Transition</strong> — « Mais une PMO qui commande les projets est rejetée en six mois. D&#39;où une règle de rôles. »</p>
+</div>
+</article>
+<article class="cue" id="slide-05">
+  <div class="tc"><span class="n">05</span><span class="dur">0:35</span><span class="cum">→ 2:10</span></div>
+  <div class="cue-body"><h3>Ce que la PMO fait — et ne fait pas</h3><p><strong>Message</strong> — Circulation ascendante : le projet nourrit le portefeuille, le portefeuille n&#39;impose pas d&#39;action au projet.</p>
+<ul>
+<li>Trois acteurs : le chef de projet pilote et décide de l&#39;exécution ; la PMO consolide, alerte, arbitre <em>entre</em> projets, anime le référentiel ; le sponsor et le COPIL engagent budget, périmètre, date, mise en production.</li>
+<li>Le mécanisme : les IPC / IPD de chaque projet alimentent les agrégats de portefeuille, qui alimentent les arbitrages de la direction.</li>
+<li>« Pas de double commande » : la première cause de rejet des PMO par les équipes.</li>
+</ul>
+<p><strong>Transition</strong> — « Reste une question : cette PMO, c&#39;est cinq chefs de projet pairs. Qui la porte ? »</p>
+</div>
+</article>
+<article class="cue" id="slide-06">
+  <div class="tc"><span class="n">06</span><span class="dur">0:35</span><span class="cum">→ 2:45</span></div>
+  <div class="cue-body"><h3>Pourquoi un Responsable PMO au sein de la cellule ?</h3><p><strong>Message</strong> — Un mandat, un nom, une redevabilité — sinon la vue transverse n&#39;appartient à personne.</p>
+<ul>
+<li>Sans responsable : chacun défend son projet, le référentiel n&#39;a pas de propriétaire (formalisme mort en 12 mois), les REX sont archivés sans être instruits, les risques transverses n&#39;ont pas de porteur.</li>
+<li>Avec un responsable : il anime le référentiel (versions, revue semestrielle, droit de retrait, usage ≥ 90 %), consolide les agrégats et anime la revue de portefeuille hebdomadaire et le Comité Stratégique mensuel, porte les risques de portefeuille (le contrat d&#39;interface), transforme chaque enseignement en action datée.</li>
+<li>Rappel discret : la consigne place l&#39;auteur « dans la position d&#39;un responsable de la cellule PMO ».</li>
+</ul>
+<p><strong>Transition</strong> — « C&#39;est le rôle que je vous demande de confirmer. Voici d&#39;où je parle. »</p>
+</div>
+</article>
+<article class="cue" id="slide-07">
+  <div class="tc"><span class="n">07</span><span class="dur">0:20</span><span class="cum">→ 3:05</span></div>
+  <div class="cue-body"><h3>Mon mandat</h3><p><strong>Message</strong> — Ce que je présente est <em>notre</em> mode de fonctionnement, construit avec les quatre autres chefs de projet.</p>
+<ul>
+<li>Chef de projet DSI, formé au PMO, mandaté par le comité de direction pour unifier la gestion des projets.</li>
+<li>Méthode : atelier de cadrage puis revue avec les 4 autres chefs de projet.</li>
+<li>Objectif de la restitution : faire valider la méthode et ma confirmation dans le rôle.</li>
+</ul>
+<p><strong>Transition</strong> — « Premier instrument : au nom de quoi on arbitre. »</p>
+</div>
+</article>
+<article class="cue" id="slide-08">
+  <div class="tc"><span class="n">08</span><span class="dur">0:25</span><span class="cum">→ 3:30</span></div>
+  <div class="cue-body"><h3>Arbitrer au nom de quoi ? La stratégie SI</h3><p class="grid-tag">grille n°2</p><p><strong>Message</strong> — Prioriser suppose de savoir au nom de quoi l&#39;on arbitre.</p>
+<ul>
+<li>Stratégie d&#39;entreprise : croissance nationale par la plateforme, positionnement qualitatif et français.</li>
+<li>Quatre axes : S1 conquérir (Web, apps, CRM) · S2 industrialiser le socle (Office 365, Azure, CI/CD, Stockage) · S3 sécuriser (MFA, Sauvegarde, Stockage) · S4 se conformer (Paie).</li>
+<li>Règle : « tout critère de priorisation qui ne se rattache pas à un axe est écarté » — première tâche de la PMO.</li>
+</ul>
+<p><strong>Transition</strong> — « Deuxième donnée d&#39;entrée : ce n&#39;est pas l&#39;argent qui manque. »</p>
+</div>
+</article>
+<article class="cue" id="slide-09">
+  <div class="tc"><span class="n">09</span><span class="dur">0:20</span><span class="cum">→ 3:50</span></div>
+  <div class="cue-body"><h3>La vraie contrainte : la capacité</h3><p><strong>Message</strong> — C&#39;est la capacité qui limite, pas le budget.</p>
+<ul>
+<li>2 320 j/h à produire pour ≈ 2 900 j/h disponibles, avec 30 % sanctuarisés pour le Run.</li>
+<li>3 administrateurs systèmes pour 6 projets d&#39;infrastructure ; trois projets démarrent en avril pour 920 j/h cumulés.</li>
+<li>Conséquence : un critère de soutenabilité capacitaire — « la capacité ordonnance, elle ne sélectionne pas ».</li>
+</ul>
+<p><strong>Transition</strong> — « Instrument n°1 : le référentiel. »</p>
+</div>
+</article>
+<article class="cue" id="slide-10">
+  <div class="tc"><span class="n">10</span><span class="dur">0:30</span><span class="cum">→ 4:20</span></div>
+  <div class="cue-body"><h3>Instrument n°1 — le référentiel</h3><p class="grid-tag">grille n°1</p><p><strong>Message</strong> — 26 documents, 5 phases, un propriétaire.</p>
+<ul>
+<li>Avant : chacun produit ses documents dans son format → impossible à consolider, 3 à 5 jours perdus par projet, rien ne se transmet.</li>
+<li>26 documents-types sur les 5 phases du PMBOK, identifiant stable Pn-NN ; compatible agile (un projet Scrum garde démarrage, planification allégée, maîtrise, clôture).</li>
+<li><strong>[grille n°1] Dire</strong> : le référentiel contient au minimum les cinq modèles attendus — charte P1-01, cahier des charges P1-02ter, budget P2-08, planning P2-07, risques P2-09 — et chaque modèle vierge porte le <strong>bandeau à la charte graphique Time&#39;Eats</strong>, un cartouche (version, statut, approbateurs), des rubriques pré-titrées avec consigne de remplissage, des champs balisés. Prise en main en 5 minutes.</li>
+<li>Socle de 12 documents obligatoires sur les 11 projets : c&#39;est lui qui rend le portefeuille consolidable.</li>
+<li>Gouvernance : versionnage, revue semestrielle, mesure trimestrielle de l&#39;usage (cible ≥ 90 %), droit de retrait sous 15 jours — « un référentiel s&#39;allège autant qu&#39;il s&#39;enrichit ».</li>
+</ul>
+<p><strong>Transition</strong> — « Tous les projets ne portent pas 26 documents. »</p>
+</div>
+</article>
+<article class="cue" id="slide-11">
+  <div class="tc"><span class="n">11</span><span class="dur">0:30</span><span class="cum">→ 4:50</span></div>
+  <div class="cue-body"><h3>Le contrat documentaire</h3><p><strong>Message</strong> — Le contrat documentaire dit quels documents, et à quel moment ; aucun n&#39;est abandonné.</p>
+<ul>
+<li>La matrice projets × livrables est annexée à chaque charte ; Office 365 est le projet le plus transverse.</li>
+<li>Colonne gauche : les 14 documents produits — cadrage (4), planification (6), tableau de bord, PV de recette ×2, fiche REX.</li>
+<li>Colonne droite : les 12 à venir — 9 pas encore réalisés (6 documents de vie pendant l&#39;exécution, 3 de clôture à J6), 2 pas encore mis en place (cahier des charges, conduite du changement — portés aujourd&#39;hui par le forfait et le plan de communication), 1 pas nécessaire (PBS).</li>
+<li>Exemples d&#39;écarts sur d&#39;autres projets : pas de conduite du changement pour Azure (invisible de l&#39;utilisateur), pas de lettre ESN pour CI/CD (pas de prestataire), socle complet pour la Paie malgré 50 j/h (réglementaire).</li>
+</ul>
+<p><strong>Transition</strong> — « Instrument n°2 : comment on cote. »</p>
+</div>
+</article>
+<article class="cue" id="slide-12">
+  <div class="tc"><span class="n">12</span><span class="dur">0:25</span><span class="cum">→ 5:15</span></div>
+  <div class="cue-body"><h3>Instrument n°2 — la grille : 6 critères</h3><p class="grid-tag">grille n°3</p><p><strong>Message</strong> — Deux personnes cotant le même projet trouvent le même score.</p>
+<ul>
+<li>C1 alignement 30 %, C2 rentabilité 20 %, C3 criticité des dépendances 20 %, C4 maîtrise des risques 15 %, C5 conformité 10 %, C6 soutenabilité 5 %.</li>
+<li>Trois critères construits par la PMO (C3, C5, C6) : les fiches de cadrage seules ne disent rien de l&#39;ordonnancement ni de la soutenabilité.</li>
+<li><strong>[grille n°3] Exemple de calcul, Office 365</strong> : 0,30×4 + 0,20×2 + 0,20×5 + 0,15×3 + 0,10×1 + 0,05×3 = <strong>3,30</strong>.</li>
+<li>Seuils : Vert ≥ 3,50, Ambre 2,75–3,49, Rouge &lt; 2,75. Test de sensibilité : ±5 points sur C1 ne change ni le trio de tête ni le dernier.</li>
+<li>Origine des poids : atelier des 5 chefs de projet, cadrage du DSI (stratégie &gt; rentabilité &gt; risques), PMI Standard for Portfolio Management ; révisés chaque année au T1.</li>
+</ul>
+<p><strong>Transition</strong> — « Voilà ce que ça donne sur les onze projets. »</p>
+</div>
+</article>
+<article class="cue" id="slide-13">
+  <div class="tc"><span class="n">13</span><span class="dur">0:30</span><span class="cum">→ 5:45</span></div>
+  <div class="cue-body"><h3>Le classement stratégique</h3><p class="grid-tag">grille n°3</p><p><strong>Message</strong> — Le classement fixe un ordre d&#39;engagement, pas un couperet.</p>
+<ul>
+<li>Lire le tableau : 4 projets en Vert (800 K€ cumulés) engagés immédiatement ; Office 365 6e à 3,30 ; Migration Azure dernière à 2,45 — pénalisée par une maîtrise des risques cotée 1/5.</li>
+<li>L&#39;écart premier / dernier n&#39;est que de 1,30 point : aucun projet n&#39;est disqualifié, le portefeuille est cohérent avec la stratégie.</li>
+<li>Deux exceptions à connaître : la Paie (rang 8) n&#39;est pas arbitrable — obligation légale ; Azure n&#39;est engagée qu&#39;avec une ESN spécialisée.</li>
+<li>La colonne Cumul est l&#39;outil d&#39;arbitrage de la direction : elle montre ce qu&#39;elle finance, dans quel ordre.</li>
+</ul>
+<p><strong>Transition</strong> — « La direction a demandé un second classement, à la rentabilité seule. »</p>
+</div>
+</article>
+<article class="cue" id="slide-14">
+  <div class="tc"><span class="n">14</span><span class="dur">0:30</span><span class="cum">→ 6:15</span></div>
+  <div class="cue-body"><h3>Et si on classait à la rentabilité seule ?</h3><p><strong>Message</strong> — On perdrait de la rentabilité en poursuivant la rentabilité.</p>
+<ul>
+<li>7 projets sur 11 bougent de 3 rangs ou plus.</li>
+<li>Trois décisions dangereuses : Office 365 tombe 10e alors qu&#39;il bloque 4 projets ; la Paie tombe 11e alors qu&#39;elle paie les salaires ; Azure remonte 4e alors que sa maîtrise des risques est à 1/5.</li>
+<li>Règle de sauvegarde : le tableau n°2 est une simulation activée sur demande ; il ne peut jamais déclasser un projet réglementaire (C5 = 5) ni un projet à dépendance maximale (C3 = 5).</li>
+</ul>
+<p><strong>Transition</strong> — « Un score résume, il ne montre pas la forme. Regardons Office 365. »</p>
+</div>
+</article>
+<article class="cue" id="slide-15">
+  <div class="tc"><span class="n">15</span><span class="dur">0:40</span><span class="cum">→ 6:55</span></div>
+  <div class="cue-body"><h3>Ce que seule la lecture du portefeuille révèle</h3><p class="grid-tag">grille n°3, n°10</p><p><strong>Message</strong> — Il ne rapporte pas, il rend possible.</p>
+<ul>
+<li><strong>Commenter le radar</strong> : Office 365 (orange) perce la moyenne du portefeuille (gris) sur l&#39;axe Dépendances — 5 contre 2,4 — et s&#39;effondre sur Rentabilité — 2 contre 3,4. Signature d&#39;un projet de socle.</li>
+<li>Chiffres : 6e au classement, 10e à la rentabilité, bloque 4 projets = 900 K€, plus de la moitié du portefeuille en valeur ; un mois de retard sur lui est un mois de retard sur la moitié du portefeuille.</li>
+<li>Trois lectures radar pour trois publics : un projet vs la moyenne (comité de lancement), trois profils opposés (revue de portefeuille), profil par famille — croissance 4 projets / 900 K€ vs socle &amp; sécurité 6 projets / 750 K€ (Comité Stratégique).</li>
+<li>C&#39;est la raison du choix d&#39;Office 365 comme pilote : « aucune lecture projet par projet ne produit cette décision ».</li>
+</ul>
+<p><strong>Transition</strong> — « Ce pilote, en une page. »</p>
+</div>
+</article>
+<article class="cue" id="slide-16">
+  <div class="tc"><span class="n">16</span><span class="dur">0:30</span><span class="cum">→ 7:25</span></div>
+  <div class="cue-body"><h3>Le pilote Office 365 en une page</h3><p class="grid-tag">grille n°4, n°5</p><p><strong>Message</strong> — Le projet est piloté par son chef de projet ; ses frontières sont pilotées par la PMO.</p>
+<ul>
+<li>Carte d&#39;identité : 100 K€ plafond ferme, 220 j/h (120 ESN au forfait + 100 internes), 16 semaines, 7 jalons, Go-Live 17/07/2026, 200 salariés, 5 sites, 12 équipes Teams, Microsoft 365 E3 hébergé en France.</li>
+<li><strong>[grille n°4] Lire la ligne</strong> : 6 objectifs SMART contractualisés dans la charte — 200/200 boîtes sans perte, interruption ≤ 4 h, 5 sites et 12 équipes livrés, adoption ≥ 75 % à J5 + 30, MFA sur les comptes à privilèges, ≤ 100 K€ au 17/07 — et 3 contraintes structurantes : date imposée par les projets aval, plafond ferme, 3 administrateurs. Ajouter les enjeux à l&#39;oral : livrer le socle avant les 4 projets aval, sortir d&#39;une messagerie sans plan de continuité, tenir le RGPD.</li>
+<li><strong>[grille n°5] Lire la carte</strong> : le plan de management P2-05 agrège 6 composants — charte signée le 13/04, cahier des charges de 62 exigences opposables (base du forfait Capgemini et de la recette), planning, budget en 6 postes (Capgemini 48, licences 21, interne 20, outillage 5, formation 4, réserve 2), 10 risques cotés P×I, plan de communication (9 parties prenantes, 9 actions, « communiquer par l&#39;outil que l&#39;on déploie »).</li>
+<li>Planning : chemin critique Audit → Tenant → Migration → Recette sans marge ; seule marge réelle J5–J6 ; audit lancé dès la semaine 16 pour découvrir la mauvaise nouvelle tôt.</li>
+<li>Périmètre : 4 exclusions sur 7 renvoient à MFA, Azure, Stockage, Sauvegarde → réunion d&#39;interface mensuelle. Exemple classique : la sauvegarde du tenant, que l&#39;on croit assurée par l&#39;éditeur.</li>
+</ul>
+<p><strong>Transition</strong> — « Sur dix risques, un seul est critique — et il dépasse le projet. »</p>
+</div>
+</article>
+<article class="cue" id="slide-17">
+  <div class="tc"><span class="n">17</span><span class="dur">0:30</span><span class="cum">→ 7:55</span></div>
+  <div class="cue-body"><h3>Le risque qui dépasse le projet</h3><p><strong>Message</strong> — Un risque qu&#39;on ne peut pas réduire au niveau du projet se traite au niveau du portefeuille.</p>
+<ul>
+<li>R8, glissement du Go-Live, coté 15/25 (probabilité 3 × impact 5). Réponse projet : revue hebdomadaire du chemin critique, 2 semaines de marge sanctuarisées — et il reste coté 15.</li>
+<li>Vu du portefeuille : il ne menace pas Office 365 mais les 4 projets aval, 900 K€.</li>
+<li>Réponse PMO : contrat d&#39;interface (API) entre CRM, Refonte Web et applications mobiles avant le 30/06 — ils développent contre une interface figée sans attendre la bascule. Cela lève aussi la dépendance circulaire détectée entre ces projets.</li>
+<li>Suivi à deux niveaux : revue projet hebdomadaire et revue de portefeuille.</li>
+</ul>
+<p><strong>Transition</strong> — « Comment on sait que le projet dévie, et ce qu&#39;on en fait. »</p>
+</div>
+</article>
+<article class="cue" id="slide-18">
+  <div class="tc"><span class="n">18</span><span class="dur">0:40</span><span class="cum">→ 8:35</span></div>
+  <div class="cue-body"><h3>Un indicateur ne vaut que par la décision qu'il déclenche</h3><p class="grid-tag">grille n°6</p><p><strong>Message</strong> — Sur un budget plafonné, on ajuste le périmètre, jamais l&#39;enveloppe.</p>
+<ul>
+<li>16 KPI <strong>dérivés des 6 objectifs SMART</strong> (aucun indicateur sans objectif), 4 axes : coûts, délais, qualité — plus adoption, le seul axe qui mesure la valeur réellement livrée et continue après la clôture.</li>
+<li>Lecture de fin mai : jalons 3/3, 0 anomalie bloquante, IPD 0,91 (Ambre, 4 jours de décalage sur L3), coût final estimé 105 K€ (Rouge : l&#39;écart de 5 K€ excède la réserve de 2 K€).</li>
+<li>Cause racine : deux risques matérialisés — nettoyage de l&#39;annuaire 9 j/h au lieu de 4 (R2), 18 boîtes &gt; 30 Go (R1).</li>
+<li>Séquence écrite d&#39;avance : seuil franchi → rapport d&#39;écarts sous 5 jours → cause racine → options chiffrées (rallonge écartée, réserve + absorption interne écartée, arbitrage de périmètre retenu) → demande de changement approuvée en COPIL du 03/06.</li>
+<li>Résultat : l&#39;archivage des 18 boîtes sort du périmètre vers le projet Stockage, 99 K€, Go-Live tenu, les 4 projets aval informés le jour même.</li>
+<li>Règles d&#39;escalade : Ambre → chef de projet, hebdo ; Rouge → sponsor sous 5 jours ; deux mois d&#39;Ambre → COPIL extraordinaire ; risque &gt; 12 → sponsor sous 48 h ; menace sur le Go-Live → Comité Stratégique et chefs de projet aval avant toute autre diffusion.</li>
+</ul>
+<p><strong>Transition</strong> — « Clore, et en tirer quelque chose. »</p>
+</div>
+</article>
+<article class="cue" id="slide-19">
+  <div class="tc"><span class="n">19</span><span class="dur">0:35</span><span class="cum">→ 9:10</span></div>
+  <div class="cue-body"><h3>Clore proprement — et rendre le suivant meilleur</h3><p class="grid-tag">grille n°7, n°8, n°9</p><p><strong>Message</strong> — Un projet n&#39;est pas clos tant que son REX n&#39;est pas instruit.</p>
+<ul>
+<li><strong>[grille n°7] Plan de test</strong> : 136 cas = 6 campagnes techniques T1–T6 (78 cas : identités, flux, intégrité, performance, sécurité, exploitabilité) + 8 scénarios fonctionnels F1–F8 (58 cas, par population : siège, production, inter-sites, RH, PMO, administration). 100 % des 62 exigences couvertes, matrice de traçabilité. Cinq principes : on ne recette que ce qui a été exigé, le recetteur n&#39;est pas le réalisateur, les critères sont fixés avant de tester, toute anomalie est tracée, la recette ne s&#39;arrête pas au Go-Live (VSR 30 jours). Test négatif F4 : un partage externe qui doit échouer.</li>
+<li><strong>[grille n°8] PV</strong> : modèle générique en 12 rubriques, une trame, deux déclinaisons ; trois issues seulement — sans réserve / avec réserves / refusée ; toute réserve sans échéance est bloquante. Ébauche Office 365 : 136 exécutés, 132 conformes, 0 bloquante, 2 majeures, 2 mineures → recette prononcée avec 2 réserves datées ; la signature libère 80 % du forfait, 20 % après la VSR.</li>
+<li><strong>[grille n°9] Capitalisation</strong> : processus en 5 étapes, 6 outils ; l&#39;étape 4 — instruction par la PMO — fait la différence. Six enseignements en trois familles : <strong>révision du référentiel</strong> (E1 rubrique « qualité des données d&#39;entrée » dans la note de cadrage, E3 clause de nommage des intervenants dans le cahier des charges, E6 test négatif obligatoire), <strong>méthode de pilotage</strong> (E5 relevé bimensuel des coûts sur les projets &lt; 4 mois), <strong>canaux de communication</strong> (E4 communiquer par l&#39;outil que l&#39;on déploie). Plus E2 : fiche permanente « contraintes d&#39;infrastructure par site ». Cinq des six bénéficient à des projets pas encore lancés.</li>
+</ul>
+<p><strong>Transition</strong> — « Reste à prouver que tout cela produit des effets. »</p>
+</div>
+</article>
+<article class="cue" id="slide-20">
+  <div class="tc"><span class="n">20</span><span class="dur">0:20</span><span class="cum">→ 9:30</span></div>
+  <div class="cue-body"><h3>Prouver que la PMO produit des effets</h3><p><strong>Message</strong> — Une démarche d&#39;amélioration qui ne se mesure pas ne se distingue pas d&#39;un discours.</p>
+<ul>
+<li>Six indicateurs, situation de référence figée en mai 2026, cibles à 12 mois : usage du référentiel 0 % → ≥ 80 %, jalons critiques tenus ≥ 90 %, écart budget ≤ +5 %, écart de charge ≤ 15 %, anomalies bloquantes après mise en production ≤ 3, NPS des chefs de projet ≥ +30.</li>
+<li>Figer la référence coûte 2 jours ; ne pas le faire coûte la crédibilité de la PMO au premier bilan.</li>
+<li>Biais neutralisés : enquête dépouillée par la DRH, usage réel audité sur 2 projets tirés au sort par trimestre, projets sans baseline exclus des agrégats.</li>
+</ul>
+<p><strong>Transition</strong> — « Ce que je vous demande. »</p>
+</div>
+</article>
+<article class="cue" id="slide-21">
+  <div class="tc"><span class="n">21</span><span class="dur">0:30</span><span class="cum">→ 10:00</span></div>
+  <div class="cue-body"><h3>Ce que je demande</h3><p><strong>Message</strong> — Une PMO ne se mesure pas au nombre de documents qu&#39;elle produit, mais aux décisions qu&#39;elle rend possibles.</p>
+<ul>
+<li>(a) Ma confirmation dans le rôle de Responsable PMO, avec le mandat d&#39;animer le référentiel et la revue de portefeuille auprès des quatre autres chefs de projet.</li>
+<li>(b) Le caractère obligatoire du référentiel sur tout projet du portefeuille à compter de mai 2026, avec la situation de référence figée avant.</li>
+<li>Conclure sur la phrase clé, puis : « Merci. Je suis à votre disposition pour vos questions. »</li>
+</ul>
+</div>
+</article>
+</div></section>
+<section class="part" id="script"><h2>Script complet</h2><p class="part-sub">Texte intégral, environ 1 500 mots, avec le top de chaque slide.</p><div class="lede"><p>Texte à dire, slide par slide. Environ 1 500 mots, soit 10 minutes à un rythme posé (150 mots/minute). Les passages entre crochets sont des indications de geste ou de rythme. Les chiffres en gras sont ceux qu&#39;il faut prononcer distinctement.</p>
+</div><div class="cues script"><article class="line" id="script-01">
+  <div class="tc"><span class="n">01</span><span class="dur">0:00</span></div>
+  <div class="cue-body"><p>Bonjour. Je suis Virgile Coudert, chef de projet à la DSI de Time&#39;Eats, formé au Project Management Office. Le comité de direction m&#39;a confié le mandat d&#39;unifier la gestion des projets de l&#39;entreprise. Le titre de cette restitution résume ma conviction : on ne pilote pas onze projets, on pilote un portefeuille. En dix minutes, je vais vous montrer pourquoi il faut une PMO, ce qu&#39;elle instrumente, et ce que ces instruments rendent décidable.</p>
+</div>
+</article>
+<article class="line" id="script-02">
+  <div class="tc"><span class="n">02</span><span class="dur">0:15</span></div>
+  <div class="cue-body"><p>De quoi parle-t-on ? <strong>Onze</strong> projets simultanés, <strong>1 700 K€</strong> de budget, <strong>2 320</strong> jours-homme, pour une DSI de <strong>21</strong> personnes. Sur douze mois, sans arrêter le service courant, avec trois administrateurs systèmes, six développeurs et cinq chefs de projet. Et derrière, une ambition : un million de clients et dix mille partenaires à deux ans.</p>
+</div>
+</article>
+<article class="line" id="script-03">
+  <div class="tc"><span class="n">03</span><span class="dur">0:35</span></div>
+  <div class="cue-body"><p>Le problème n&#39;est pas là où on le croit. Pris un par un, aucun de ces onze projets n&#39;est hors de portée. Pris ensemble, ils se disputent les mêmes ressources rares. Et sans règle commune, ils exposent l&#39;entreprise à trois risques : une dérive budgétaire qu&#39;on ne détecte pas, un effet domino sur les dépendances techniques, et l&#39;épuisement des équipes. [Pause.] Ce n&#39;est pas un problème de projets. C&#39;est un problème de portefeuille — et un portefeuille ne se pilote pas comme une somme de projets.</p>
+</div>
+</article>
+<article class="line" id="script-04">
+  <div class="tc"><span class="n">04</span><span class="dur">1:00</span></div>
+  <div class="cue-body"><p>C&#39;est exactement le vide que comble une PMO. Elle apporte quatre choses que personne d&#39;autre ne porte. Une méthode commune : un référentiel, pour que tout le monde compte dans les mêmes unités. Une règle d&#39;arbitrage : une priorisation explicite, opposable, au nom de la stratégie. Une vue consolidée : un tableau de bord de portefeuille qui montre les onze projets d&#39;un seul regard. Et une mémoire : une capitalisation qui rend le projet suivant meilleur que le précédent. Chaque chef de projet voit son projet. Personne ne voit le portefeuille. La PMO est la cellule garante de la méthode, du référentiel et du reporting consolidé.</p>
+</div>
+</article>
+<article class="line" id="script-05">
+  <div class="tc"><span class="n">05</span><span class="dur">1:35</span></div>
+  <div class="cue-body"><p>Mais une PMO qui commande les projets est rejetée en six mois. D&#39;où une règle de rôles. Le chef de projet pilote son projet, tient ses baselines et décide seul de l&#39;exécution. La PMO consolide, alerte, et arbitre les priorités <em>entre</em> projets — elle anime le référentiel. Le sponsor et le COPIL engagent : budget, périmètre, date, mise en production. [Montrer la séquence.] Les indicateurs de chaque projet — IPC, IPD — alimentent les agrégats de portefeuille, qui alimentent les arbitrages de la direction. La circulation est ascendante : le projet nourrit le portefeuille, le portefeuille n&#39;impose pas d&#39;action au projet. Pas de double commande — c&#39;est la première cause de rejet des PMO par les équipes.</p>
+</div>
+</article>
+<article class="line" id="script-06">
+  <div class="tc"><span class="n">06</span><span class="dur">2:10</span></div>
+  <div class="cue-body"><p>Reste une question. Cette cellule, ce sont cinq chefs de projet pairs. Qui la porte ? Sans responsable désigné, chacun défend son projet ; le référentiel n&#39;a pas de propriétaire et devient un formalisme mort en douze mois ; les retours d&#39;expérience sont écrits, archivés, jamais instruits ; et les risques qui dépassent un projet n&#39;ont pas de porteur. Avec un Responsable PMO, quelqu&#39;un anime le référentiel — versions, revue semestrielle, droit de retrait, taux d&#39;usage ; quelqu&#39;un consolide les agrégats et anime la revue de portefeuille hebdomadaire et le Comité Stratégique mensuel ; quelqu&#39;un porte les risques de portefeuille — j&#39;y reviendrai avec le contrat d&#39;interface ; et quelqu&#39;un transforme chaque enseignement en action datée. Un mandat, un nom, une redevabilité. Sinon, la vue transverse n&#39;appartient à personne.</p>
+</div>
+</article>
+<article class="line" id="script-07">
+  <div class="tc"><span class="n">07</span><span class="dur">2:45</span></div>
+  <div class="cue-body"><p>C&#39;est le rôle que je vous demande de confirmer, et voici d&#39;où je parle. Ce que je présente n&#39;est pas mon mode de fonctionnement : c&#39;est le nôtre, construit avec les quatre autres chefs de projet, en atelier de cadrage puis en revue. Je vous demande aujourd&#39;hui de valider la méthode — et ma confirmation dans le rôle.</p>
+</div>
+</article>
+<article class="line" id="script-08">
+  <div class="tc"><span class="n">08</span><span class="dur">3:05</span></div>
+  <div class="cue-body"><p>Premier instrument : au nom de quoi on arbitre. Prioriser suppose de savoir au nom de quoi. La stratégie d&#39;entreprise est explicite — croissance nationale par la plateforme, positionnement qualitatif et français. La cellule PMO en a déduit et fait valider une stratégie SI en quatre axes. S1, conquérir le marché : la refonte Web, les applications mobiles, le CRM — l&#39;axe qui génère le chiffre d&#39;affaires. S2, industrialiser le socle : Office 365, Azure, la chaîne CI/CD, le stockage — l&#39;axe qui rend S1 possible. S3, sécuriser : l&#39;authentification forte, la sauvegarde. S4, tenir les obligations légales : la paie. Et une règle : tout critère de priorisation qui ne se rattache pas à un axe est écarté.</p>
+</div>
+</article>
+<article class="line" id="script-09">
+  <div class="tc"><span class="n">09</span><span class="dur">3:30</span></div>
+  <div class="cue-body"><p>Deuxième donnée d&#39;entrée : ce n&#39;est pas l&#39;argent qui manque. <strong>2 320</strong> jours-homme à produire pour environ <strong>2 900</strong> disponibles, en sanctuarisant trente pour cent du temps pour le service courant. Et surtout, trois administrateurs systèmes pour six projets d&#39;infrastructure, avec trois projets qui démarrent en avril. C&#39;est la capacité qui limite. D&#39;où un critère de soutenabilité dans la grille : la capacité ordonnance, elle ne sélectionne pas.</p>
+</div>
+</article>
+<article class="line" id="script-10">
+  <div class="tc"><span class="n">10</span><span class="dur">3:50</span></div>
+  <div class="cue-body"><p>Instrument numéro un : le référentiel. Aujourd&#39;hui, chaque chef de projet produit ses documents dans son format : l&#39;avancement est impossible à consolider, chaque projet redémarre sa documentation de zéro — trois à cinq jours perdus — et rien ne se transmet. La cellule publie donc <strong>vingt-six</strong> documents-types sur les cinq phases du cycle de vie, avec un identifiant stable — P1-01, P2-05 — et un modèle vierge pour chacun. Il contient au minimum la charte de projet, le cahier des charges, le budget, le planning et le registre des risques. Chaque modèle porte le bandeau à la charte graphique Time&#39;Eats, un cartouche de versions et d&#39;approbateurs, des rubriques pré-titrées avec une consigne de remplissage : on prend en main n&#39;importe quel modèle en cinq minutes. Un socle de <strong>douze</strong> documents est obligatoire sur les onze projets : c&#39;est lui qui rend le portefeuille consolidable. Et ce référentiel a un propriétaire : la PMO le versionne, mesure son usage — cible quatre-vingt-dix pour cent — et l&#39;allège, avec un droit de retrait pour tout chef de projet.</p>
+</div>
+</article>
+<article class="line" id="script-11">
+  <div class="tc"><span class="n">11</span><span class="dur">4:20</span></div>
+  <div class="cue-body"><p>Tous les projets ne portent pas vingt-six documents. La matrice projets-livrables, annexée à chaque charte, dit lesquels et quand. Sur Office 365, <strong>quatorze</strong> documents sont produits à ce jour : les quatre du cadrage, les six de la planification, le tableau de bord, les deux PV de recette et la fiche REX. Les douze autres restent prévus : neuf ne sont pas encore réalisés parce que le projet n&#39;en est pas là — six documents de vie pendant l&#39;exécution, trois documents de clôture ; deux ne sont pas encore mis en place — le cahier des charges et le plan de conduite du changement, portés pour l&#39;instant par le forfait et le plan de communication ; et un n&#39;est pas nécessaire — le PBS, il n&#39;y a pas de produit à décomposer. Le contrat documentaire dit quels documents, et à quel moment. Aucun n&#39;est abandonné.</p>
+</div>
+</article>
+<article class="line" id="script-12">
+  <div class="tc"><span class="n">12</span><span class="dur">4:50</span></div>
+  <div class="cue-body"><p>Instrument numéro deux : la grille de priorisation. Six critères pondérés. Alignement stratégique, trente pour cent. Rentabilité, vingt. Criticité des dépendances, vingt. Maîtrise des risques, quinze. Conformité, dix. Soutenabilité capacitaire, cinq. Trois de ces critères sont construits par la PMO — les dépendances, la conformité, la capacité — parce que les fiches de cadrage, seules, ne disent rien de l&#39;ordonnancement. Chaque critère a une échelle de cotation écrite, donc deux personnes cotant le même projet trouvent le même score. Un exemple, Office 365 : zéro virgule trente fois quatre, plus zéro virgule vingt fois deux, plus zéro virgule vingt fois cinq, plus zéro virgule quinze fois trois, plus zéro virgule dix fois un, plus zéro virgule zéro cinq fois trois : <strong>3,30</strong>. Vert au-dessus de 3,50, Rouge en dessous de 2,75. Et la pondération est robuste : faire varier le poids de l&#39;alignement de cinq points ne change ni le trio de tête ni le dernier.</p>
+</div>
+</article>
+<article class="line" id="script-13">
+  <div class="tc"><span class="n">13</span><span class="dur">5:15</span></div>
+  <div class="cue-body"><p>Voilà ce que ça donne. [Lire le tableau.] Quatre projets en Vert — Refonte Web, CRM, MFA, Sauvegarde — engagés immédiatement, <strong>800 K€</strong> cumulés. Office 365 sixième à 3,30. La Migration Azure dernière à 2,45, pénalisée par une maîtrise des risques cotée un sur cinq. L&#39;écart entre le premier et le dernier n&#39;est que de 1,30 point : aucun projet n&#39;est disqualifié, le portefeuille est cohérent avec la stratégie. Le classement fixe un ordre d&#39;engagement, pas un couperet — avec deux exceptions : la paie, huitième, n&#39;est pas arbitrable, c&#39;est une obligation légale ; et Azure n&#39;est engagée qu&#39;avec l&#39;appui d&#39;une ESN spécialisée.</p>
+</div>
+</article>
+<article class="line" id="script-14">
+  <div class="tc"><span class="n">14</span><span class="dur">5:45</span></div>
+  <div class="cue-body"><p>La direction a demandé un second classement, à la rentabilité seule, pour pouvoir basculer en cas de retournement de marché. Résultat : sept projets sur onze bougent de trois rangs ou plus. Et trois décisions dangereuses apparaissent. Office 365 tombe dixième — alors qu&#39;il bloque quatre projets. La paie tombe dernière — alors qu&#39;elle paie les salaires. Azure remonte quatrième — alors que sa maîtrise des risques est à un sur cinq. On perdrait de la rentabilité en poursuivant la rentabilité. D&#39;où une règle de sauvegarde : ce second tableau est une simulation, et il ne peut jamais déclasser un projet réglementaire ni un projet à dépendance maximale.</p>
+</div>
+</article>
+<article class="line" id="script-15">
+  <div class="tc"><span class="n">15</span><span class="dur">6:15</span></div>
+  <div class="cue-body"><p>Un score résume un projet en un nombre ; il ne montre pas sa forme. [Montrer le radar.] En orange, Office 365 ; en gris, la moyenne du portefeuille. Il perce très largement sur l&#39;axe des dépendances — cinq contre 2,4 — et il s&#39;effondre sur la rentabilité — deux contre 3,4. C&#39;est la signature d&#39;un projet de socle : il ne rapporte pas, il rend possible. Sixième au classement, dixième à la rentabilité, toute lecture spontanée le dépriorise. Mais il bloque quatre projets, <strong>900 K€</strong>, plus de la moitié du portefeuille en valeur : un mois de retard sur lui est un mois de retard sur la moitié du portefeuille. Aucune lecture projet par projet ne produit cette décision. C&#39;est la valeur ajoutée propre de la PMO — et c&#39;est pour ça que j&#39;en ai fait le projet pilote.</p>
+</div>
+</article>
+<article class="line" id="script-16">
+  <div class="tc"><span class="n">16</span><span class="dur">6:55</span></div>
+  <div class="cue-body"><p>Ce pilote, en une page. <strong>100 K€</strong> de plafond ferme, <strong>220</strong> jours-homme dont cent vingt au forfait Capgemini, seize semaines, sept jalons, Go-Live le <strong>17 juillet</strong>, deux cents salariés sur cinq sites. La charte, signée le 13 avril, fixe six objectifs SMART — deux cents boîtes migrées sans perte, interruption inférieure à quatre heures, cinq sites et douze équipes livrés, soixante-quinze pour cent d&#39;utilisateurs actifs, MFA sur les comptes à privilèges, cent K€ au 17 juillet — et trois contraintes : la date imposée par les projets aval, le plafond ferme, et trois administrateurs. Le plan de management agrège six composants : cette charte, un cahier des charges de soixante-deux exigences opposables — base du forfait et de la recette —, le planning, le budget en six postes, dix risques cotés probabilité fois impact, et le plan de communication : neuf parties prenantes, neuf actions, dix key users. Le chemin critique — audit, tenant, migration, recette — n&#39;a aucune marge ; la seule marge réelle est entre le Go-Live et la clôture. Et quatre exclusions de périmètre sur sept renvoient à un autre projet : d&#39;où une réunion d&#39;interface mensuelle. Le projet est piloté par son chef de projet ; ses frontières sont pilotées par la PMO.</p>
+</div>
+</article>
+<article class="line" id="script-17">
+  <div class="tc"><span class="n">17</span><span class="dur">7:25</span></div>
+  <div class="cue-body"><p>Sur dix risques, un seul est critique, et il dépasse le projet. R8, le glissement du Go-Live, coté <strong>15 sur 25</strong>. Vu du projet : revue hebdomadaire du chemin critique, deux semaines de marge sanctuarisées — et après traitement, il reste coté 15 ; aucune action projet ne le réduit. Vu du portefeuille : il ne menace pas Office 365, il menace les quatre projets aval, 900 K€. La réponse de la PMO est un contrat d&#39;interface : une API figée entre le CRM, la refonte Web et les applications mobiles, avant le 30 juin, pour qu&#39;ils développent en parallèle sans attendre la bascule. Un risque qu&#39;on ne peut pas réduire au niveau du projet se traite au niveau du portefeuille.</p>
+</div>
+</article>
+<article class="line" id="script-18">
+  <div class="tc"><span class="n">18</span><span class="dur">7:55</span></div>
+  <div class="cue-body"><p>Comment sait-on que le projet dévie ? Seize indicateurs, dérivés directement des six objectifs — aucun indicateur sans objectif — sur quatre axes : coûts, délais, qualité, et adoption, le seul qui mesure la valeur réellement livrée. Fin mai : trois jalons tenus, zéro anomalie bloquante, l&#39;indice de délais à 0,91, Ambre — et le coût final estimé à <strong>105 K€</strong>, Rouge, parce que l&#39;écart excède la réserve de deux K€. Un indicateur ne vaut que par la décision qu&#39;il déclenche. La séquence est écrite d&#39;avance : seuil franchi, rapport d&#39;écarts sous cinq jours, cause racine — l&#39;annuaire a coûté neuf jours au lieu de quatre, dix-huit boîtes dépassent trente gigas —, options chiffrées, arbitrage de périmètre, demande de changement en COPIL. Rallonge écartée : le budget est un plafond. Absorption interne écartée : les équipes sont saturées. Décision : l&#39;archivage des dix-huit boîtes sort du périmètre vers le projet Stockage. Résultat : <strong>99 K€</strong>, Go-Live tenu, et les quatre projets aval informés le jour même. Sur un budget plafonné, on ajuste le périmètre, jamais l&#39;enveloppe.</p>
+</div>
+</article>
+<article class="line" id="script-19">
+  <div class="tc"><span class="n">19</span><span class="dur">8:35</span></div>
+  <div class="cue-body"><p>Clore, et en tirer quelque chose. La recette, d&#39;abord : <strong>136</strong> cas de test — six campagnes techniques, soixante-dix-huit cas, et huit scénarios fonctionnels par population, cinquante-huit cas — qui couvrent cent pour cent des soixante-deux exigences. Cinq principes : on ne recette que ce qui a été exigé, le recetteur n&#39;est jamais le réalisateur, les critères sont fixés avant de tester, toute anomalie est tracée, et la recette continue trente jours après le Go-Live. Dont un test négatif : un partage externe qui doit échouer. Le procès-verbal est un modèle générique en douze rubriques, décliné en fonctionnel et technique, avec trois issues seulement — sans réserve, avec réserves datées, refusée. Sur Office 365 : cent trente-deux cas conformes, zéro bloquante, deux réserves datées ; la signature libère quatre-vingts pour cent du forfait, les vingt restants après la vérification de service régulier. Puis la capitalisation : six enseignements, tous instruits par la PMO et transformés en actions datées, dans trois familles — le référentiel, avec une rubrique « qualité des données d&#39;entrée » et un test négatif obligatoire ; la méthode, avec un relevé bimensuel des coûts sur les projets courts ; les canaux de communication, avec le principe « communiquer par l&#39;outil que l&#39;on déploie ». Cinq des six bénéficient à des projets pas encore lancés. Un projet n&#39;est pas clos tant que son retour d&#39;expérience n&#39;est pas instruit.</p>
+</div>
+</article>
+<article class="line" id="script-20">
+  <div class="tc"><span class="n">20</span><span class="dur">9:10</span></div>
+  <div class="cue-body"><p>Reste à prouver que tout cela produit des effets, parce qu&#39;une démarche qui ne se mesure pas ne se distingue pas d&#39;un discours. Six indicateurs, une situation de référence figée en mai, des cibles à douze mois : quatre-vingts pour cent des projets sur le référentiel, quatre-vingt-dix pour cent des jalons critiques tenus, un écart budgétaire inférieur à cinq pour cent, un NPS des chefs de projet supérieur à plus trente. Figer la référence coûte deux jours ; ne pas le faire coûte la crédibilité de la PMO au premier bilan. Et les biais sont neutralisés : l&#39;enquête est dépouillée par la DRH, l&#39;usage réel est audité sur deux projets tirés au sort.</p>
+</div>
+</article>
+<article class="line" id="script-21">
+  <div class="tc"><span class="n">21</span><span class="dur">9:30</span></div>
+  <div class="cue-body"><p>Ce que je demande au comité de direction. A : ma confirmation dans le rôle de Responsable PMO, avec le mandat d&#39;animer le référentiel et la revue de portefeuille auprès des quatre autres chefs de projet. B : le caractère obligatoire du référentiel sur tout projet du portefeuille à compter de mai 2026 — avec la situation de référence figée avant. [Pause.] Une PMO ne se mesure pas au nombre de documents qu&#39;elle produit, mais aux décisions qu&#39;elle rend possibles. Merci. Je suis à votre disposition pour vos questions.</p>
+</div>
+</article>
+</div>
+<div class="extras"><h2>Si tu dois couper (version 8 minutes)</h2>
+<p>Slides à compresser en une phrase chacune : 2 (« onze projets, 1 700 K€, 21 personnes »), 7 (« construit avec les quatre autres chefs de projet »), 9 (« la capacité limite, pas l&#39;argent »), 14 (« à la rentabilité seule, sept projets sur onze bougent de trois rangs : on perdrait de la rentabilité en poursuivant la rentabilité »), 20 (« six indicateurs figés en mai, cibles à douze mois »). Gain : environ deux minutes.</p>
+<h2>Si tu as du temps en trop</h2>
+<p>Ajouter sur la slide 15 les trois lectures radar et leurs publics ; sur la slide 16 les trois options étudiées (statu quo amélioré 140 K€ sur trois ans, suite libre 115 K€, Microsoft 365 E3 100 K€ retenue) ; sur la slide 18 les règles d&#39;escalade.</p>
+</div></section>
+<section class="part" id="questions"><h2>Questions du jury</h2><p class="part-sub">Classées par thème, avec une réponse de 20 à 40 secondes appuyée sur un chiffre du dossier.</p><div class="lede"><p>Le jury est orienté gestion de projet et portefeuille. Les questions sont classées par thème, des plus probables aux plus pointues. Chaque réponse tient en 20 à 40 secondes ; les chiffres viennent du dossier.</p>
+<p>Méthode de réponse : reformuler la question en une phrase, donner <strong>la</strong> réponse, puis un chiffre ou un exemple du dossier. Ne jamais inventer une donnée : « ce n&#39;est pas dans le contexte, j&#39;ai posé l&#39;hypothèse que… ».</p>
+</div><h3 class="qa-group">A. Gouvernance et PMO</h3>
+<article class="qa" id="q-1"><div class="qn">1</div><div class="qa-body"><h4>Quelle différence entre projet, programme et portefeuille ?</h4><p>Un projet livre un résultat unique avec un début et une fin. Un programme regroupe des projets liés par un objectif commun — chez nous, le lot S1 : Refonte Web, applications mobiles, CRM. Le portefeuille est l&#39;ensemble des projets de la DSI gérés comme un tout : priorisés ensemble, consolidés ensemble, arbitrés ensemble. Le pilotage de portefeuille répond à « faisons-nous les bons projets, dans le bon ordre, avec les ressources que nous avons ? ».</p>
+</div></article>
+<article class="qa" id="q-2"><div class="qn">2</div><div class="qa-body"><h4>Quel type de PMO proposez-vous : support, contrôle ou directif ?</h4><p>Une PMO de contrôle, pas directive. Elle impose un référentiel et des seuils, elle consolide et alerte, mais elle ne pilote pas les projets à la place des chefs de projet. La circulation est ascendante : le projet nourrit le portefeuille, le portefeuille n&#39;impose pas d&#39;action au projet. C&#39;est un choix délibéré : la double commande est la première cause de rejet des PMO.</p>
+</div></article>
+<article class="qa" id="q-3"><div class="qn">3</div><div class="qa-body"><h4>Comment évitez-vous que la PMO soit vécue comme une bureaucratie ?</h4><p>Trois mécanismes. Le contrat documentaire : on n&#39;impose pas 26 documents à un projet de 50 j/h. Le droit de retrait : tout chef de projet peut demander la suppression d&#39;un document, la PMO répond sous 15 jours. Et la mesure : taux d&#39;usage réel audité chaque trimestre, NPS des chefs de projet dépouillé par la DRH, cible ≥ +30. Plus le pré-remplissage des rubriques d&#39;identification à partir de la fiche P1-03 : personne ne saisit deux fois la même donnée.</p>
+</div></article>
+<article class="qa" id="q-4"><div class="qn">4</div><div class="qa-body"><h4>Pourquoi un Responsable PMO et pas une animation tournante entre les cinq chefs de projet ?</h4><p>Parce qu&#39;une responsabilité tournante n&#39;a pas de propriétaire. Le référentiel doit être versionné et révisé chaque semestre ; les REX doivent être instruits — c&#39;est l&#39;étape 4 qui fait la différence ; les risques transverses ont besoin d&#39;un porteur ; et la revue de portefeuille demande une continuité de lecture. Un mandat, un nom, une redevabilité. Sinon, la vue transverse n&#39;appartient à personne.</p>
+</div></article>
+<article class="qa" id="q-5"><div class="qn">5</div><div class="qa-body"><h4>Quelle autorité a le Responsable PMO sur les chefs de projet ?</h4><p>Aucune autorité hiérarchique — et c&#39;est voulu. Il a une autorité de méthode : le référentiel est obligatoire, les seuils et les règles d&#39;escalade s&#39;appliquent sans discussion. Il a une autorité d&#39;arbitrage entre projets, exercée en revue de portefeuille et validée par le sponsor ou le Comité Stratégique. Le chef de projet reste seul responsable de l&#39;exécution de son projet.</p>
+</div></article>
+<article class="qa" id="q-6"><div class="qn">6</div><div class="qa-body"><h4>Comment gérez-vous un conflit de ressources entre deux chefs de projet ?</h4><p>En revue de portefeuille hebdomadaire, sur la base du classement : le projet le mieux classé a priorité, sauf règle de sauvegarde (réglementaire ou dépendance maximale). Exemple concret : en juin, les 3 administrateurs systèmes sont sollicités par Office 365 et CI/CD ; CI/CD a été réduit à un pipeline de build unique au T2, le volet multi-environnements reporté au T3.</p>
+</div></article>
+<article class="qa" id="q-7"><div class="qn">7</div><div class="qa-body"><h4>Que se passe-t-il si un chef de projet refuse d&#39;appliquer le référentiel ?</h4><p>D&#39;abord comprendre : c&#39;est souvent un document sans valeur pour son projet, et le droit de retrait existe pour ça. Ensuite, le référentiel est une décision du comité de direction — c&#39;est ma demande (b) — donc un projet hors référentiel n&#39;entre pas dans les agrégats et n&#39;est pas présenté au Comité Stratégique. Un projet invisible du portefeuille n&#39;obtient pas d&#39;arbitrage en sa faveur.</p>
+</div></article>
+<article class="qa" id="q-8"><div class="qn">8</div><div class="qa-body"><h4>Qui décide, au final : la PMO ou la direction ?</h4><p>La direction. Les deux tableaux de bord ne disent pas ce qu&#39;elle doit décider ; ils lui montrent ce qu&#39;elle décide réellement quand elle privilégie un critère plutôt qu&#39;un autre. La PMO rend la décision possible et traçable.</p>
+</div></article>
+<h3 class="qa-group">B. Priorisation et stratégie</h3>
+<article class="qa" id="q-9"><div class="qn">9</div><div class="qa-body"><h4>Pourquoi ces poids ? Qui les a fixés ?</h4><p>Trois apports : l&#39;atelier de cadrage des 5 chefs de projet, le cadrage du DSI — stratégie avant rentabilité avant risques —, et le PMI Standard for Portfolio Management. L&#39;alignement domine à 30 % sans être majoritaire : un projet non aligné ne doit pas être financé, quel que soit son ROI. Les poids sont révisés chaque année au T1 en Comité Stratégique.</p>
+</div></article>
+<article class="qa" id="q-10"><div class="qn">10</div><div class="qa-body"><h4>Votre classement est-il robuste à la pondération ?</h4><p>Oui, testé : faire varier le poids de l&#39;alignement de ±5 points ne modifie ni le trio de tête ni le dernier. Et l&#39;écart entre le premier et le dernier n&#39;est que de 1,30 point : le classement se lit comme un ordre d&#39;engagement, pas comme un couperet.</p>
+</div></article>
+<article class="qa" id="q-11"><div class="qn">11</div><div class="qa-body"><h4>Pourquoi la capacité ne pèse-t-elle que 5 % alors que vous dites qu&#39;elle est la vraie contrainte ?</h4><p>Parce que la capacité ordonnance, elle ne sélectionne pas. Un projet stratégique lourd ne doit pas être écarté parce qu&#39;il est lourd ; il doit être placé au bon moment. Les 5 % départagent deux projets équivalents ; l&#39;ordonnancement réel se fait dans le tableau n°1 avec la colonne Départ et les points de vigilance — la saturation d&#39;avril, par exemple.</p>
+</div></article>
+<article class="qa" id="q-12"><div class="qn">12</div><div class="qa-body"><h4>Qui cote ? Comment évitez-vous les biais du chef de projet qui cote son propre projet ?</h4><p>C1, C2 et C4 viennent des fiches de cadrage fournies par la direction. C3, C5 et C6 sont construits par la PMO à partir de faits : le graphe de dépendances, l&#39;obligation légale, la charge. Chaque critère a une échelle écrite : deux personnes cotant le même projet trouvent le même score. Et les cotations sont revues collectivement en atelier.</p>
+</div></article>
+<article class="qa" id="q-13"><div class="qn">13</div><div class="qa-body"><h4>Pourquoi Office 365 comme pilote et pas la Refonte Web, classée première ?</h4><p>D&#39;abord parce que la Refonte Web est le projet imposé du travail de groupe, donc exclue. Ensuite parce qu&#39;Office 365 illustre exactement ce qu&#39;apporte un PMO : 6e au classement, 10e à la rentabilité, toute lecture spontanée le dépriorise, alors qu&#39;il conditionne quatre projets et 900 K€. Enfin parce qu&#39;il démarre en avril et qu&#39;il est le plus transverse.</p>
+</div></article>
+<article class="qa" id="q-14"><div class="qn">14</div><div class="qa-body"><h4>Que faites-vous de la dépendance circulaire entre le CRM, le Web et les applications mobiles ?</h4><p>Elle est insoluble en l&#39;état : chacun se déclare prérequis des autres. Elle est levée par une décision de PMO — un contrat d&#39;interface, une API figée avant le 30/06 — qui permet de développer en parallèle contre une interface stable plutôt que d&#39;attendre les livraisons les uns des autres. C&#39;est aussi la contre-mesure au risque R8.</p>
+</div></article>
+<article class="qa" id="q-15"><div class="qn">15</div><div class="qa-body"><h4>Si la direction plafonne l&#39;enveloppe à 1 000 K€, que se passe-t-il ?</h4><p>La colonne Cumul du tableau n°1 répond : la ligne de coupe passe entre le rang 5 et le rang 6, à 950 K€. La discussion porte alors sur les exceptions à justifier — Office 365, qui ne peut pas être coupé parce qu&#39;il conditionne 900 K€ de projets, et la Paie, obligation légale. Le classement transforme un arbitrage politique en discussion sur des exceptions argumentées.</p>
+</div></article>
+<article class="qa" id="q-16"><div class="qn">16</div><div class="qa-body"><h4>Le classement à la rentabilité seule est-il utilisé ?</h4><p>C&#39;est un outil de simulation, activé sur demande en cas de tension budgétaire ou de retournement de marché. Il ne peut jamais déclasser un projet réglementaire ni un projet à dépendance maximale — c&#39;est la règle de sauvegarde. Sept projets sur onze bougent de trois rangs ou plus : c&#39;est le résultat le plus important du chapitre, il montre qu&#39;on perdrait de la rentabilité en poursuivant la rentabilité.</p>
+</div></article>
+<article class="qa" id="q-17"><div class="qn">17</div><div class="qa-body"><h4>Comment actualisez-vous le classement dans l&#39;année ?</h4><p>Les cotations sont portées par la fiche d&#39;identification P1-03, mise à jour mensuellement par chaque chef de projet ; le cockpit régénère le classement et les radars sans ressaisie. Le tableau n°1 est présenté chaque mois au Comité Stratégique ; les poids, eux, ne bougent qu&#39;une fois par an.</p>
+</div></article>
+<article class="qa" id="q-18"><div class="qn">18</div><div class="qa-body"><h4>Vous avez relevé des incohérences dans les données d&#39;entrée ?</h4><p>Deux. Office 365 est annoncé sur 2 mois dans le texte et 3 mois dans le tableau : j&#39;ai retenu 3 mois, cohérent avec 220 j/h. La Migration Azure est annoncée en juillet et en août : j&#39;ai retenu août. Je les ai signalées à la direction — c&#39;est précisément le rôle de la fiche d&#39;identification normalisée de rendre ces contradictions visibles.</p>
+</div></article>
+<h3 class="qa-group">C. Plan de management du pilote</h3>
+<article class="qa" id="q-19"><div class="qn">19</div><div class="qa-body"><h4>Pourquoi un cycle en V et pas de l&#39;agile ?</h4><p>Parce que le périmètre est figé et connu — 200 boîtes, 5 sites, 12 équipes —, que la migration est technique, et que le forfait exige un périmètre contractuel. Le référentiel reste compatible avec l&#39;agile : un projet Scrum conserve le démarrage, la planification allégée, la maîtrise et la clôture, et remplace l&#39;exécution séquentielle par des itérations. Les projets de développement du portefeuille le feront.</p>
+</div></article>
+<article class="qa" id="q-20"><div class="qn">20</div><div class="qa-body"><h4>Pourquoi un forfait plutôt qu&#39;une régie ?</h4><p>Le forfait transfère le risque de dérive de charge au prestataire : 120 j/h à 400 €, engagement de résultat, pénalités. Son coût : une incertitude sur la disponibilité des intervenants — c&#39;est l&#39;enseignement E3, qui impose désormais une clause de nommage et de continuité dans le cahier des charges.</p>
+</div></article>
+<article class="qa" id="q-21"><div class="qn">21</div><div class="qa-body"><h4>Une réserve pour aléas de 2 % seulement, n&#39;est-ce pas trop peu ?</h4><p>C&#39;est un plafond ferme posé par la direction, pas une estimation. La réserve n&#39;est pas la variable d&#39;ajustement : sur un budget plafonné, la variable est le périmètre. Fin mai, l&#39;écart de 5 K€ a été traité par un arbitrage de périmètre, pas par la réserve. Et le forfait absorbe la dérive de charge prestataire.</p>
+</div></article>
+<article class="qa" id="q-22"><div class="qn">22</div><div class="qa-body"><h4>Comment tenez-vous le pic de juin avec trois administrateurs, également mobilisés par CI/CD ?</h4><p>Trois choix de planification : l&#39;audit lancé dès la semaine 16, avant la fin du cadrage ; la migration pilote qui démarre dès la synchronisation validée, recouvrant le lot précédent de deux semaines ; et l&#39;arbitrage de portefeuille sur CI/CD — pipeline unique au T2, multi-environnements au T3. Le pic est identifié comme point à surveiller dans le budget mensuel.</p>
+</div></article>
+<article class="qa" id="q-23"><div class="qn">23</div><div class="qa-body"><h4>Que se passe-t-il si l&#39;audit J1 révèle un annuaire inexploitable ?</h4><p>C&#39;est le risque R2, coté 12. L&#39;hypothèse de cadrage prévoit +15 j/h et un report de J2. Il s&#39;est partiellement matérialisé : 9 j/h au lieu de 4. D&#39;où l&#39;enseignement E1 : une rubrique « qualité des données d&#39;entrée » obligatoire dans la note de cadrage et 2 j/h d&#39;audit préalable sur tout projet touchant à l&#39;annuaire — MFA et Stockage en bénéficient.</p>
+</div></article>
+<article class="qa" id="q-24"><div class="qn">24</div><div class="qa-body"><h4>Et si le périmètre ne peut plus être réduit ?</h4><p>Alors la décision remonte au sponsor : la charte fixe qu&#39;un engagement portant le coût final au-delà de 102 K€ relève de lui, pas du chef de projet. Ce serait une demande de changement à impact financier, arbitrée en COPIL, avec information immédiate des projets aval. Mais sur Office 365, les exclusions possibles sont identifiées dès le cadrage — l&#39;archivage en ligne, la téléphonie Teams, Power BI.</p>
+</div></article>
+<article class="qa" id="q-25"><div class="qn">25</div><div class="qa-body"><h4>Pourquoi 12 % de la charge en conduite du changement ?</h4><p>Parce que le passage de l&#39;existant à la cible change la manière de travailler de 200 personnes sur 5 sites. Un projet techniquement réussi dont personne n&#39;utilise Teams est un échec métier : c&#39;est l&#39;objectif O4, le seul qui se mesure après la fin du projet, à J5 + 30 jours. Et la mesure la plus efficace ne coûte rien : communiquer par l&#39;outil que l&#39;on déploie, puis fermer les anciens partages.</p>
+</div></article>
+<h3 class="qa-group">D. Indicateurs et pilotage</h3>
+<article class="qa" id="q-26"><div class="qn">26</div><div class="qa-body"><h4>Que sont l&#39;IPC et l&#39;IPD ?</h4><p>Les indices de performance des coûts et des délais, issus de la valeur acquise. IPC = valeur acquise / coût réel : en dessous de 1, le projet coûte plus que la valeur produite. IPD = valeur acquise / valeur planifiée : en dessous de 1, le projet est en retard. Fin mai : IPC 0,95 au seuil, IPD 0,91 en Ambre. Ce sont les deux indicateurs qui alimentent les agrégats de portefeuille.</p>
+</div></article>
+<article class="qa" id="q-27"><div class="qn">27</div><div class="qa-body"><h4>Pourquoi un axe adoption dans le tableau de bord ?</h4><p>Les douze premiers indicateurs suffiraient à déclarer le projet réussi — budget, jalons, migration sans erreur — sans rien dire de l&#39;essentiel : les 200 salariés travaillent-ils différemment ? Les indicateurs K13 à K16 sont les seuls qui mesurent la valeur réellement livrée, et les seuls relevés après la clôture.</p>
+</div></article>
+<article class="qa" id="q-28"><div class="qn">28</div><div class="qa-body"><h4>Que déclenche exactement un indicateur en Rouge ?</h4><p>Un rapport d&#39;écarts sous 5 jours ouvrés adressé au sponsor, avec cause racine et options chiffrées. C&#39;est ce qui s&#39;est passé fin mai sur le coût final estimé. Un Ambre est traité par le chef de projet en point hebdomadaire ; deux mois consécutifs en Ambre déclenchent un COPIL extraordinaire ; une menace sur le Go-Live est communiquée aux quatre projets aval avant toute autre diffusion.</p>
+</div></article>
+<article class="qa" id="q-29"><div class="qn">29</div><div class="qa-body"><h4>Un relevé mensuel suffit-il sur un projet de trois mois ?</h4><p>Non — c&#39;est l&#39;enseignement E5 : le franchissement du seuil sur le coût final a été détecté trois semaines après son apparition réelle. Désormais, les indicateurs de coût passent en relevé bimensuel sur tout projet de moins de quatre mois.</p>
+</div></article>
+<h3 class="qa-group">E. Recette et clôture</h3>
+<article class="qa" id="q-30"><div class="qn">30</div><div class="qa-body"><h4>Qui prononce la recette ?</h4><p>Le recetteur n&#39;est jamais le réalisateur. La recette fonctionnelle est prononcée par la MOA — le référent DRH —, la recette technique par l&#39;architecte et le RSSI. Capgemini présente, assiste, mais ne prononce jamais. Le comité de recette se réunit deux fois par semaine pendant les campagnes.</p>
+</div></article>
+<article class="qa" id="q-31"><div class="qn">31</div><div class="qa-body"><h4>Pourquoi un test négatif ?</h4><p>Parce que recetter uniquement ce qui doit fonctionner laisse passer les défauts de sécurité, qui se manifestent quand quelque chose fonctionne alors que ça ne devrait pas. Le scénario F4 tente un partage externe qui doit échouer ; il a révélé une politique DLP mal appliquée, invisible des tests positifs. C&#39;est l&#39;enseignement E6 : au moins un test négatif par campagne de sécurité, généralisé au plan de test type.</p>
+</div></article>
+<article class="qa" id="q-32"><div class="qn">32</div><div class="qa-body"><h4>Qu&#39;est-ce qu&#39;une réserve acceptable ?</h4><p>Une réserve datée, portée par un responsable nommé, sans effet sur la continuité de service. Toute réserve sans échéance est requalifiée en anomalie bloquante et la recette est refusée. Il n&#39;existe pas de « recette sous condition » : une condition est une réserve, et elle se date. Sur Office 365, la réserve n°1 conditionne la bascule ; la n°2 ne la conditionne pas.</p>
+</div></article>
+<article class="qa" id="q-33"><div class="qn">33</div><div class="qa-body"><h4>Pourquoi la VSR conditionne-t-elle le solde du prestataire ?</h4><p>Parce que la recette ne s&#39;arrête pas au Go-Live : 30 jours de vérification de service régulier, aucune bloquante sur 30 jours consécutifs, adoption au vert. 80 % du forfait sont libérés à la signature du PV, 20 % après la VSR. Le PV rend explicite ce que la signature déclenche financièrement.</p>
+</div></article>
+<article class="qa" id="q-34"><div class="qn">34</div><div class="qa-body"><h4>Quels documents de clôture oublie-t-on le plus souvent ?</h4><p>Deux, et ce sont les plus coûteux : l&#39;attestation de restitution des accès — sans elle, des comptes prestataires à privilèges restent actifs des mois — et la clause de réversibilité adossée au transfert de propriété — sans elle, on ne peut ni changer de prestataire ni internaliser. Les deux sont désormais des conditions bloquantes du solde de facturation.</p>
+</div></article>
+<h3 class="qa-group">F. Capitalisation et mesure des effets</h3>
+<article class="qa" id="q-35"><div class="qn">35</div><div class="qa-body"><h4>Comment garantissez-vous que les REX servent vraiment ?</h4><p>Par l&#39;étape 4 : l&#39;instruction par la PMO. La plupart des organisations s&#39;arrêtent à la rédaction ; les fiches sont archivées et jamais relues. Chez nous, chaque enseignement est qualifié — transposable ? impose-t-il une évolution du référentiel ? — et devient une action avec porteur et échéance. La clôture n&#39;est prononcée qu&#39;une fois l&#39;étape 4 réalisée. Résultat sur Office 365 : trois modèles révisés, une règle de pilotage modifiée, deux fiches en base de connaissance.</p>
+</div></article>
+<article class="qa" id="q-36"><div class="qn">36</div><div class="qa-body"><h4>Donnez un exemple d&#39;amélioration concrète pour un projet futur.</h4><p>E2 : les débits des sites de production de Morlaix et Concarneau n&#39;étaient documentés nulle part ; la mesure a été faite dans l&#39;urgence en semaine 16. Une fiche permanente « contraintes d&#39;infrastructure par site » entre en base de connaissance, réutilisable par Stockage et Sauvegarde Cloud. Cinq des six enseignements bénéficient à des projets pas encore lancés.</p>
+</div></article>
+<article class="qa" id="q-37"><div class="qn">37</div><div class="qa-body"><h4>Comment prouverez-vous que la PMO a produit des effets ?</h4><p>En figeant une situation de référence en mai 2026, avant le déploiement, sur six indicateurs : usage du référentiel, jalons tenus, écart budgétaire, écart de charge, anomalies après mise en production, NPS des chefs de projet. Relevés à 6 et 12 mois. Sans référence initiale, aucun progrès n&#39;est démontrable. Et les biais sont traités : enquête dépouillée par la DRH, usage réel audité sur deux projets tirés au sort, projets sans baseline exclus des agrégats.</p>
+</div></article>
+<article class="qa" id="q-38"><div class="qn">38</div><div class="qa-body"><h4>Quel est le ROI de la PMO elle-même ?</h4><p>Trois gains chiffrables : 3 à 5 jours de chef de projet par projet, gagnés par les modèles — soit 30 à 50 jours sur le portefeuille ; les dérives détectées avant qu&#39;elles ne deviennent des faits accomplis — 5 K€ sur Office 365, traités en trois semaines ; et l&#39;arbitrage Office 365 lui-même, qui protège 900 K€ de projets aval. Le vrai ROI, c&#39;est la qualité des décisions rendues possibles.</p>
+</div></article>
+<h3 class="qa-group">G. Questions pièges</h3>
+<article class="qa" id="q-39"><div class="qn">39</div><div class="qa-body"><h4>Vous annoncez 26 documents et vous n&#39;en avez produit que 14.</h4><p>Les 26 sont le référentiel ; les 14 sont ceux qu&#39;Office 365 a produits à ce jour, en cadrage et planification. Les 12 autres restent prévus : 9 sont des documents de vie ou de clôture qui n&#39;existent pas encore parce que le projet n&#39;en est pas là, 2 ne sont pas encore mis en place, 1 n&#39;est pas nécessaire. Le contrat documentaire dit lesquels, et quand.</p>
+</div></article>
+<article class="qa" id="q-40"><div class="qn">40</div><div class="qa-body"><h4>Votre méthode est-elle applicable à un projet de 50 j/h comme la Paie ?</h4><p>Oui, et c&#39;est le test : la Paie conserve le socle complet malgré ses 50 j/h, parce que son caractère réglementaire impose une traçabilité intégrale — mais pas de PBS, pas de conduite du changement lourde, pas de lettre ESN. Le contrat documentaire adapte la charge au projet.</p>
+</div></article>
+<article class="qa" id="q-41"><div class="qn">41</div><div class="qa-body"><h4>Qu&#39;est-ce qui vous a le plus manqué dans le contexte fourni ?</h4><p>Les dépendances et la capacité : les fiches de cadrage donnent l&#39;importance, la rentabilité et la maîtrise des risques, mais rien sur l&#39;ordonnancement ni sur la soutenabilité. C&#39;est pour ça que trois critères sur six sont construits par la PMO — et c&#39;est l&#39;apport d&#39;analyse propre de la cellule.</p>
+</div></article>
+<article class="qa" id="q-42"><div class="qn">42</div><div class="qa-body"><h4>Si vous deviez ne garder qu&#39;une seule chose de votre dossier ?</h4><p>La lecture du portefeuille : Office 365, 6e au classement et 10e à la rentabilité, doit passer en tête de planning parce qu&#39;il conditionne 900 K€. Aucune lecture projet par projet ne produit cette décision. Tout le reste — référentiel, indicateurs, REX — existe pour rendre ce type de décision possible et répétable.</p>
+</div></article>
+</section>
+<section class="part" id="glossaire"><h2>Glossaire</h2><p class="part-sub">Acronymes et termes techniques, dans le sens où le dossier les emploie. Les mêmes définitions s'affichent au survol dans les deux présentations.</p><div class="prose"><p>Définitions courtes, dans le sens où elles sont employées dans le dossier et la présentation. Les mêmes définitions apparaissent en infobulle au survol des termes dans les deux présentations (touche <code>G</code> pour masquer).</p>
+<h2>Gouvernance et portefeuille</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Terme</th>
+<th>Définition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>PMO</strong></td>
+<td>Project Management Office — cellule garante de la méthode, du référentiel et du reporting consolidé ; elle consolide, alerte et arbitre <em>entre</em> projets. Chez Time&#39;Eats : 5 chefs de projet.</td>
+</tr>
+<tr>
+<td><strong>Responsable PMO</strong></td>
+<td>Personne désignée qui porte le référentiel, la revue de portefeuille et les risques transverses — un mandat, un nom, une redevabilité.</td>
+</tr>
+<tr>
+<td><strong>Portefeuille</strong></td>
+<td>Ensemble des projets gérés comme un tout — priorisés, consolidés, arbitrés ensemble. 11 projets, 1 700 K€, 2 320 j/h.</td>
+</tr>
+<tr>
+<td><strong>Programme</strong></td>
+<td>Groupe de projets liés par un objectif commun (ex. le lot S1 : Web, apps, CRM). Entre le projet et le portefeuille.</td>
+</tr>
+<tr>
+<td><strong>DSI</strong></td>
+<td>Direction des Systèmes d&#39;Information — 21 personnes ; son directeur est aussi RSSI.</td>
+</tr>
+<tr>
+<td><strong>RSSI</strong></td>
+<td>Responsable de la Sécurité des Systèmes d&#39;Information.</td>
+</tr>
+<tr>
+<td><strong>DPO</strong></td>
+<td>Délégué à la Protection des Données — valide rétention, partage externe et registre des traitements (RGPD).</td>
+</tr>
+<tr>
+<td><strong>RGPD</strong></td>
+<td>Règlement Général sur la Protection des Données — art. 5 (minimisation, conservation) et 32 (sécurité).</td>
+</tr>
+<tr>
+<td><strong>Sponsor</strong></td>
+<td>Décideur qui autorise le projet et engage budget, périmètre, date, mise en production. Pour Office 365 : le DSI / RSSI.</td>
+</tr>
+<tr>
+<td><strong>MOA / MOE</strong></td>
+<td>Maîtrise d&#39;ouvrage (exprime le besoin, prononce la recette fonctionnelle : DRH, direction générale) / maîtrise d&#39;œuvre (conçoit et réalise : pôle Infrastructure).</td>
+</tr>
+<tr>
+<td><strong>ESN</strong></td>
+<td>Entreprise de Services du Numérique — prestataire externe. Ici Capgemini, forfait 120 j/h.</td>
+</tr>
+<tr>
+<td><strong>COPIL</strong></td>
+<td>Comité de pilotage — mensuel, sponsor + MOA + chef de projet : valide les jalons, arbitre, escalade (CR P4-18).</td>
+</tr>
+<tr>
+<td><strong>Comité Stratégique</strong></td>
+<td>Instance de direction mensuelle : reçoit le tableau de bord de portefeuille n°1, révise la pondération au T1, traite les menaces sur les Go-Live.</td>
+</tr>
+<tr>
+<td><strong>Revue de portefeuille</strong></td>
+<td>Réunion hebdomadaire animée par la PMO : arbitrage entre projets concurrents sur les mêmes ressources, confirmation des dates.</td>
+</tr>
+<tr>
+<td><strong>Double commande</strong></td>
+<td>Situation où un chef de projet reçoit des instructions de deux autorités — première cause de rejet des PMO. Évitée par la circulation ascendante.</td>
+</tr>
+<tr>
+<td><strong>Agrégats de portefeuille</strong></td>
+<td>Indicateurs consolidés par la PMO à partir des IPC / IPD : part des projets dans le budget, part des projets dans les délais.</td>
+</tr>
+<tr>
+<td><strong>Référentiel documentaire</strong></td>
+<td>Catalogue de 26 documents-types sur 5 phases, identifiant Pn-NN, un modèle vierge chacun ; obligatoire dès mai 2026.</td>
+</tr>
+<tr>
+<td><strong>Contrat documentaire</strong></td>
+<td>Matrice projets × livrables annexée à chaque charte : obligatoire (•), recommandé (◦) ou sans objet (–) pour chaque projet.</td>
+</tr>
+<tr>
+<td><strong>Socle</strong></td>
+<td>Les 12 documents obligatoires sur les 11 projets sans exception — ce qui rend le portefeuille consolidable.</td>
+</tr>
+<tr>
+<td><strong>Droit de retrait</strong></td>
+<td>Tout chef de projet peut demander la suppression d&#39;un document jugé sans valeur ; la PMO répond sous 15 jours.</td>
+</tr>
+<tr>
+<td><strong>NPS</strong></td>
+<td>Net Promoter Score — indicateur de satisfaction (promoteurs − détracteurs). Cible ≥ +30 auprès des 5 chefs de projet, dépouillé par la DRH.</td>
+</tr>
+<tr>
+<td><strong>PMBOK</strong></td>
+<td>Project Management Body of Knowledge (PMI) — référentiel de bonnes pratiques dont sont issus les 5 groupes de processus.</td>
+</tr>
+<tr>
+<td><strong>Run / MCO</strong></td>
+<td>Maintien en condition opérationnelle : le service courant, sanctuarisé à 30 % du temps de la DSI.</td>
+</tr>
+<tr>
+<td><strong>j/h</strong></td>
+<td>Jour-homme : une personne pendant une journée. 200 € en interne, 400 € en ESN (hypothèses).</td>
+</tr>
+<tr>
+<td><strong>K€</strong></td>
+<td>Kilo-euro : 1 000 €.</td>
+</tr>
+</tbody></table></div>
+<h2>Priorisation</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Terme</th>
+<th>Définition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Critère pondéré</strong></td>
+<td>Critère noté de 1 à 5 et multiplié par un poids ; la somme des poids fait 100 %. Score S ∈ [1 ; 5].</td>
+</tr>
+<tr>
+<td><strong>Cotation</strong></td>
+<td>Note factuelle attribuée selon une échelle écrite (ex. C3 : projets aval bloqués 0 → 1, 1 → 2, … ≥ 4 → 5).</td>
+</tr>
+<tr>
+<td><strong>C1 – Alignement stratégique</strong></td>
+<td>30 % — 1 confort interne, 3 contribue à un axe, 5 conditionne un objectif d&#39;entreprise.</td>
+</tr>
+<tr>
+<td><strong>C2 – Rentabilité attendue</strong></td>
+<td>20 % — 1 aucun retour, 3 gains de productivité, 5 contribution directe au CA.</td>
+</tr>
+<tr>
+<td><strong>C3 – Criticité des dépendances</strong></td>
+<td>20 % — nombre de projets aval bloqués. Office 365 : 4 projets → 5.</td>
+</tr>
+<tr>
+<td><strong>C4 – Maîtrise des risques</strong></td>
+<td>15 % — 1 technologie non maîtrisée, 3 appui externe requis, 5 compétence interne établie.</td>
+</tr>
+<tr>
+<td><strong>C5 – Conformité</strong></td>
+<td>10 % — 1 aucune contrainte, 3 exigence indirecte (RGPD art. 32), 5 obligation légale datée.</td>
+</tr>
+<tr>
+<td><strong>C6 – Soutenabilité capacitaire</strong></td>
+<td>5 % — charge ≤ 80 j/h → 5 … &gt; 350 j/h → 1. « La capacité ordonnance, elle ne sélectionne pas. »</td>
+</tr>
+<tr>
+<td><strong>RAG (Vert / Ambre / Rouge)</strong></td>
+<td>Code de statut. Priorisation : Vert ≥ 3,50 engagement immédiat, Ambre 2,75–3,49 sous condition de capacité, Rouge &lt; 2,75 à réexaminer.</td>
+</tr>
+<tr>
+<td><strong>Test de sensibilité</strong></td>
+<td>Vérification que le classement résiste à une variation des poids (±5 points sur C1 : trio de tête et dernier inchangés).</td>
+</tr>
+<tr>
+<td><strong>Indice R/B</strong></td>
+<td>Rentabilité rapportée au budget — départage les projets de même cotation dans le tableau n°2.</td>
+</tr>
+<tr>
+<td><strong>Règle de sauvegarde</strong></td>
+<td>Le classement à la rentabilité seule ne peut jamais déclasser un projet réglementaire (C5 = 5) ni à dépendance maximale (C3 = 5).</td>
+</tr>
+<tr>
+<td><strong>Graphe de dépendances</strong></td>
+<td>Représentation « qui bloque qui » entre projets — fondement du critère C3.</td>
+</tr>
+<tr>
+<td><strong>Dépendance circulaire</strong></td>
+<td>CRM, Refonte Web et applications mobiles se déclarent mutuellement prérequis ; levée par le contrat d&#39;interface.</td>
+</tr>
+<tr>
+<td><strong>Contrat d&#39;interface (API)</strong></td>
+<td>Accord sur une interface figée entre projets, avant le 30/06, pour développer en parallèle sans s&#39;attendre.</td>
+</tr>
+<tr>
+<td><strong>Radar</strong></td>
+<td>Diagramme à 6 axes qui montre la <em>forme</em> d&#39;un projet sur les critères, là où le score ne donne qu&#39;un nombre. Trois lectures : projet vs moyenne, profils opposés, familles.</td>
+</tr>
+</tbody></table></div>
+<h2>Documents du référentiel (Pn-NN)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Réf.</th>
+<th>Document</th>
+<th>Objet</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P1-01</td>
+<td>Charte projet</td>
+<td>Acte de naissance : autorise le projet, nomme le chef de projet, engage le sponsor sur objectifs et budget.</td>
+</tr>
+<tr>
+<td>P1-02</td>
+<td>Note de cadrage</td>
+<td>Contexte, enjeux, périmètre IN / OUT, options étudiées, option retenue.</td>
+</tr>
+<tr>
+<td>P1-02bis</td>
+<td>PBS</td>
+<td>Product Breakdown Structure — décomposition du produit en composants livrables (le « quoi »).</td>
+</tr>
+<tr>
+<td>P1-02ter</td>
+<td>Cahier des charges (CDC)</td>
+<td>Exigences fonctionnelles et non fonctionnelles avec critère d&#39;acceptation — 62 exigences, base contractuelle du forfait.</td>
+</tr>
+<tr>
+<td>P1-03</td>
+<td>Fiche d&#39;identification</td>
+<td>Carte d&#39;identité normalisée (budget, dates, cotations, dépendances) — source du cockpit de portefeuille.</td>
+</tr>
+<tr>
+<td>P1-04</td>
+<td>Matrice RACI</td>
+<td>Qui Réalise, Approuve, est Consulté, Informé, pour chaque activité.</td>
+</tr>
+<tr>
+<td>P2-05</td>
+<td>Plan de management (PMP)</td>
+<td>Document pivot : agrège les plans subsidiaires et fixe les baselines.</td>
+</tr>
+<tr>
+<td>P2-06</td>
+<td>WBS</td>
+<td>Work Breakdown Structure — découpage du travail en lots et work packages chiffrés (8 lots, 40 work packages).</td>
+</tr>
+<tr>
+<td>P2-07</td>
+<td>Planning (Gantt)</td>
+<td>Ordonnancement, jalons, chemin critique, baseline de délais.</td>
+</tr>
+<tr>
+<td>P2-08</td>
+<td>Budget prévisionnel</td>
+<td>Ventilation par poste et par mois, baseline de coûts, réserve pour aléas.</td>
+</tr>
+<tr>
+<td>P2-09</td>
+<td>Registre des risques</td>
+<td>Identification, cotation P × I, stratégie de réponse, porteur, échéance.</td>
+</tr>
+<tr>
+<td>P2-10</td>
+<td>Plan de communication</td>
+<td>Parties prenantes, messages, canaux, fréquences, émetteurs.</td>
+</tr>
+<tr>
+<td>P2-11</td>
+<td>Plan de conduite du changement</td>
+<td>Analyse d&#39;impact métier, réseau de key users, formation.</td>
+</tr>
+<tr>
+<td>P3-12</td>
+<td>Compte rendu de réunion</td>
+<td>Décisions, actions, porteurs, échéances — trace opposable.</td>
+</tr>
+<tr>
+<td>P3-13</td>
+<td>Rapport d&#39;avancement</td>
+<td>Photographie mensuelle : avancement, consommé, jalons, risques.</td>
+</tr>
+<tr>
+<td>P3-14</td>
+<td>Demande de changement</td>
+<td>Formalise toute évolution de périmètre : impact délai / coût / qualité.</td>
+</tr>
+<tr>
+<td>P3-15</td>
+<td>Log des anomalies</td>
+<td>Suivi des défauts : sévérité, statut, correction, retest.</td>
+</tr>
+<tr>
+<td>P4-16</td>
+<td>Tableau de bord projet</td>
+<td>KPI coûts / délais / qualité / adoption, valeur acquise, statut RAG.</td>
+</tr>
+<tr>
+<td>P4-17</td>
+<td>Rapport d&#39;écarts</td>
+<td>Déclenché sur franchissement de seuil : cause, options, plan de rattrapage.</td>
+</tr>
+<tr>
+<td>P4-18</td>
+<td>CR de COPIL</td>
+<td>Décisions du comité de pilotage, arbitrages, escalades.</td>
+</tr>
+<tr>
+<td>P5-19</td>
+<td>PV de recette fonctionnelle</td>
+<td>Prononce la conformité aux exigences métier ; réserves et délai de levée.</td>
+</tr>
+<tr>
+<td>P5-20</td>
+<td>PV de recette technique</td>
+<td>Prononce la conformité technique, sécurité, exploitabilité.</td>
+</tr>
+<tr>
+<td>P5-21</td>
+<td>Rapport de clôture</td>
+<td>Bilan : périmètre livré, budget consommé, écarts, décision de clôture.</td>
+</tr>
+<tr>
+<td>P5-22</td>
+<td>PV de transfert en exploitation</td>
+<td>Passage de relais au Run : DAT, runbook, astreinte, niveaux de service.</td>
+</tr>
+<tr>
+<td>P5-23</td>
+<td>Fiche REX</td>
+<td>Retour d&#39;expérience structuré : ce qui a marché, ce qui a échoué, actions.</td>
+</tr>
+<tr>
+<td>P5-24</td>
+<td>Lettre de fin de mission ESN</td>
+<td>Solde le forfait, acte la levée des réserves, restitue accès et livrables.</td>
+</tr>
+</tbody></table></div>
+<h2>Pilotage de projet</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Terme</th>
+<th>Définition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Baseline</strong></td>
+<td>Référence validée (périmètre, délais, coûts) contre laquelle tout écart est mesuré ; modifiable seulement par demande de changement approuvée.</td>
+</tr>
+<tr>
+<td><strong>Jalon</strong></td>
+<td>Événement daté dont le franchissement est conditionné (charte signée, PV signés…). 7 jalons J0 → J6 sur Office 365.</td>
+</tr>
+<tr>
+<td><strong>Chemin critique</strong></td>
+<td>Suite de tâches sans marge : tout retard décale la fin (Audit → Tenant → Migration → Recette).</td>
+</tr>
+<tr>
+<td><strong>Marge</strong></td>
+<td>Temps disponible avant qu&#39;un retard n&#39;impacte la date finale. Seule marge réelle : J5 – J6, deux semaines.</td>
+</tr>
+<tr>
+<td><strong>Go-Live</strong></td>
+<td>Mise en production, bascule des utilisateurs — 17/07/2026.</td>
+</tr>
+<tr>
+<td><strong>Objectifs SMART</strong></td>
+<td>Spécifiques, Mesurables, Atteignables, Réalistes, Temporellement définis — 6 objectifs dans la charte Office 365.</td>
+</tr>
+<tr>
+<td><strong>Périmètre IN / OUT</strong></td>
+<td>Ce que le projet livre / ce qu&#39;il exclut explicitement. Toute zone grise est tranchée dans la charte.</td>
+</tr>
+<tr>
+<td><strong>Cycle en V</strong></td>
+<td>Exécution séquentielle à périmètre figé : cadrage → conception → réalisation → recette. Retenu pour Office 365.</td>
+</tr>
+<tr>
+<td><strong>Forfait / Régie</strong></td>
+<td>Forfait : prix fixe, engagement de résultat, risque de dérive chez le prestataire. Régie : facturation au temps passé.</td>
+</tr>
+<tr>
+<td><strong>Réserve pour aléas</strong></td>
+<td>Budget non affecté (2 K€) mobilisable sur décision du sponsor.</td>
+</tr>
+<tr>
+<td><strong>KPI</strong></td>
+<td>Key Performance Indicator — indicateur chiffré rattaché à un objectif, avec cible et seuil d&#39;alerte.</td>
+</tr>
+<tr>
+<td><strong>Valeur acquise</strong></td>
+<td>Valeur du travail réellement réalisé, mesurée sur la baseline de coûts (earned value).</td>
+</tr>
+<tr>
+<td><strong>IPC (CPI)</strong></td>
+<td>Indice de performance des coûts = valeur acquise / coût réel. &lt; 1 : le projet coûte plus que la valeur produite.</td>
+</tr>
+<tr>
+<td><strong>IPD (SPI)</strong></td>
+<td>Indice de performance des délais = valeur acquise / valeur planifiée. &lt; 1 : le projet est en retard.</td>
+</tr>
+<tr>
+<td><strong>EAC</strong></td>
+<td>Estimate At Completion — coût final estimé, réestimé à chaque relevé (105 K€ fin mai → 99 K€).</td>
+</tr>
+<tr>
+<td><strong>P × I</strong></td>
+<td>Cotation d&#39;un risque : probabilité × impact (1 à 5). ≤ 6 accepté, 7–12 réduit avec plan nommé, &gt; 12 critique escaladé sous 48 h.</td>
+</tr>
+<tr>
+<td><strong>Seuil d&#39;alerte</strong></td>
+<td>Valeur fixée à l&#39;avance au-delà de laquelle une règle d&#39;escalade s&#39;applique sans discussion.</td>
+</tr>
+<tr>
+<td><strong>Escalade</strong></td>
+<td>Remontée d&#39;un problème à l&#39;instance supérieure selon une règle écrite (Ambre → CP, Rouge → sponsor, etc.).</td>
+</tr>
+<tr>
+<td><strong>Arbitrage de périmètre</strong></td>
+<td>Sur budget plafonné, la variable d&#39;ajustement : on sort un élément du périmètre plutôt que d&#39;augmenter l&#39;enveloppe.</td>
+</tr>
+<tr>
+<td><strong>Key user</strong></td>
+<td>Utilisateur référent d&#39;un site ou d&#39;un métier — 10 pour Office 365, 2 par site — relais des usages et testeur.</td>
+</tr>
+<tr>
+<td><strong>Conduite du changement</strong></td>
+<td>Accompagnement des utilisateurs : 26 j/h sur 220 (12 %), délibérément élevé.</td>
+</tr>
+</tbody></table></div>
+<h2>Recette et clôture</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Terme</th>
+<th>Définition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Recette</strong></td>
+<td>Vérification formelle que le livré est conforme aux exigences ; fonctionnelle (MOA) et technique (MOE / RSSI).</td>
+</tr>
+<tr>
+<td><strong>Plan de test</strong></td>
+<td>136 cas : 6 campagnes techniques T1–T6 (78) + 8 scénarios fonctionnels F1–F8 (58) ; 100 % des 62 exigences.</td>
+</tr>
+<tr>
+<td><strong>Matrice de traçabilité</strong></td>
+<td>Table exigence → cas de test qui prouve la couverture.</td>
+</tr>
+<tr>
+<td><strong>Critères d&#39;entrée / sortie</strong></td>
+<td>Conditions pour commencer une campagne / pour la prononcer réussie (ex. 100 % des cas critiques, 0 bloquante).</td>
+</tr>
+<tr>
+<td><strong>Test négatif</strong></td>
+<td>Vérifie qu&#39;une action interdite échoue bien (partage externe bloqué par la DLP).</td>
+</tr>
+<tr>
+<td><strong>Anomalie bloquante / majeure / mineure</strong></td>
+<td>Bloquante : recette refusée, correction 24 h. Majeure : réserve, 5 jours. Mineure : avant fin de VSR.</td>
+</tr>
+<tr>
+<td><strong>Réserve</strong></td>
+<td>Non-conformité acceptée à la signature, avec échéance et porteur. Sans date, requalifiée bloquante.</td>
+</tr>
+<tr>
+<td><strong>PV de recette</strong></td>
+<td>Procès-verbal : sans réserve / avec réserves / refusée — et ce que la signature déclenche (80 % du forfait).</td>
+</tr>
+<tr>
+<td><strong>Go / No-Go</strong></td>
+<td>Décision formelle de bascule, prise le 15/07, deux jours avant le Go-Live — point de non-retour (DNS).</td>
+</tr>
+<tr>
+<td><strong>Retour arrière</strong></td>
+<td>Procédure pour revenir à l&#39;ancien système ; testée en campagne T6, pas seulement rédigée.</td>
+</tr>
+<tr>
+<td><strong>VSR</strong></td>
+<td>Vérification de Service Régulier — 30 jours d&#39;observation après mise en production avant de solder l&#39;ESN.</td>
+</tr>
+<tr>
+<td><strong>Décommissionnement</strong></td>
+<td>Arrêt et retrait de l&#39;ancien système (Exchange 2016).</td>
+</tr>
+<tr>
+<td><strong>DAT / runbook</strong></td>
+<td>Dossier d&#39;architecture technique / procédures d&#39;exploitation remis au Run lors du transfert.</td>
+</tr>
+</tbody></table></div>
+<h2>Capitalisation</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Terme</th>
+<th>Définition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>REX</strong></td>
+<td>Retour d&#39;expérience — fiche P5-23, format unique, enseignements transformés en actions datées.</td>
+</tr>
+<tr>
+<td><strong>Instruction (étape 4)</strong></td>
+<td>La PMO qualifie chaque enseignement : transposable ? impose-t-il une évolution du référentiel, de la méthode, d&#39;un modèle ?</td>
+</tr>
+<tr>
+<td><strong>Registre des enseignements</strong></td>
+<td>Liste SharePoint : projet d&#39;origine, catégorie, action, porteur, échéance, statut.</td>
+</tr>
+<tr>
+<td><strong>Base de connaissance</strong></td>
+<td>« PMO — Savoir-faire » : procédures éprouvées, pièges connus, fiches permanentes (contraintes par site).</td>
+</tr>
+<tr>
+<td><strong>Bibliothèque d&#39;estimation</strong></td>
+<td>Charges réelles par type de tâche, alimentée à chaque clôture — après 3 projets, on estime sur données maison.</td>
+</tr>
+<tr>
+<td><strong>Rétrospective</strong></td>
+<td>Atelier de 2 h à J6 + 5, animé par un chef de projet extérieur au projet.</td>
+</tr>
+<tr>
+<td><strong>PDCA</strong></td>
+<td>Plan – Do – Check – Act : définir la méthode, l&#39;appliquer, mesurer, réviser.</td>
+</tr>
+<tr>
+<td><strong>Situation de référence</strong></td>
+<td>Mesure initiale des 6 indicateurs d&#39;amélioration, figée en mai 2026 avant le déploiement.</td>
+</tr>
+</tbody></table></div>
+<h2>Technique — Office 365 et infrastructure</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Terme</th>
+<th>Définition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Tenant</strong></td>
+<td>Instance Microsoft 365 propre à une organisation — 200 licences E3, hébergement France.</td>
+</tr>
+<tr>
+<td><strong>Microsoft 365 E3</strong></td>
+<td>Édition entreprise : Exchange Online, SharePoint, OneDrive, Teams, Apps bureautiques, sécurité.</td>
+</tr>
+<tr>
+<td><strong>Exchange</strong></td>
+<td>Serveur de messagerie. Exchange 2016 on-premise à Rennes → Exchange Online, 200 boîtes ≈ 4 To.</td>
+</tr>
+<tr>
+<td><strong>SharePoint / OneDrive / Teams</strong></td>
+<td>Espaces documentaires d&#39;équipe (5 sites) / espace personnel synchronisé / collaboration et réunions (12 équipes).</td>
+</tr>
+<tr>
+<td><strong>AD (Active Directory)</strong></td>
+<td>Annuaire des comptes et des droits. Son nettoyage a coûté 9 j/h au lieu de 4.</td>
+</tr>
+<tr>
+<td><strong>Entra ID</strong></td>
+<td>Annuaire et identité Microsoft cloud, synchronisé avec l&#39;AD local (Entra ID Connect).</td>
+</tr>
+<tr>
+<td><strong>SSO</strong></td>
+<td>Single Sign-On — authentification unique.</td>
+</tr>
+<tr>
+<td><strong>MFA</strong></td>
+<td>Authentification multifacteur — sur 100 % des comptes à privilèges dans Office 365 ; généralisée par le projet MFA.</td>
+</tr>
+<tr>
+<td><strong>DLP</strong></td>
+<td>Data Loss Prevention — politiques contre la fuite de données ; 8 scénarios testés.</td>
+</tr>
+<tr>
+<td><strong>Rétention</strong></td>
+<td>Règles de conservation / suppression des données, validées par le DPO.</td>
+</tr>
+<tr>
+<td><strong>PST</strong></td>
+<td>Format d&#39;export de boîte aux lettres Outlook — garantie de réversibilité.</td>
+</tr>
+<tr>
+<td><strong>DNS / SPF / DKIM / DMARC</strong></td>
+<td>Enregistrements de domaine ; leur bascule engage 48 h de propagation. SPF / DKIM / DMARC authentifient les courriels.</td>
+</tr>
+<tr>
+<td><strong>CRM</strong></td>
+<td>Customer Relationship Management — progiciel de relation client, référentiel client du site et des apps.</td>
+</tr>
+<tr>
+<td><strong>CI/CD</strong></td>
+<td>Intégration et livraison continues — chaîne automatisée de build, test, déploiement.</td>
+</tr>
+<tr>
+<td><strong>Azure</strong></td>
+<td>Cloud Microsoft ; migration des serveurs métiers Windows Server 2016 / .NET 4.6.2 hébergés à Rennes.</td>
+</tr>
+<tr>
+<td><strong>Pipeline de build</strong></td>
+<td>Enchaînement automatisé de compilation et de tests — périmètre réduit du projet CI/CD au T2.</td>
+</tr>
+</tbody></table></div>
+</div></section>
+</main>
+<footer>Généré depuis <code>oral/*.md</code> — Virgile Coudert · Time'Eats · Cellule PMO · 2026</footer>
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('nav.sections a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  if(!('IntersectionObserver' in window))return;
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id);});}});},{rootMargin:'-40% 0px -55% 0px'});
+  secs.forEach(function(s){if(s)io.observe(s);});
+})();
+// Servie sous /script : ouvrir directement sur le script complet
+if(!location.hash && /\/script\/?$/.test(location.pathname)){var t=document.getElementById('script');if(t)t.scrollIntoView();}
+</script>
+</body>
+</html>

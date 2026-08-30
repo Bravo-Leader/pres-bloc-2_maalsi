@@ -6,6 +6,7 @@ import { ZoomManager } from './zoomManager.js';
 import { IndicatorManager } from './indicatorManager.js';
 import { InputManager } from './inputManager.js';
 import { SlideLoader } from './slideLoader.js';
+import { appliquerGlossaire } from './glossaire.js';
 
 // Initialize managers
 let slideManager;
@@ -280,6 +281,9 @@ async function init() {
 
     // Add zoom icons to diagrams
     zoomManager.addZoomIconsToDiagrams();
+
+    // Infobulles du glossaire (touche G pour masquer)
+    appliquerGlossaire(document.querySelector('.slide-container'));
 
     // Load saved theme
     loadSavedTheme();

@@ -1,0 +1,48 @@
+/* Glossaire — soulignés pointillés et infobulle (voir js/glossaire.js) */
+.gl-term {
+    border-bottom: 1px dotted currentColor;
+    cursor: help;
+    text-decoration: none;
+    outline: none;
+}
+.gl-term:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+body.gl-off .gl-term {
+    border-bottom: 0;
+    cursor: inherit;
+}
+
+#gl-tip {
+    position: fixed;
+    z-index: 10000;
+    max-width: min(460px, 72vw);
+    background: rgba(16, 18, 26, 0.96);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 15px;
+    line-height: 1.45;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.12s;
+}
+#gl-tip.show { opacity: 1; }
+#gl-tip b {
+    display: block;
+    margin-bottom: 3px;
+    color: #f39200;
+    font-size: 0.82em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+@media (prefers-reduced-motion: reduce) {
+    #gl-tip { transition: none; }
+}
+@media print {
+    .gl-term { border-bottom: 0; }
+    #gl-tip { display: none; }
+}

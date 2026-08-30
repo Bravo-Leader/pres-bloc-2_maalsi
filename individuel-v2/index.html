@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="papier">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time'Eats — Piloter un portefeuille, pas onze projets · v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- Thèmes ---------- */
+:root, [data-theme="papier"] {
+  --bg:#f6f1e7; --bg-2:#ede5d5; --ink:#1d1a16; --muted:#6b6257; --accent:#c8461e; --accent-2:#1f5f8b;
+  --line:#d9cfbd; --card:#fffaf0; --good:#2e8b57; --warn:#d28a00; --bad:#c0392b; --shadow:0 10px 30px rgba(40,30,10,.08);
+}
+[data-theme="encre"] {
+  --bg:#101418; --bg-2:#0b0e11; --ink:#eef1f4; --muted:#9aa4ae; --accent:#ff7a45; --accent-2:#6cc3ff;
+  --line:#2a323a; --card:#171c22; --good:#4cd38a; --warn:#f2b233; --bad:#ff5e5e; --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+[data-theme="cesi"] {
+  --bg:#12294a; --bg-2:#0d1f38; --ink:#f4f6fa; --muted:#aab6c8; --accent:#f39200; --accent-2:#6fb3ff;
+  --line:#2a4468; --card:#193459; --good:#4cd38a; --warn:#f2b233; --bad:#ff6b6b; --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+[data-theme="ardoise"] {
+  --bg:#1f2a2a; --bg-2:#182121; --ink:#e9efec; --muted:#9db0aa; --accent:#7ed3a6; --accent-2:#f2c14e;
+  --line:#2f3d3c; --card:#263332; --good:#7ed3a6; --warn:#f2c14e; --bad:#ff7b7b; --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+[data-theme="sepia"] {
+  --bg:#efe3cf; --bg-2:#e3d3b8; --ink:#3b2a1a; --muted:#7a6650; --accent:#8b3a1e; --accent-2:#3e5c76;
+  --line:#cdb996; --card:#f7ecd9; --good:#4f7d3a; --warn:#b26a00; --bad:#a5281c; --shadow:0 10px 30px rgba(60,40,10,.12);
+}
+[data-theme="contraste"] {
+  --bg:#000; --bg-2:#000; --ink:#fff; --muted:#d0d0d0; --accent:#ffd400; --accent-2:#00e0ff;
+  --line:#555; --card:#111; --good:#5dff9a; --warn:#ffd400; --bad:#ff5c5c; --shadow:none;
+}
+
+/* ---------- Base ---------- */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;overflow:hidden;
+     transition:background .3s,color .3s;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+strong{font-weight:700}
+em{font-style:italic}
+.serif{font-family:Fraunces,Georgia,"Times New Roman",serif}
+
+/* ---------- Rail latéral ---------- */
+.rail{position:fixed;left:0;top:0;bottom:0;width:64px;background:var(--bg-2);border-right:1px solid var(--line);
+      display:flex;flex-direction:column;align-items:center;padding:16px 0;z-index:6;transition:background .3s}
+.brand{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:20px;color:var(--accent);letter-spacing:-.02em}
+.sections{flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px}
+.sec{width:12px;height:12px;border-radius:50%;background:var(--line);position:relative;cursor:pointer;transition:.2s}
+.sec.done{background:var(--muted)}
+.sec.active{background:var(--accent);transform:scale(1.35)}
+.sec span{position:absolute;left:24px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:12px;font-weight:600;
+          letter-spacing:.08em;text-transform:uppercase;color:var(--muted);opacity:0;pointer-events:none;transition:.2s;
+          background:var(--bg-2);padding:4px 8px;border-radius:6px;border:1px solid var(--line)}
+.sec.active span{color:var(--accent)}
+.rail:hover .sec span{opacity:1}
+.rail-foot{display:flex;flex-direction:column;gap:10px}
+.icon-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;font-size:16px;
+          color:var(--muted);transition:.2s}
+.icon-btn:hover{color:var(--accent);border-color:var(--accent)}
+
+/* ---------- Barre haute / basse ---------- */
+.topbar{position:fixed;left:64px;right:0;top:0;height:52px;display:flex;align-items:center;justify-content:space-between;
+        padding:0 clamp(20px,3vw,48px);z-index:5;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.timer{font-variant-numeric:tabular-nums;letter-spacing:.04em;text-transform:none;font-size:15px;cursor:pointer;user-select:none;
+       padding:6px 12px;border-radius:999px;border:1px solid var(--line);display:flex;gap:10px;align-items:center}
+.timer.running{border-color:var(--accent)}
+.timer.warn{color:var(--warn);border-color:var(--warn)}
+.timer.over{color:var(--bad);border-color:var(--bad)}
+.pace{font-size:12px;opacity:.9}
+.pace.late{color:var(--bad)} .pace.early{color:var(--good)}
+.bottombar{position:fixed;left:64px;right:0;bottom:0;height:44px;display:flex;align-items:center;gap:14px;
+           padding:0 clamp(20px,3vw,48px);z-index:5}
+.progress{flex:1;height:3px;background:var(--line);border-radius:3px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .35s ease}
+.nav-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);transition:.2s}
+.nav-btn:hover{color:var(--accent);border-color:var(--accent)}
+
+/* ---------- Scène et slides ---------- */
+.stage{position:absolute;left:64px;right:0;top:0;bottom:0}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:clamp(60px,9vh,92px) clamp(32px,6vw,110px) clamp(56px,8vh,72px)}
+.slide.active{display:flex;animation:rise .45s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.kicker{font-size:clamp(11px,.85vw,14px);letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:1.4vh}
+.kicker b{color:var(--muted);font-weight:600;margin-right:.8em}
+h2{font-family:Fraunces,Georgia,"Times New Roman",serif;font-weight:700;font-size:clamp(28px,3.4vw,54px);line-height:1.05;margin:0 0 2.4vh;
+   letter-spacing:-.015em;max-width:22ch}
+.lede{font-size:clamp(15px,1.35vw,22px);color:var(--muted);max-width:64ch;margin:0 0 2.6vh;line-height:1.45}
+.body{flex:1;min-height:0;display:flex;flex-direction:column;gap:2.2vh}
+.spacer{flex:1}
+.figures{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2vw}
+.fig .n{font-family:Fraunces,Georgia,serif;font-size:clamp(36px,4.8vw,80px);line-height:1;color:var(--accent);font-weight:700;letter-spacing:-.02em}
+.fig .l{font-size:clamp(12px,1.05vw,17px);color:var(--muted);margin-top:.8vh;line-height:1.35}
+.cols{display:grid;gap:1.6vw}
+.cols-2{grid-template-columns:1fr 1fr}
+.cols-3{grid-template-columns:repeat(3,1fr)}
+.cols-4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2vh 1.5vw;box-shadow:var(--shadow);min-width:0}
+.card h3{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:clamp(16px,1.45vw,25px);margin:0 0 1vh;line-height:1.15}
+.card p{margin:0;font-size:clamp(13px,1.1vw,18px);line-height:1.5}
+.card p+p{margin-top:.9vh}
+.card.accent{border-left:5px solid var(--accent)}
+.card.alt{border-left:5px solid var(--accent-2)}
+.card.bad{border-left:5px solid var(--bad)}
+.card.good{border-left:5px solid var(--good)}
+.card .num{font-family:Fraunces,Georgia,serif;font-size:clamp(30px,3.4vw,58px);color:var(--accent);font-weight:700;line-height:1;margin-bottom:1vh}
+.quote{font-family:Fraunces,Georgia,serif;font-size:clamp(19px,2vw,33px);line-height:1.25;border-left:6px solid var(--accent);
+       padding-left:1.4vw;max-width:40ch;margin-top:auto;font-weight:500}
+.quote small{display:block;font-family:Inter,"Segoe UI",sans-serif;font-size:.5em;color:var(--muted);margin-top:1vh;font-weight:500}
+.note{font-size:clamp(12px,1vw,16px);color:var(--muted);line-height:1.45;max-width:70ch}
+table{width:100%;border-collapse:collapse;font-size:clamp(12px,1.05vw,17px)}
+th{text-align:left;font-weight:700;color:var(--muted);border-bottom:2px solid var(--line);padding:.6vh .6vw;text-transform:uppercase;letter-spacing:.08em;font-size:.78em}
+td{padding:.75vh .6vw;border-bottom:1px solid var(--line);vertical-align:top}
+tr.hl td{background:color-mix(in srgb,var(--accent) 14%,transparent);font-weight:700}
+td.r,th.r{text-align:right}
+.tag{display:inline-block;padding:.15em .6em;border-radius:999px;font-size:.82em;font-weight:700;border:1px solid transparent;white-space:nowrap}
+.tag.good{background:color-mix(in srgb,var(--good) 18%,transparent);color:var(--good);border-color:var(--good)}
+.tag.warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn);border-color:var(--warn)}
+.tag.bad{background:color-mix(in srgb,var(--bad) 18%,transparent);color:var(--bad);border-color:var(--bad)}
+.tag.neutral{background:color-mix(in srgb,var(--muted) 15%,transparent);color:var(--muted);border-color:var(--line)}
+.steps{display:flex;gap:.8vw;align-items:stretch;flex-wrap:wrap}
+.step{background:var(--card);border:1px solid var(--line);padding:1.1vh 1vw;border-radius:10px;font-size:clamp(12px,1.05vw,17px);
+      display:flex;flex-direction:column;justify-content:center;line-height:1.3;min-width:0}
+.step b{display:block;font-size:.72em;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.25em;white-space:nowrap}
+.steps.tight{gap:.5vw}
+.steps.tight .step{font-size:clamp(11px,.95vw,15px);padding:.9vh .7vw}
+.steps.tight .arrow{font-size:1.1em}
+.arrow{display:flex;align-items:center;color:var(--accent);font-size:1.4em}
+.list{margin:0;padding-left:1.1em;font-size:clamp(14px,1.2vw,20px);line-height:1.5}
+.list li{margin-bottom:.7vh;padding-left:.2em}
+.list li::marker{color:var(--accent);font-weight:700}
+.check{list-style:none;padding:0}
+.check li{position:relative;padding-left:1.6em}
+.check li::before{content:"";position:absolute;left:0;top:.45em;width:.85em;height:.85em;border-radius:3px;background:var(--accent)}
+.check.x li::before{background:var(--bad)}
+.check.ok li::before{background:var(--good)}
+.hl{background:linear-gradient(transparent 55%,color-mix(in srgb,var(--accent) 32%,transparent) 55%);padding:0 .1em}
+span.accent{color:var(--accent)}
+.mono{font-variant-numeric:tabular-nums}
+
+/* Glossaire — infobulles (touche G) */
+.gl-term{border-bottom:1px dotted color-mix(in srgb,var(--ink) 55%,transparent);cursor:help;outline:none}
+.gl-term:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+body.gl-off .gl-term{border-bottom:0;cursor:inherit}
+#gl-tip{position:fixed;z-index:50;max-width:min(460px,72vw);background:var(--card);color:var(--ink);border:1px solid var(--line);
+        padding:10px 14px;border-radius:10px;font-size:15px;line-height:1.45;box-shadow:0 14px 34px rgba(0,0,0,.28);pointer-events:none;opacity:0;transition:opacity .12s}
+#gl-tip.show{opacity:1}
+#gl-tip b{display:block;margin-bottom:3px;color:var(--accent);font-size:.78em;letter-spacing:.1em;text-transform:uppercase}
+@media (prefers-reduced-motion:reduce){#gl-tip,.slide.active{transition:none;animation:none}}
+
+/* Slide titre */
+.slide.title{justify-content:center;padding-bottom:12vh}
+.slide.title h1{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:clamp(46px,6.6vw,112px);line-height:.98;margin:0 0 3vh;
+                max-width:13ch;letter-spacing:-.025em}
+.slide.title h1 em{font-style:italic;color:var(--accent);font-weight:500}
+.slide.title .sub{font-size:clamp(17px,1.7vw,28px);color:var(--muted);max-width:52ch;line-height:1.35;margin:0 0 4vh}
+.slide.title .meta{font-size:clamp(13px,1.1vw,18px);color:var(--muted);line-height:1.6}
+.slide.title .meta strong{color:var(--ink)}
+.rule{width:64px;height:5px;background:var(--accent);margin-bottom:3vh;border-radius:3px}
+
+/* Radar */
+.radar{width:100%;max-height:44vh}
+
+/* Overlays */
+.overlay{position:fixed;inset:0;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);display:none;z-index:30;
+         padding:6vh 6vw;overflow:auto}
+.overlay.open{display:block}
+.overlay h2{font-size:clamp(24px,2.4vw,40px);margin-bottom:2vh}
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.ov-item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;transition:.15s;box-shadow:var(--shadow)}
+.ov-item:hover{transform:translateY(-2px);border-color:var(--accent)}
+.ov-item.current{outline:3px solid var(--accent)}
+.ov-item .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.ov-item .t{font-family:Fraunces,Georgia,serif;font-size:17px;margin-top:6px;line-height:1.2}
+.ov-item .s{font-size:11px;color:var(--muted);margin-top:8px;text-transform:uppercase;letter-spacing:.1em}
+.th-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.th-item{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer}
+.th-item.current{outline:3px solid var(--accent)}
+.sw{display:flex;gap:4px}
+.sw i{width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
+.kbd{display:inline-block;font-family:ui-monospace,Consolas,monospace;font-size:.85em;background:var(--card);border:1px solid var(--line);
+     border-bottom-width:3px;border-radius:6px;padding:2px 8px;margin-right:6px}
+.help-list{list-style:none;padding:0;margin:0;columns:2;column-gap:4vw;font-size:clamp(14px,1.1vw,18px);line-height:2.1}
+.close{position:absolute;top:18px;right:22px;font-size:22px;color:var(--muted)}
+
+@media (max-width:900px){
+  .rail{width:44px}.stage,.topbar,.bottombar{left:44px}
+  .cols-2,.cols-3,.cols-4{grid-template-columns:1fr}
+  .slide{padding:64px 20px 56px}
+  h2{max-width:none}
+  .help-list{columns:1}
+}
+@media print{
+  .rail,.topbar,.bottombar,.overlay{display:none!important}
+  body{overflow:visible}
+  .stage{position:static}
+  .slide{display:flex!important;position:relative;page-break-after:always;height:100vh;animation:none}
+}
+</style>
+</head>
+<body>
+
+<aside class="rail" aria-label="Sections">
+  <div class="brand" title="Time'Eats · Cellule PMO">TE</div>
+  <nav class="sections" id="sections"></nav>
+  <div class="rail-foot">
+    <button class="icon-btn" id="btnOverview" title="Vue d'ensemble (O)" aria-label="Vue d'ensemble">▦</button>
+    <button class="icon-btn" id="btnTheme" title="Thème (T)" aria-label="Changer de thème">◐</button>
+    <button class="icon-btn" id="btnHelp" title="Aide (?)" aria-label="Aide">?</button>
+  </div>
+</aside>
+
+<header class="topbar">
+  <div id="crumb">Contexte</div>
+  <div class="timer" id="timer" title="Clic : démarrer / pause · Double-clic : remise à zéro"><span id="clock">00:00</span><span class="pace" id="pace"></span></div>
+  <div id="counter" class="mono">1 / 21</div>
+</header>
+
+<main class="stage" id="stage">
+
+<!-- 1 -->
+<section class="slide title" data-section="Contexte">
+  <div class="kicker">Time'Eats · Cellule PMO — DSI · Restitution individuelle</div>
+  <div class="rule"></div>
+  <h1>Piloter un <em>portefeuille</em>, pas onze projets</h1>
+  <p class="sub">Pourquoi créer une PMO, pourquoi lui donner un responsable — et ce que ses instruments rendent décidable.</p>
+  <p class="meta"><strong>Virgile Coudert</strong> — chef de projet, candidat au rôle de Responsable PMO<br>Comité de direction &amp; chefs de projet · CESI MAALSI 2026</p>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-section="Contexte">
+  <div class="kicker"><b>02</b>Contexte</div>
+  <h2>Un portefeuille à conduire sans arrêter le service courant</h2>
+  <div class="body">
+    <div class="figures">
+      <div class="fig"><div class="n">11</div><div class="l">projets simultanés</div></div>
+      <div class="fig"><div class="n">1 700 K€</div><div class="l">de budget sur 12 mois</div></div>
+      <div class="fig"><div class="n">2 320</div><div class="l">jours/homme à produire</div></div>
+      <div class="fig"><div class="n">21</div><div class="l">personnes à la DSI</div></div>
+    </div>
+    <p class="lede">Dont <strong>3 administrateurs systèmes</strong>, <strong>6 développeurs</strong> et <strong>5 chefs de projet</strong>, au service d'une ambition : 1 million de clients et 10 000 partenaires à deux ans.</p>
+    <p class="quote">Le Run ne s'arrête pas pendant qu'on transforme.</p>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-section="Contexte">
+  <div class="kicker"><b>03</b>Le constat</div>
+  <h2>Ce n'est pas un problème de projets</h2>
+  <div class="body">
+    <div class="cols cols-3">
+      <div class="card"><h3>Pris un par un</h3><p>Aucun des 11 projets n'est hors de portée.</p></div>
+      <div class="card"><h3>Pris ensemble</h3><p>Ils se disputent les mêmes ressources rares : 3 admins, 6 développeurs, 5 chefs de projet.</p></div>
+      <div class="card bad"><h3>Sans règle commune</h3><p>Dérive budgétaire non détectée · effet domino sur les dépendances · épuisement des équipes.</p></div>
+    </div>
+    <p class="quote">C'est un problème de portefeuille — et un portefeuille ne se pilote pas comme une somme de projets.</p>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-section="Pourquoi une PMO">
+  <div class="kicker"><b>04</b>Pourquoi une PMO</div>
+  <h2>Ce qu'une PMO apporte que personne d'autre ne porte</h2>
+  <div class="body">
+    <div class="cols cols-4">
+      <div class="card accent"><h3>Une méthode commune</h3><p>Un référentiel : tout le monde compte dans les mêmes unités.</p></div>
+      <div class="card accent"><h3>Une règle d'arbitrage</h3><p>Une priorisation explicite, opposable, au nom de la stratégie.</p></div>
+      <div class="card accent"><h3>Une vue consolidée</h3><p>Un tableau de bord de portefeuille : les 11 projets d'un seul regard.</p></div>
+      <div class="card accent"><h3>Une mémoire</h3><p>Une capitalisation qui rend le projet suivant meilleur que le précédent.</p></div>
+    </div>
+    <p class="lede">Chaque chef de projet voit son projet. <span class="hl">Personne ne voit le portefeuille — c'est ce vide que la PMO comble.</span></p>
+    <p class="note">Définition retenue : la cellule garante de la méthode, du référentiel et du reporting consolidé.</p>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide" data-section="Pourquoi une PMO">
+  <div class="kicker"><b>05</b>Pourquoi une PMO</div>
+  <h2>Ce que la PMO fait — et ce qu'elle ne fait pas</h2>
+  <div class="body">
+    <div class="cols cols-3">
+      <div class="card"><h3>Le chef de projet</h3><p>Pilote son projet. Tient ses baselines. Décide seul de l'exécution.</p></div>
+      <div class="card accent"><h3>La PMO</h3><p>Consolide. Alerte. Arbitre les priorités <em>entre</em> projets. Anime le référentiel.</p></div>
+      <div class="card"><h3>Le sponsor et le COPIL</h3><p>Engagent : budget, périmètre, date, mise en production.</p></div>
+    </div>
+    <div class="steps">
+      <div class="step"><b>Projet</b>indicateurs IPC / IPD</div><div class="arrow">→</div>
+      <div class="step"><b>PMO</b>agrégats de portefeuille</div><div class="arrow">→</div>
+      <div class="step"><b>Direction</b>arbitrages entre projets</div>
+    </div>
+    <p class="quote">Circulation ascendante : le projet nourrit le portefeuille, le portefeuille n'impose pas d'action au projet.<small>Pas de double commande — la première cause de rejet des PMO par les équipes.</small></p>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-section="Pourquoi une PMO">
+  <div class="kicker"><b>06</b>Pourquoi une PMO</div>
+  <h2>Pourquoi un Responsable PMO au sein de la cellule ?</h2>
+  <div class="body">
+    <div class="cols cols-2">
+      <div class="card bad"><h3>Sans responsable désigné</h3>
+        <ul class="list check x">
+          <li>5 chefs de projet pairs : chacun défend <em>son</em> projet</li>
+          <li>Le référentiel n'a pas de propriétaire → formalisme mort en 12 mois</li>
+          <li>Les REX sont écrits, archivés, jamais instruits</li>
+          <li>Les risques qui dépassent un projet n'ont pas de porteur</li>
+        </ul>
+      </div>
+      <div class="card good"><h3>Avec un Responsable PMO</h3>
+        <ul class="list check ok">
+          <li>Anime le référentiel : versions, revue semestrielle, droit de retrait, usage ≥ 90 %</li>
+          <li>Consolide les agrégats — revue de portefeuille hebdo, Comité Stratégique mensuel</li>
+          <li>Porte les risques de portefeuille — le contrat d'interface, par exemple</li>
+          <li>Transforme chaque enseignement en action datée</li>
+        </ul>
+      </div>
+    </div>
+    <p class="quote">Un mandat, un nom, une redevabilité — sinon la vue transverse n'appartient à personne.</p>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-section="Pourquoi une PMO">
+  <div class="kicker"><b>07</b>Mandat</div>
+  <h2>D'où je parle, et ce que je viens faire valider</h2>
+  <div class="body">
+    <div class="cols cols-2">
+      <div class="card"><h3>D'où je parle</h3><p>Chef de projet à la DSI, formé au Project Management Office.</p><p>Mandaté par le <strong>comité de direction</strong> pour unifier la gestion des projets de l'entreprise.</p></div>
+      <div class="card"><h3>Comment j'ai travaillé</h3><p>Avec les <strong>4 autres chefs de projet</strong> de la cellule : atelier de cadrage, puis revue.</p><p>Ce que je présente est <strong>notre</strong> mode de fonctionnement — pas le mien.</p></div>
+    </div>
+    <p class="quote">Objectif : faire valider la méthode — et ma confirmation dans le rôle de <span class="accent">Responsable PMO</span>.</p>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-section="Les instruments">
+  <div class="kicker"><b>08</b>Les instruments · Stratégie</div>
+  <h2>Arbitrer au nom de quoi ? La stratégie SI en quatre axes</h2>
+  <div class="body">
+    <table>
+      <thead><tr><th>Axe</th><th>Ce qu'il vise</th><th>Projets porteurs</th></tr></thead>
+      <tbody>
+        <tr><td><strong>S1</strong> Conquérir le marché</td><td>La plateforme qui génère le chiffre d'affaires</td><td>Refonte Web, Apps mobiles, CRM</td></tr>
+        <tr><td><strong>S2</strong> Industrialiser le socle</td><td>Ce qui rend S1 possible</td><td>Office 365, Azure, CI/CD, Stockage</td></tr>
+        <tr><td><strong>S3</strong> Sécuriser les données</td><td>Ce qui protège la valeur créée</td><td>MFA, Sauvegarde Cloud, Stockage</td></tr>
+        <tr><td><strong>S4</strong> Tenir les obligations</td><td>Le non négociable</td><td>MAJ Outils de paie</td></tr>
+      </tbody>
+    </table>
+    <p class="quote">Tout critère de priorisation qui ne se rattache pas à un axe est écarté.<small>Première tâche de la PMO : traduire la stratégie d'entreprise en règle d'arbitrage validée.</small></p>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide" data-section="Les instruments">
+  <div class="kicker"><b>09</b>Les instruments · Capacité</div>
+  <h2>La vraie contrainte n'est pas le budget</h2>
+  <div class="body">
+    <div class="figures">
+      <div class="fig"><div class="n">2 320</div><div class="l">jours/homme à produire</div></div>
+      <div class="fig"><div class="n">≈ 2 900</div><div class="l">jours/homme disponibles, 30 % sanctuarisés pour le Run</div></div>
+      <div class="fig"><div class="n">3</div><div class="l">administrateurs systèmes pour 6 projets d'infrastructure</div></div>
+    </div>
+    <p class="lede">Trois projets démarrent en avril pour 920 j/h cumulés. Le goulot n'est pas l'argent : c'est la compétence rare.</p>
+    <p class="quote">C'est la capacité qui limite. D'où un critère de soutenabilité : la capacité ordonnance, elle ne sélectionne pas.</p>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-section="Les instruments">
+  <div class="kicker"><b>10</b>Instrument n°1 · Référentiel</div>
+  <h2>Vingt-six documents, cinq phases, un propriétaire</h2>
+  <div class="body">
+    <div class="figures">
+      <div class="fig"><div class="n">6</div><div class="l">Démarrage</div></div>
+      <div class="fig"><div class="n">7</div><div class="l">Planification</div></div>
+      <div class="fig"><div class="n">4</div><div class="l">Exécution</div></div>
+      <div class="fig"><div class="n">3</div><div class="l">Maîtrise</div></div>
+      <div class="fig"><div class="n">6</div><div class="l">Clôture</div></div>
+    </div>
+    <div class="cols cols-2">
+      <div class="card alt"><h3>Un socle de 12 documents, obligatoire partout</h3><p>Charte · Note de cadrage · Fiche d'identification · PMP · Planning · Budget · Risques · CR · Avancement · Tableau de bord · Clôture · REX — c'est lui qui rend le portefeuille <strong>consolidable</strong>.</p></div>
+      <div class="card alt"><h3>Un modèle vierge pour chacun</h3><p>Identifiant stable P1-01 … P5-24, cartouche de versions, rubriques pré-titrées avec consigne. Prise en main en <strong>5 minutes</strong>.</p></div>
+    </div>
+    <p class="quote">Le référentiel a un propriétaire : la PMO le versionne, le mesure et l'allège.</p>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-section="Les instruments">
+  <div class="kicker"><b>11</b>Instrument n°1 · Contrat documentaire</div>
+  <h2>26 documents prévus — 14 produits à ce jour pour Office 365</h2>
+  <div class="body">
+    <div class="cols cols-2" style="grid-template-columns:1.05fr 1fr">
+      <div class="card good"><h3>14 documents produits — le dossier PMP livré</h3>
+        <table>
+          <tbody>
+            <tr><td><strong>Démarrage</strong></td><td>P1-01 Charte · P1-02 Note de cadrage · P1-03 Fiche d'identification · P1-04 RACI</td></tr>
+            <tr><td><strong>Planification</strong></td><td>P2-05 PMP · P2-06 WBS · P2-07 Gantt · P2-08 Budget · P2-09 Risques · P2-10 Communication</td></tr>
+            <tr><td><strong>Maîtrise</strong></td><td>P4-16 Tableau de bord — 16 KPI</td></tr>
+            <tr><td><strong>Clôture</strong></td><td>P5-19 PV recette fonctionnelle · P5-20 PV recette technique · P5-23 Fiche REX</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card accent"><h3>12 documents à venir — prévus, pas encore utilisés</h3>
+        <p><strong>Pas encore réalisés — le projet n'en est pas là (9)</strong> : 6 documents de vie au fil de l'exécution (CR de réunion, avancement, demande de changement, log d'anomalies, rapport d'écarts, CR de COPIL) et 3 documents de clôture à J6 (rapport de clôture, PV de transfert, lettre de fin de mission ESN).</p>
+        <p><strong>Pas encore mis en place (2)</strong> : cahier des charges P1-02ter et plan de conduite du changement P2-11 — pour l'instant portés par le forfait ESN et le plan de communication.</p>
+        <p><strong>Pas nécessaire cette fois-ci (1)</strong> : PBS — recommandé seulement, pas de produit à décomposer.</p>
+      </div>
+    </div>
+    <p class="quote">Le contrat documentaire dit quels documents, et à quel moment — aucun n'est abandonné.</p>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-section="Les instruments">
+  <div class="kicker"><b>12</b>Instrument n°2 · Priorisation</div>
+  <h2>Six critères pondérés, une échelle écrite pour chacun</h2>
+  <div class="body">
+    <table>
+      <thead><tr><th>Critère</th><th class="r">Poids</th><th>Origine</th></tr></thead>
+      <tbody>
+        <tr><td>C1 Alignement stratégique</td><td class="r">30 %</td><td>Fiche de cadrage</td></tr>
+        <tr><td>C2 Rentabilité attendue</td><td class="r">20 %</td><td>Fiche de cadrage</td></tr>
+        <tr class="hl"><td>C3 Criticité des dépendances</td><td class="r">20 %</td><td>Construit par la PMO</td></tr>
+        <tr><td>C4 Maîtrise des risques</td><td class="r">15 %</td><td>Fiche de cadrage</td></tr>
+        <tr class="hl"><td>C5 Conformité réglementaire</td><td class="r">10 %</td><td>Construit par la PMO</td></tr>
+        <tr class="hl"><td>C6 Soutenabilité capacitaire</td><td class="r">5 %</td><td>Construit par la PMO</td></tr>
+      </tbody>
+    </table>
+    <p class="note"><span class="tag good">Vert ≥ 3,50</span> engagement immédiat &nbsp; <span class="tag warn">Ambre 2,75 – 3,49</span> sous condition de capacité &nbsp; <span class="tag bad">Rouge &lt; 2,75</span> à réexaminer ou phaser</p>
+    <p class="quote">Deux personnes cotant le même projet trouvent le même score.</p>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-section="Les instruments">
+  <div class="kicker"><b>13</b>Tableau de bord n°1</div>
+  <h2>Le classement stratégique des onze projets</h2>
+  <div class="body">
+    <table>
+      <thead><tr><th>Rg</th><th>Projet</th><th class="r">Score</th><th class="r">Budget</th><th class="r">Cumul</th><th>Statut</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Refonte Web</td><td class="r">3,75</td><td class="r">300 K€</td><td class="r">300 K€</td><td><span class="tag good">Vert</span></td></tr>
+        <tr><td>2</td><td>CRM</td><td class="r">3,70</td><td class="r">250 K€</td><td class="r">550 K€</td><td><span class="tag good">Vert</span></td></tr>
+        <tr><td>3 – 4</td><td>MFA · Sauvegarde Cloud</td><td class="r">3,60 · 3,55</td><td class="r">250 K€</td><td class="r">800 K€</td><td><span class="tag good">Vert</span></td></tr>
+        <tr><td>5</td><td>App Mobile Clients</td><td class="r">3,40</td><td class="r">150 K€</td><td class="r">950 K€</td><td><span class="tag warn">Ambre</span></td></tr>
+        <tr class="hl"><td>6</td><td>Office 365</td><td class="r">3,30</td><td class="r">100 K€</td><td class="r">1 050 K€</td><td><span class="tag warn">Ambre</span></td></tr>
+        <tr><td>7 – 10</td><td>App Fourn. · Paie · Stockage · CI/CD</td><td class="r">3,25 → 2,95</td><td class="r">450 K€</td><td class="r">1 500 K€</td><td><span class="tag warn">Ambre</span></td></tr>
+        <tr><td>11</td><td>Migration Azure</td><td class="r">2,45</td><td class="r">200 K€</td><td class="r">1 700 K€</td><td><span class="tag bad">Rouge</span></td></tr>
+      </tbody>
+    </table>
+    <p class="quote">Le classement fixe l'ordre d'engagement : 4 projets en Vert lancés immédiatement (800 K€), les autres sous condition de capacité.</p>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-section="Les instruments">
+  <div class="kicker"><b>14</b>Tableau de bord n°2</div>
+  <h2>Et si on classait à la rentabilité seule ?</h2>
+  <div class="body">
+    <div class="cols cols-3">
+      <div class="card bad"><div class="num">↓ 10<sup>e</sup></div><h3>Office 365</h3><p>alors qu'il bloque 4 projets</p></div>
+      <div class="card bad"><div class="num">↓ 11<sup>e</sup></div><h3>Outils de paie</h3><p>alors qu'ils paient les salaires</p></div>
+      <div class="card good"><div class="num">↑ 4<sup>e</sup></div><h3>Migration Azure</h3><p>maîtrise des risques cotée 1/5</p></div>
+    </div>
+    <p class="lede">Sept projets sur onze bougent de trois rangs ou plus. Règle de sauvegarde : un projet réglementaire (C5 = 5) ou à dépendance maximale (C3 = 5) n'est jamais déclassé.</p>
+    <p class="quote">On perdrait de la rentabilité en poursuivant la rentabilité.</p>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-section="Le pilote">
+  <div class="kicker"><b>15</b>Le pilote, lu depuis le portefeuille</div>
+  <h2>Ce que seule la lecture du portefeuille révèle</h2>
+  <div class="body">
+    <div class="cols cols-2" style="align-items:center">
+      <div>
+        <svg class="radar" viewBox="0 0 340 300" role="img" aria-label="Radar Office 365 comparé à la moyenne du portefeuille">
+          <g stroke="currentColor" stroke-opacity="0.18" fill="none">
+            <polygon points="170,40 265.3,95 265.3,205 170,260 74.7,205 74.7,95"/>
+            <polygon points="170,84 227.2,117 227.2,183 170,216 112.8,183 112.8,117"/>
+            <polygon points="170,106 208.1,128 208.1,172 170,194 131.9,172 131.9,128"/>
+            <line x1="170" y1="150" x2="170" y2="40"/><line x1="170" y1="150" x2="265.3" y2="95"/>
+            <line x1="170" y1="150" x2="265.3" y2="205"/><line x1="170" y1="150" x2="170" y2="260"/>
+            <line x1="170" y1="150" x2="74.7" y2="205"/><line x1="170" y1="150" x2="74.7" y2="95"/>
+          </g>
+          <polygon points="170,52.1 234.0,113.1 215.0,176.0 170,218.0 133.6,171.0 111.1,116.0" fill="currentColor" fill-opacity="0.10" stroke="currentColor" stroke-opacity="0.45" stroke-width="2" stroke-dasharray="5 4"/>
+          <polygon points="170,62 208.1,128 265.3,205 170,216 150.9,161 112.8,117" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="3.5"/>
+          <g font-size="12" fill="currentColor" text-anchor="middle" font-weight="700" font-family="Inter, sans-serif">
+            <text x="170" y="28">Alignement</text><text x="296" y="90">Rentabilité</text><text x="294" y="218">Dépendances</text>
+            <text x="170" y="278">Maîtrise risques</text><text x="48" y="218">Conformité</text><text x="48" y="90">Effort DSI</text>
+          </g>
+        </svg>
+        <p class="note" style="text-align:center"><span class="accent">■</span> Office 365 &nbsp;·&nbsp; ▨ Moyenne du portefeuille</p>
+      </div>
+      <div>
+        <p class="lede" style="color:var(--ink)"><strong>Office 365</strong> : 6<sup>e</sup> au classement, 10<sup>e</sup> à la rentabilité. Mais il <strong>bloque 4 projets</strong> — 900 K€, plus de la moitié du portefeuille en valeur.</p>
+        <p class="quote" style="margin-top:0">Il ne rapporte pas, il rend possible.<small>Aucune lecture projet par projet ne produit cette décision : c'est la valeur ajoutée propre de la PMO — et la raison du choix d'Office 365 comme pilote.</small></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-section="Le pilote">
+  <div class="kicker"><b>16</b>Projet pilote</div>
+  <h2>Office 365 en une page</h2>
+  <div class="body">
+    <div class="figures">
+      <div class="fig"><div class="n">100 K€</div><div class="l">plafond ferme</div></div>
+      <div class="fig"><div class="n">220 j/h</div><div class="l">120 ESN au forfait + 100 internes</div></div>
+      <div class="fig"><div class="n">16 sem.</div><div class="l">7 jalons · Go-Live 17/07/2026</div></div>
+      <div class="fig"><div class="n">200</div><div class="l">salariés · 5 sites · 12 équipes Teams</div></div>
+    </div>
+    <div class="steps tight">
+      <div class="step"><b>J0 · 13/04</b>Lancement</div><div class="arrow">→</div>
+      <div class="step"><b>J1 · 30/04</b>Audit validé</div><div class="arrow">→</div>
+      <div class="step"><b>J2 · 22/05</b>Tenant prêt</div><div class="arrow">→</div>
+      <div class="step"><b>J3 · 19/06</b>Migration finie</div><div class="arrow">→</div>
+      <div class="step"><b>J4 · 10/07</b>Recette</div><div class="arrow">→</div>
+      <div class="step" style="border-color:var(--accent)"><b>J5 · 17/07</b>Go-Live</div><div class="arrow">→</div>
+      <div class="step"><b>J6 · 31/07</b>Clôture</div>
+    </div>
+    <p class="note" style="max-width:none"><strong>6 objectifs SMART</strong> dans la charte — 200/200 boîtes sans perte · interruption ≤ 4 h · 5 sites + 12 équipes · adoption ≥ 75 % · MFA des admins · ≤ 100 K€ au 17/07 &nbsp;·&nbsp; <strong>3 contraintes</strong> — date imposée par les 4 projets aval · plafond ferme · 3 administrateurs</p>
+    <div class="cols cols-3">
+      <div class="card accent"><h3>Plan de management — 6 composants</h3><p>Charte signée le 13/04 · cahier des charges de 62 exigences · planning 16 semaines / 7 jalons · budget 6 postes · 10 risques cotés P×I · plan de communication — 9 actions, 10 key users.</p></div>
+      <div class="card"><h3>Un planning sans marge</h3><p>Chemin critique Audit → Tenant → Migration → Recette. Seule marge réelle : les deux semaines entre J5 et J6.</p></div>
+      <div class="card"><h3>Un périmètre borné par les autres projets</h3><p>4 exclusions sur 7 renvoient à MFA, Azure, Stockage, Sauvegarde → réunion d'interface mensuelle. Une frontière de périmètre est un risque de portefeuille.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="slide" data-section="Le pilote">
+  <div class="kicker"><b>17</b>Risques</div>
+  <h2>Le risque qui dépasse le projet</h2>
+  <div class="body">
+    <div class="cols cols-2">
+      <div class="card"><h3><span class="tag bad">15 / 25</span>&nbsp; R8 — vu du projet</h3><p>Glissement du Go-Live. Revue hebdomadaire du chemin critique, deux semaines de marge sanctuarisées.</p><p>Après traitement, R8 reste coté 15 : <strong>aucune action projet ne le réduit</strong>.</p></div>
+      <div class="card accent"><h3>R8 — vu du portefeuille</h3><p>Il ne menace pas Office 365. Il menace les <strong>4 projets aval — 900 K€</strong>.</p><p>Réponse de la PMO : <strong>contrat d'interface (API)</strong> entre CRM, Refonte Web et apps mobiles avant le 30/06 — ils avancent sans attendre la bascule. Suivi à deux niveaux : revue projet <em>et</em> revue de portefeuille.</p></div>
+    </div>
+    <p class="quote">Un risque qu'on ne peut pas réduire au niveau du projet se traite au niveau du portefeuille.</p>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="slide" data-section="Le pilote">
+  <div class="kicker"><b>18</b>Pilotage · fin mai 2026</div>
+  <h2>Un indicateur ne vaut que par la décision qu'il déclenche</h2>
+  <div class="body">
+    <table>
+      <thead><tr><th>Indicateur — 16 KPI, 4 axes</th><th class="r">Valeur</th><th class="r">Cible</th><th>Statut</th></tr></thead>
+      <tbody>
+        <tr><td>Jalons tenus</td><td class="r">3 / 3</td><td class="r">100 %</td><td><span class="tag good">Vert</span></td></tr>
+        <tr><td>Anomalies bloquantes</td><td class="r">0</td><td class="r">0</td><td><span class="tag good">Vert</span></td></tr>
+        <tr><td>Indice de performance des délais</td><td class="r">0,91</td><td class="r">≥ 0,95</td><td><span class="tag warn">Ambre</span></td></tr>
+        <tr class="hl"><td>Coût final estimé</td><td class="r">105 K€</td><td class="r">≤ 100 K€</td><td><span class="tag bad">Rouge</span></td></tr>
+      </tbody>
+    </table>
+    <div class="steps">
+      <div class="step"><b>1</b>Seuil franchi</div><div class="arrow">→</div>
+      <div class="step"><b>2</b>Rapport d'écarts sous 5 j</div><div class="arrow">→</div>
+      <div class="step"><b>3</b>Cause racine</div><div class="arrow">→</div>
+      <div class="step"><b>4</b>Options chiffrées</div><div class="arrow">→</div>
+      <div class="step"><b>5</b>Arbitrage de périmètre</div><div class="arrow">→</div>
+      <div class="step"><b>6</b>Demande de changement en COPIL</div>
+    </div>
+    <p class="quote">Budget plafonné : on ajuste le périmètre, jamais l'enveloppe.<small>Résultat : 99 K€, Go-Live du 17/07 tenu — et les 4 projets aval informés le jour même.</small></p>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="slide" data-section="Le pilote">
+  <div class="kicker"><b>19</b>Clôture &amp; capitalisation</div>
+  <h2>Clore proprement — et rendre le suivant meilleur</h2>
+  <div class="body">
+    <div class="cols cols-3">
+      <div class="card"><div class="num">136</div><h3>cas de test</h3><p>78 techniques · 58 métier — 100 % des 62 exigences couvertes. Dont un <strong>test négatif</strong> : un partage externe qui doit échouer.</p></div>
+      <div class="card"><div class="num">80 / 20</div><h3>du forfait ESN</h3><p>80 % libérés à la recette, le solde après 30 jours de service régulier. Le PV dit ce que la signature déclenche.</p></div>
+      <div class="card accent"><div class="num">6</div><h3>enseignements</h3><p>Tous transformés en actions datées ; cinq bénéficient à des projets pas encore lancés.</p></div>
+    </div>
+    <p class="lede">L'étape qui fait la différence : <strong>l'instruction de chaque enseignement par la PMO</strong>. Sans elle, la capitalisation produit de la documentation, pas de l'amélioration.</p>
+    <p class="quote">Un projet n'est pas clos tant que son REX n'est pas instruit.</p>
+  </div>
+</section>
+
+<!-- 20 -->
+<section class="slide" data-section="Décision">
+  <div class="kicker"><b>20</b>Mesure des effets</div>
+  <h2>Prouver que la PMO produit des effets</h2>
+  <div class="body">
+    <table>
+      <thead><tr><th>Indicateur de portefeuille</th><th>Référence — mai 2026</th><th class="r">Cible à 12 mois</th></tr></thead>
+      <tbody>
+        <tr><td>Projets appliquant le référentiel</td><td>0 % — il n'existait pas</td><td class="r"><strong>≥ 80 %</strong></td></tr>
+        <tr><td>Jalons critiques tenus</td><td>Suivi informel, glissements non tracés</td><td class="r"><strong>≥ 90 %</strong></td></tr>
+        <tr><td>Écart budget réalisé / prévu (portefeuille)</td><td>Aucun suivi consolidé</td><td class="r"><strong>≤ +5 %</strong></td></tr>
+        <tr><td>Écart charge estimée / réelle</td><td>Aucune donnée historique</td><td class="r"><strong>≤ 15 %</strong></td></tr>
+        <tr><td>Anomalies bloquantes après mise en production</td><td>Aucun comptage formalisé</td><td class="r"><strong>≤ 3 / projet</strong></td></tr>
+        <tr><td>Satisfaction des 5 chefs de projet</td><td>Aucune enquête</td><td class="r"><strong>NPS ≥ +30</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="note">Biais neutralisés : enquête dépouillée par la DRH · usage réel audité sur deux projets tirés au sort par trimestre.</p>
+    <p class="quote">Figer la référence avant de déployer coûte deux jours. Ne pas le faire coûte la crédibilité de la PMO au premier bilan.</p>
+  </div>
+</section>
+
+<!-- 21 -->
+<section class="slide" data-section="Décision">
+  <div class="kicker"><b>21</b>Décision</div>
+  <h2>Ce que je demande au comité de direction</h2>
+  <div class="body">
+    <div class="cols cols-2">
+      <div class="card accent"><div class="num">a</div><h3>Me confirmer dans le rôle de Responsable PMO</h3><p>Au sein de la cellule, avec le mandat d'animer le référentiel et la revue de portefeuille auprès des quatre autres chefs de projet.</p></div>
+      <div class="card accent"><div class="num">b</div><h3>Rendre le référentiel obligatoire</h3><p>Sur tout projet inscrit au portefeuille, à compter de mai 2026 — avec la situation de référence figée avant le déploiement.</p></div>
+    </div>
+    <p class="quote">Une PMO ne se mesure pas au nombre de documents qu'elle produit, mais aux décisions qu'elle rend possibles.<small>Merci — questions.</small></p>
+  </div>
+</section>
+
+</main>
+
+<footer class="bottombar">
+  <button class="nav-btn" id="btnPrev" aria-label="Précédent">←</button>
+  <div class="progress"><i id="bar"></i></div>
+  <button class="nav-btn" id="btnNext" aria-label="Suivant">→</button>
+</footer>
+
+<div class="overlay" id="overview"><button class="close" data-close>✕</button><h2 class="serif">Vue d'ensemble</h2><div class="ov-grid" id="ovGrid"></div></div>
+<div class="overlay" id="themes"><button class="close" data-close>✕</button><h2 class="serif">Thème</h2><div class="th-grid" id="thGrid"></div></div>
+<div class="overlay" id="help"><button class="close" data-close>✕</button><h2 class="serif">Raccourcis</h2>
+  <ul class="help-list">
+    <li><span class="kbd">→</span><span class="kbd">Espace</span><span class="kbd">Pg ↓</span> slide suivante</li>
+    <li><span class="kbd">←</span><span class="kbd">Pg ↑</span> slide précédente</li>
+    <li><span class="kbd">Home</span><span class="kbd">End</span> première / dernière</li>
+    <li><span class="kbd">O</span> vue d'ensemble</li>
+    <li><span class="kbd">T</span> changer de thème</li>
+    <li><span class="kbd">F</span> plein écran</li>
+    <li><span class="kbd">S</span> démarrer / mettre en pause le chrono</li>
+    <li><span class="kbd">R</span> remettre le chrono à zéro</li>
+    <li><span class="kbd">G</span> afficher / masquer les infobulles du glossaire</li>
+    <li><span class="kbd">Échap</span> fermer</li>
+    <li>Balayage tactile ← → et télécommandes de présentation pris en charge</li>
+  </ul>
+  <p class="note" style="margin-top:3vh">Le chrono indique l'avance ou le retard par rapport à un déroulé de 10 minutes réparti sur les 21 slides. L'adresse <code>#12</code> ouvre directement la slide 12.</p>
+</div>
+
+<!-- GLOSSAIRE:start — généré depuis ../individuel/js/glossaire.js (scratchpad/sync-glossaire-v2.mjs) : ne pas éditer ici -->
+<script>
+/**
+ * Glossaire — infobulles au survol des acronymes et termes techniques.
+ *
+ * - Première occurrence de chaque terme par slide (pour ne pas surcharger).
+ * - Survol ou focus clavier : la définition s'affiche dans une bulle.
+ * - Touche G : afficher / masquer les soulignés et les bulles (utile en présentation).
+ *
+ * Les définitions sont les mêmes que dans ../oral/glossaire.md.
+ * La même liste est recopiée dans ../individuel-v2/index.html (fichier autonome) :
+ * modifier les deux ensemble.
+ */
+const GLOSSAIRE = [
+    ['Responsable PMO', 'Personne désignée qui porte le référentiel, la revue de portefeuille et les risques transverses — un mandat, un nom, une redevabilité.'],
+    ['PMO', 'Project Management Office — cellule garante de la méthode, du référentiel et du reporting consolidé ; elle consolide, alerte et arbitre entre projets. Chez Time\'Eats : 5 chefs de projet.'],
+    ['portefeuille', 'Ensemble des projets de la DSI gérés comme un tout : 11 projets, 1 700 K€, 2 320 j/h — priorisés, consolidés et arbitrés ensemble.'],
+    ['DSI', 'Direction des Systèmes d\'Information — 21 personnes chez Time\'Eats ; son directeur est aussi RSSI.'],
+    ['RSSI', 'Responsable de la Sécurité des Systèmes d\'Information.'],
+    ['DPO', 'Délégué à la Protection des Données — valide rétention, partage externe et registre des traitements (RGPD).'],
+    ['RGPD', 'Règlement Général sur la Protection des Données — art. 5 (minimisation, conservation) et 32 (sécurité).'],
+    ['DRH', 'Direction des Ressources Humaines — maîtrise d\'ouvrage d\'Office 365 avec la direction générale ; dépouille l\'enquête de satisfaction des chefs de projet.'],
+    ['ESN', 'Entreprise de Services du Numérique — prestataire externe. Ici Capgemini, forfait de 120 j/h à engagement de résultat.'],
+    ['Capgemini', 'ESN partenaire retenue pour la migration Office 365, au forfait de 120 j/h (48 K€).'],
+    ['MOA', 'Maîtrise d\'ouvrage — exprime le besoin et prononce la recette fonctionnelle (DRH, direction générale).'],
+    ['MOE', 'Maîtrise d\'œuvre — conçoit et réalise (pôle Infrastructure de la DSI, administrateur systèmes sénior).'],
+    ['COPIL', 'Comité de pilotage — mensuel, sponsor + MOA + chef de projet : valide les jalons, arbitre, escalade (CR P4-18).'],
+    ['Comité Stratégique', 'Instance de direction mensuelle : reçoit le tableau de bord de portefeuille n°1, révise les pondérations au T1, traite les menaces sur les Go-Live.'],
+    ['revue de portefeuille', 'Réunion hebdomadaire animée par la PMO : arbitrage entre projets concurrents sur les mêmes ressources, confirmation des dates.'],
+    ['sponsor', 'Décideur qui autorise le projet et engage budget, périmètre, date et mise en production — pour Office 365, le DSI / RSSI.'],
+    ['double commande', 'Situation où un chef de projet reçoit des instructions de deux autorités (PMO et sponsor) — première cause de rejet des PMO.'],
+    ['agrégats', 'Indicateurs de portefeuille consolidés par la PMO à partir des IPC / IPD des projets : part des projets dans le budget, part des projets dans les délais.'],
+    ['référentiel', 'Catalogue de 26 documents-types sur 5 phases (identifiant Pn-NN) avec un modèle vierge pour chacun ; obligatoire sur tout projet dès mai 2026.'],
+    ['contrat documentaire', 'Matrice projets × livrables annexée à chaque charte : quels documents sont obligatoires, recommandés ou sans objet pour ce projet.'],
+    ['socle', 'Les 12 documents obligatoires sur les 11 projets sans exception — ce qui rend le portefeuille consolidable.'],
+    ['droit de retrait', 'Tout chef de projet peut demander la suppression d\'un document jugé sans valeur ; la PMO répond sous 15 jours.'],
+    ['NPS', 'Net Promoter Score — indicateur de satisfaction (promoteurs − détracteurs). Cible ≥ +30 auprès des 5 chefs de projet, dépouillé par la DRH.'],
+    ['Run', 'Maintien en condition opérationnelle : le service courant, sanctuarisé à 30 % du temps de la DSI.'],
+    ['j/h', 'Jour-homme : une personne pendant une journée. Hypothèses : 200 € en interne, 400 € en ESN.'],
+    ['K€', 'Kilo-euro : 1 000 €.'],
+    ['baselines', 'Références validées (périmètre, délais, coûts) contre lesquelles tout écart est mesuré ; modifiables seulement par demande de changement approuvée.'],
+    ['baseline', 'Référence validée (périmètre, délais, coûts) contre laquelle tout écart est mesuré ; modifiable seulement par demande de changement approuvée.'],
+    ['IPC', 'Indice de performance des coûts (CPI) = valeur acquise / coût réel. En dessous de 1, le projet coûte plus que la valeur produite.'],
+    ['IPD', 'Indice de performance des délais (SPI) = valeur acquise / valeur planifiée. En dessous de 1, le projet est en retard.'],
+    ['Coût final estimé', 'EAC — Estimate At Completion : coût total prévu à la fin du projet, réestimé à chaque relevé (105 K€ fin mai → 99 K€ après arbitrage).'],
+    ['Indice de performance des délais', 'IPD (SPI) = valeur acquise / valeur planifiée ; 0,91 fin mai = 4 jours de décalage sur le lot L3.'],
+    ['KPI', 'Key Performance Indicator — indicateur chiffré rattaché à un objectif, avec cible et seuil d\'alerte.'],
+    ['indicateurs', 'Mesures chiffrées rattachées aux objectifs (16 KPI sur 4 axes pour Office 365), avec cible, seuil d\'alerte et règle d\'escalade.'],
+    ['Vert', 'Statut RAG : objectif tenu. En priorisation, score ≥ 3,50 = engagement immédiat.'],
+    ['Ambre', 'Statut RAG : écart sous le seuil d\'alerte, traité par le chef de projet en point hebdomadaire. En priorisation, 2,75 – 3,49 = sous condition de capacité.'],
+    ['Rouge', 'Statut RAG : seuil franchi → rapport d\'écarts au sponsor sous 5 jours ouvrés. En priorisation, < 2,75 = à réexaminer ou phaser.'],
+    ['jalons', 'Événements datés dont le franchissement est conditionné (charte signée, PV signés…) — 7 jalons J0 → J6 sur Office 365.'],
+    ['jalon', 'Événement daté dont le franchissement est conditionné (charte signée, PV signés…) — 7 jalons J0 → J6 sur Office 365.'],
+    ['chemin critique', 'Suite de tâches sans marge : tout retard sur l\'une décale la fin du projet (Audit → Tenant → Migration → Recette).'],
+    ['marge', 'Temps disponible avant qu\'un retard n\'impacte la date finale ; seule marge réelle : les 2 semaines entre J5 et J6.'],
+    ['Go-Live', 'Mise en production : bascule des utilisateurs sur la nouvelle solution — 17/07/2026 pour Office 365.'],
+    ['forfait', 'Contrat à prix fixe et engagement de résultat : le risque de dérive de charge est porté par le prestataire (à l\'inverse de la régie, facturée au temps passé).'],
+    ['plafond ferme', 'Budget non révisable posé en contrainte de cadrage : toute demande de changement à impact financier passe par un arbitrage de périmètre, jamais par une rallonge.'],
+    ['réserve pour aléas', 'Enveloppe non affectée (2 K€), mobilisable sur décision du sponsor pour absorber les imprévus.'],
+    ['P×I', 'Cotation d\'un risque : Probabilité × Impact (1 à 5 chacun). ≤ 6 accepté, 7–12 réduit avec plan nommé, > 12 critique escaladé au sponsor sous 48 h.'],
+    ['15 / 25', 'Score du risque R8 : probabilité 3 × impact 5 — seul risque critique (> 12) du registre.'],
+    ['demande de changement', 'Document P3-14 formalisant toute évolution de périmètre avec son impact délai / coût / qualité ; approuvée en COPIL.'],
+    ['rapport d\'écarts', 'Document P4-17 déclenché au franchissement d\'un seuil : cause racine, options chiffrées, plan de rattrapage — sous 5 jours ouvrés.'],
+    ['arbitrage de périmètre', 'Sur budget plafonné, la variable d\'ajustement : on sort un élément du périmètre plutôt que d\'augmenter l\'enveloppe.'],
+    ['contrat d\'interface', 'Accord sur une interface (API) figée entre CRM, Refonte Web et applications mobiles, avant le 30/06, pour développer en parallèle sans s\'attendre.'],
+    ['API', 'Interface de programmation : contrat technique par lequel deux applications échangent des données.'],
+    ['criticité des dépendances', 'Critère C3 (20 %) : nombre de projets aval bloqués — 0 → 1, 1 → 2, 2 → 3, 3 → 4, ≥ 4 → 5. Office 365 bloque 4 projets (900 K€).'],
+    ['dépendances', 'Liens « qui bloque qui » entre projets ; fondement du critère C3. Office 365 conditionne le CRM, la Refonte Web et les deux applications mobiles.'],
+    ['soutenabilité capacitaire', 'Critère C6 (5 %) : charge du projet rapportée à la capacité — ≤ 80 j/h → 5 … > 350 j/h → 1. La capacité ordonnance, elle ne sélectionne pas.'],
+    ['alignement stratégique', 'Critère C1 (30 %) : 1 confort interne, 3 contribue à un axe, 5 conditionne un objectif d\'entreprise.'],
+    ['rentabilité attendue', 'Critère C2 (20 %) : 1 aucun retour, 3 gains de productivité, 5 contribution directe au chiffre d\'affaires.'],
+    ['maîtrise des risques', 'Critère C4 (15 %) : 1 technologie non maîtrisée, 3 appui externe requis, 5 compétence interne établie.'],
+    ['conformité réglementaire', 'Critère C5 (10 %) : 1 aucune contrainte, 3 exigence indirecte (RGPD art. 32), 5 obligation légale datée.'],
+    ['échelle de cotation', 'Barème écrit de 1 à 5 propre à chaque critère : deux personnes cotant le même projet trouvent le même score.'],
+    ['règle de sauvegarde', 'Le classement à la rentabilité seule ne peut jamais déclasser un projet réglementaire (C5 = 5) ni à dépendance maximale (C3 = 5).'],
+    ['radar', 'Diagramme à 6 axes qui montre la forme d\'un projet sur les critères, là où le score ne donne qu\'un nombre.'],
+    ['WBS', 'Work Breakdown Structure — découpage du travail en lots et work packages chiffrés (8 lots, 40 work packages pour Office 365).'],
+    ['PBS', 'Product Breakdown Structure — décomposition du produit en composants livrables (le « quoi »). Recommandé seulement pour Office 365.'],
+    ['RACI', 'Matrice des responsabilités : qui Réalise, Approuve, est Consulté, Informé, pour chaque activité (P1-04).'],
+    ['PMP', 'Plan de Management de Projet (P2-05) — document pivot qui agrège les plans subsidiaires et fixe les baselines.'],
+    ['Gantt', 'Diagramme de planning : tâches en barres sur une échelle de temps, jalons et chemin critique (P2-07).'],
+    ['cahier des charges', 'P1-02ter — exigences fonctionnelles et non fonctionnelles avec critère d\'acceptation ; 62 exigences, base contractuelle du forfait et référentiel de la recette.'],
+    ['note de cadrage', 'P1-02 — contexte, enjeux, périmètre IN / OUT, options étudiées et option retenue.'],
+    ['charte', 'P1-01 Charte projet — acte de naissance : autorise le projet, nomme le chef de projet, engage le sponsor sur objectifs et budget. Signée le 13/04/2026.'],
+    ['fiche d\'identification', 'P1-03 — carte d\'identité normalisée du projet (budget, dates, cotations, dépendances), source du cockpit de portefeuille.'],
+    ['plan de communication', 'P2-10 — parties prenantes, messages, canaux, fréquences, émetteurs ; 9 actions pour Office 365.'],
+    ['conduite du changement', 'P2-11 — analyse d\'impact métier, réseau de key users, formation ; 26 j/h sur 220 pour Office 365 (12 %).'],
+    ['registre des risques', 'P2-09 — identification, cotation P × I, stratégie de réponse, porteur, échéance ; 10 risques pour Office 365.'],
+    ['tableau de bord', 'P4-16 — 16 KPI sur 4 axes avec cible, seuil, valeur et statut RAG, publié chaque mois.'],
+    ['CR de COPIL', 'P4-18 — décisions du comité de pilotage, arbitrages, escalades.'],
+    ['CR de réunion', 'P3-12 — décisions, actions, porteurs, échéances : trace opposable des arbitrages.'],
+    ['CR', 'Compte rendu (de réunion P3-12 ou de COPIL P4-18) — décisions, actions, porteurs, échéances.'],
+    ['rapport d\'avancement', 'P3-13 — photographie mensuelle : avancement, consommé, jalons, risques.'],
+    ['log d\'anomalies', 'P3-15 — suivi des défauts : sévérité, statut, correction, retest par le déclarant.'],
+    ['rapport de clôture', 'P5-21 — bilan : périmètre livré, budget consommé, écarts, décision de clôture.'],
+    ['PV de transfert', 'P5-22 — passage de relais au Run : dossier d\'architecture, procédures, astreinte, niveaux de service.'],
+    ['lettre de fin de mission', 'P5-24 — solde le forfait ESN, acte la levée des réserves, restitue accès et livrables.'],
+    ['PV recette fonctionnelle', 'P5-19 — prononce la conformité aux exigences métier (MOA) ; réserves et délai de levée.'],
+    ['PV recette technique', 'P5-20 — prononce la conformité technique, de sécurité et d\'exploitabilité (architecte, RSSI).'],
+    ['PV', 'Procès-verbal de recette : sans réserve, avec réserves datées, ou refusée — et ce que la signature déclenche (80 % du forfait).'],
+    ['REX', 'Retour d\'expérience — fiche P5-23 : ce qui a marché, ce qui a échoué, enseignements transformés en actions datées.'],
+    ['Fiche REX', 'P5-23 — retour d\'expérience structuré, format unique sur les 11 projets, instruit par la PMO avant clôture.'],
+    ['recette', 'Vérification formelle que le livré est conforme aux exigences ; fonctionnelle (MOA) et technique (MOE / RSSI). Le recetteur n\'est jamais le réalisateur.'],
+    ['cas de test', 'Vérification unitaire rattachée à une exigence ; 136 cas = 78 techniques (T1–T6) + 58 métier (F1–F8), 100 % des 62 exigences.'],
+    ['test négatif', 'Cas de test qui vérifie qu\'une action interdite échoue bien (ex. partage externe bloqué par la DLP) — révèle les défauts de sécurité invisibles des tests positifs.'],
+    ['anomalies bloquantes', 'Défauts qui empêchent un usage essentiel ou exposent des données ; correction sous 24 h, recette refusée tant qu\'il en reste.'],
+    ['VSR', 'Vérification de Service Régulier — 30 jours d\'observation après mise en production avant de solder le prestataire.'],
+    ['30 jours de service', 'La VSR : vérification de service régulier de 30 jours après le Go-Live ; le solde du forfait (20 %) n\'est libéré qu\'à son terme.'],
+    ['enseignements', 'Constats issus du REX, qualifiés par la PMO et transformés en actions datées (6 pour Office 365, dans 3 familles : référentiel, méthode, communication).'],
+    ['capitalisation', 'Processus en 5 étapes et 6 outils qui transforme l\'expérience d\'un projet en amélioration pour les suivants ; un projet n\'est pas clos tant que son REX n\'est pas instruit.'],
+    ['situation de référence', 'Mesure initiale des 6 indicateurs d\'amélioration, figée en mai 2026 avant le déploiement du référentiel, pour pouvoir prouver un progrès.'],
+    ['key users', 'Utilisateurs référents d\'un site ou d\'un métier (10 pour Office 365, 2 par site) qui relaient les usages et testent sur données réelles.'],
+    ['tenant', 'Instance Microsoft 365 propre à une organisation — 200 licences E3, hébergement en France.'],
+    ['Tenant', 'Instance Microsoft 365 propre à une organisation — 200 licences E3, hébergement en France.'],
+    ['Entra ID', 'Annuaire et service d\'identité Microsoft cloud, synchronisé avec l\'Active Directory local.'],
+    ['annuaire', 'Active Directory : base des comptes et des droits de l\'entreprise ; son nettoyage a coûté 9 j/h au lieu de 4 (risque R2).'],
+    ['SSO', 'Single Sign-On — authentification unique sur toutes les applications Microsoft.'],
+    ['MFA', 'Authentification multifacteur — mot de passe + second facteur ; sur 100 % des comptes à privilèges dans Office 365, généralisée par le projet MFA.'],
+    ['DLP', 'Data Loss Prevention — politiques qui empêchent la fuite de données (8 scénarios testés sans fuite).'],
+    ['Teams', 'Outil de collaboration Microsoft 365 : réunions, canaux par projet et par site — 12 équipes.'],
+    ['SharePoint', 'Espaces documentaires d\'équipe Microsoft 365 (5 sites) — héberge aussi le référentiel PMO.'],
+    ['Office 365', 'Projet pilote : migration vers Microsoft 365 E3 — 100 K€, 220 j/h, 200 boîtes, 5 sites, Go-Live 17/07/2026.'],
+    ['CRM', 'Customer Relationship Management — progiciel de relation client, référentiel client du site web et des applications mobiles.'],
+    ['CI/CD', 'Intégration et livraison continues — chaîne automatisée de build, test et déploiement.'],
+    ['Azure', 'Cloud Microsoft ; projet de migration des serveurs métiers Windows Server 2016 / .NET 4.6.2 hébergés à Rennes.'],
+    ['Migration Azure', 'Migration des serveurs métiers vers le cloud Microsoft — 200 K€, 300 j/h, dernier du classement (2,45), maîtrise des risques 1/5.'],
+    ['Stockage', 'Projet Stockage & Fichiers — solution centralisée de gestion des fichiers avec droits par population (octobre, 100 K€, 80 j/h).'],
+    ['Sauvegarde Cloud', 'Projet de sauvegarde automatisée dans le cloud pour la continuité de service (octobre, 100 K€, 100 j/h).'],
+    ['Outils de paie', 'Mise à jour réglementaire des outils de paie — 50 K€, 50 j/h ; obligation légale : jamais arbitrable, socle documentaire complet.'],
+    ['Paie', 'Mise à jour réglementaire des outils de paie — 50 K€, 50 j/h ; obligation légale : jamais arbitrable.'],
+    ['Refonte Web', 'Remplacement du site par une application web moderne — 300 K€, 400 j/h, 1er du classement (3,75). Projet du travail de groupe.'],
+    ['cycle en V', 'Mode d\'exécution séquentiel à périmètre figé : cadrage → conception → réalisation → recette.'],
+    ['objectifs SMART', 'Spécifiques, Mesurables, Atteignables, Réalistes, Temporellement définis — 6 objectifs contractualisés dans la charte Office 365.'],
+    ['PDCA', 'Plan – Do – Check – Act : définir la méthode, l\'appliquer, mesurer, réviser.'],
+    ['PMBOK', 'Project Management Body of Knowledge (PMI) — référentiel de bonnes pratiques dont sont issus les 5 groupes de processus.']
+];
+
+const escapeRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+function compiler() {
+    return GLOSSAIRE.map(([t, d]) => {
+        const acronyme = /[A-Z]/.test(t) && !/[a-z]/.test(t);
+        let src = escapeRe(t);
+        if (!acronyme && !/s$/.test(t)) src += 's?';
+        const re = new RegExp('(?<![\\p{L}\\p{N}])(' + src + ')(?![\\p{L}\\p{N}])', acronyme ? 'u' : 'iu');
+        return { t, d, re };
+    }).sort((a, b) => b.t.length - a.t.length);
+}
+
+function envelopper(node, termes, vus) {
+    let texte = node.nodeValue;
+    let courant = node;
+    for (;;) {
+        let meilleur = null;
+        for (const terme of termes) {
+            if (vus.has(terme.t)) continue;
+            const m = terme.re.exec(texte);
+            if (m && (meilleur === null || m.index < meilleur.index)) {
+                meilleur = { index: m.index, len: m[1].length, terme };
+            }
+        }
+        if (!meilleur) return;
+        const avant = texte.slice(0, meilleur.index);
+        const trouve = texte.slice(meilleur.index, meilleur.index + meilleur.len);
+        const apres = texte.slice(meilleur.index + meilleur.len);
+        const span = document.createElement('span');
+        span.className = 'gl-term';
+        span.textContent = trouve;
+        span.dataset.term = meilleur.terme.t;
+        span.dataset.def = meilleur.terme.d;
+        span.setAttribute('tabindex', '0');
+        const suite = document.createTextNode(apres);
+        courant.nodeValue = avant;
+        courant.after(span, suite);
+        vus.add(meilleur.terme.t);
+        texte = apres;
+        courant = suite;
+    }
+}
+
+let bulle = null;
+
+function placer(el) {
+    const r = el.getBoundingClientRect();
+    const pad = 10;
+    bulle.style.left = '0px';
+    bulle.style.top = '0px';
+    const w = bulle.offsetWidth, h = bulle.offsetHeight;
+    let left = r.left + r.width / 2 - w / 2;
+    left = Math.max(pad, Math.min(window.innerWidth - w - pad, left));
+    let top = r.bottom + 8;
+    if (top + h > window.innerHeight - pad) top = r.top - h - 8;
+    bulle.style.left = left + 'px';
+    bulle.style.top = top + 'px';
+}
+
+function installerBulle() {
+    if (bulle) return;
+    bulle = document.createElement('div');
+    bulle.id = 'gl-tip';
+    bulle.setAttribute('role', 'tooltip');
+    bulle.innerHTML = '<b></b><span></span>';
+    document.body.appendChild(bulle);
+
+    const montrer = el => {
+        if (document.body.classList.contains('gl-off')) return;
+        bulle.firstChild.textContent = el.dataset.term;
+        bulle.lastChild.textContent = el.dataset.def;
+        bulle.classList.add('show');
+        placer(el);
+    };
+    const cacher = () => bulle.classList.remove('show');
+    const cible = e => (e.target && e.target.closest ? e.target.closest('.gl-term') : null);
+
+    document.addEventListener('mouseover', e => { const el = cible(e); if (el) montrer(el); });
+    document.addEventListener('mouseout', e => { if (cible(e)) cacher(); });
+    document.addEventListener('focusin', e => { const el = cible(e); if (el) montrer(el); });
+    document.addEventListener('focusout', cacher);
+    document.addEventListener('keydown', e => {
+        if ((e.key === 'g' || e.key === 'G') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+            document.body.classList.toggle('gl-off');
+            cacher();
+        }
+    });
+}
+
+/**
+ * Applique le glossaire à toutes les slides d'un conteneur.
+ * @param {Element} root conteneur des slides
+ * @param {{slideSelector?: string, skip?: string}} options
+ */
+function appliquerGlossaire(root, options = {}) {
+    const slideSelector = options.slideSelector || '.slide';
+    const skip = options.skip || 'script,style,svg,.gl-term,.slide-number,.slide-footer,h1,h2,.big-number,.stat-number';
+    const termes = compiler();
+    root.querySelectorAll(slideSelector).forEach(slide => {
+        const vus = new Set();
+        const walker = document.createTreeWalker(slide, NodeFilter.SHOW_TEXT, {
+            acceptNode(n) {
+                if (!n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+                const p = n.parentElement;
+                return p && p.closest(skip) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+            }
+        });
+        const noeuds = [];
+        while (walker.nextNode()) noeuds.push(walker.currentNode);
+        noeuds.forEach(n => envelopper(n, termes, vus));
+    });
+    installerBulle();
+    console.log('[GLOSSAIRE] termes annotés :', root.querySelectorAll('.gl-term').length);
+}
+appliquerGlossaire(document.getElementById('stage'), { skip: 'script,style,svg,.gl-term,.kicker,h1,h2,.fig .n,.num' });
+</script>
+<!-- GLOSSAIRE:end -->
+<script>
+(function () {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const n = slides.length;
+  const TOTAL_SECONDS = 600; // 10 minutes
+  let i = 0;
+
+  const $ = (id) => document.getElementById(id);
+  const counter = $('counter'), bar = $('bar'), crumb = $('crumb');
+
+  // ----- Rail des sections
+  const SECTIONS = [];
+  slides.forEach(s => { if (!SECTIONS.includes(s.dataset.section)) SECTIONS.push(s.dataset.section); });
+  const railEl = $('sections');
+  SECTIONS.forEach(name => {
+    const d = document.createElement('div');
+    d.className = 'sec';
+    d.innerHTML = '<span>' + name + '</span>';
+    d.title = name;
+    d.onclick = () => go(slides.findIndex(s => s.dataset.section === name));
+    railEl.appendChild(d);
+  });
+  const dots = Array.from(railEl.children);
+
+  // ----- Navigation
+  function go(k) {
+    k = Math.max(0, Math.min(n - 1, k));
+    slides[i].classList.remove('active');
+    i = k;
+    slides[i].classList.add('active');
+    counter.textContent = (i + 1) + ' / ' + n;
+    bar.style.width = (i / (n - 1) * 100) + '%';
+    crumb.textContent = slides[i].dataset.section;
+    const secIdx = SECTIONS.indexOf(slides[i].dataset.section);
+    dots.forEach((d, j) => { d.classList.toggle('active', j === secIdx); d.classList.toggle('done', j < secIdx); });
+    if (history.replaceState) history.replaceState(null, '', '#' + (i + 1));
+    updatePace();
+    document.querySelectorAll('.ov-item').forEach((el, j) => el.classList.toggle('current', j === i));
+  }
+  const next = () => go(i + 1), prev = () => go(i - 1);
+  $('btnNext').onclick = next; $('btnPrev').onclick = prev;
+
+  // ----- Overlays
+  const overlays = { overview: $('overview'), themes: $('themes'), help: $('help') };
+  function openOverlay(name) { closeOverlays(); overlays[name].classList.add('open'); }
+  function closeOverlays() { Object.values(overlays).forEach(o => o.classList.remove('open')); }
+  function anyOpen() { return Object.values(overlays).some(o => o.classList.contains('open')); }
+  function toggleOverlay(name) { overlays[name].classList.contains('open') ? closeOverlays() : openOverlay(name); }
+  document.querySelectorAll('[data-close]').forEach(b => b.onclick = closeOverlays);
+  Object.values(overlays).forEach(o => o.addEventListener('click', e => { if (e.target === o) closeOverlays(); }));
+  $('btnOverview').onclick = () => toggleOverlay('overview');
+  $('btnTheme').onclick = () => toggleOverlay('themes');
+  $('btnHelp').onclick = () => toggleOverlay('help');
+
+  // Vue d'ensemble
+  const ovGrid = $('ovGrid');
+  slides.forEach((s, j) => {
+    const it = document.createElement('div');
+    it.className = 'ov-item';
+    const title = s.querySelector('h1, h2');
+    it.innerHTML = '<div class="k">' + String(j + 1).padStart(2, '0') + '</div><div class="t">' + (title ? title.textContent : '') + '</div><div class="s">' + s.dataset.section + '</div>';
+    it.onclick = () => { go(j); closeOverlays(); };
+    ovGrid.appendChild(it);
+  });
+
+  // ----- Thèmes
+  const THEMES = [
+    { id: 'papier',    name: 'Papier',    sw: ['#f6f1e7', '#c8461e', '#1f5f8b'] },
+    { id: 'encre',     name: 'Encre',     sw: ['#101418', '#ff7a45', '#6cc3ff'] },
+    { id: 'cesi',      name: 'CESI',      sw: ['#12294a', '#f39200', '#6fb3ff'] },
+    { id: 'ardoise',   name: 'Ardoise',   sw: ['#1f2a2a', '#7ed3a6', '#f2c14e'] },
+    { id: 'sepia',     name: 'Sépia',     sw: ['#efe3cf', '#8b3a1e', '#3e5c76'] },
+    { id: 'contraste', name: 'Contraste', sw: ['#000000', '#ffd400', '#00e0ff'] }
+  ];
+  const thGrid = $('thGrid');
+  function applyTheme(id, save) {
+    document.documentElement.dataset.theme = id;
+    if (save) { try { localStorage.setItem('v2-theme', id); } catch (e) {} }
+    Array.from(thGrid.children).forEach(el => el.classList.toggle('current', el.dataset.id === id));
+  }
+  THEMES.forEach(t => {
+    const el = document.createElement('div');
+    el.className = 'th-item'; el.dataset.id = t.id;
+    el.innerHTML = '<div class="sw">' + t.sw.map(c => '<i style="background:' + c + '"></i>').join('') + '</div><div>' + t.name + '</div>';
+    el.onclick = () => { applyTheme(t.id, true); setTimeout(closeOverlays, 150); };
+    thGrid.appendChild(el);
+  });
+  let saved = null; try { saved = localStorage.getItem('v2-theme'); } catch (e) {}
+  applyTheme(THEMES.some(t => t.id === saved) ? saved : 'papier', false);
+  function cycleTheme() {
+    const cur = document.documentElement.dataset.theme;
+    const k = THEMES.findIndex(t => t.id === cur);
+    applyTheme(THEMES[(k + 1) % THEMES.length].id, true);
+  }
+
+  // ----- Chrono et rythme
+  const timerEl = $('timer'), clockEl = $('clock'), paceEl = $('pace');
+  let running = false, t0 = 0, acc = 0;
+  const fmt = s => { s = Math.max(0, Math.round(s)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+  function elapsed() { return (acc + (running ? Date.now() - t0 : 0)) / 1000; }
+  function updatePace() {
+    const e = elapsed();
+    clockEl.textContent = fmt(e);
+    timerEl.classList.toggle('running', running);
+    timerEl.classList.toggle('warn', e >= TOTAL_SECONDS * 0.8 && e < TOTAL_SECONDS);
+    timerEl.classList.toggle('over', e >= TOTAL_SECONDS);
+    if (!running && acc === 0) { paceEl.textContent = ''; paceEl.className = 'pace'; return; }
+    const expected = i / (n - 1) * TOTAL_SECONDS;
+    const diff = e - expected;
+    paceEl.textContent = (diff >= 0 ? '+' : '−') + fmt(Math.abs(diff));
+    paceEl.className = 'pace ' + (diff > 20 ? 'late' : diff < -20 ? 'early' : '');
+  }
+  function toggleTimer() { if (running) { acc += Date.now() - t0; running = false; } else { t0 = Date.now(); running = true; } updatePace(); }
+  function resetTimer() { running = false; acc = 0; updatePace(); }
+  timerEl.addEventListener('click', toggleTimer);
+  timerEl.addEventListener('dblclick', e => { e.preventDefault(); resetTimer(); });
+  setInterval(updatePace, 500);
+
+  // ----- Plein écran
+  function toggleFullscreen() {
+    if (document.fullscreenElement) { document.exitFullscreen(); }
+    else if (document.documentElement.requestFullscreen) { document.documentElement.requestFullscreen().catch(() => {}); }
+  }
+
+  // ----- Clavier
+  document.addEventListener('keydown', e => {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const k = e.key;
+    if (k === 'Escape') { if (anyOpen()) closeOverlays(); return; }
+    if (anyOpen() && !['o', 'O', 't', 'T', '?', 'h', 'H'].includes(k)) return;
+    switch (k) {
+      case 'ArrowRight': case 'ArrowDown': case 'PageDown': case ' ': case 'Enter': e.preventDefault(); next(); break;
+      case 'ArrowLeft': case 'ArrowUp': case 'PageUp': case 'Backspace': e.preventDefault(); prev(); break;
+      case 'Home': e.preventDefault(); go(0); break;
+      case 'End': e.preventDefault(); go(n - 1); break;
+      case 'f': case 'F': toggleFullscreen(); break;
+      case 'o': case 'O': toggleOverlay('overview'); break;
+      case 't': case 'T': e.shiftKey ? cycleTheme() : toggleOverlay('themes'); break;
+      case '?': case 'h': case 'H': toggleOverlay('help'); break;
+      case 's': case 'S': toggleTimer(); break;
+      case 'r': case 'R': resetTimer(); break;
+    }
+  });
+
+  // ----- Tactile
+  let tx = null;
+  document.addEventListener('touchstart', e => { tx = e.changedTouches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    if (tx === null || anyOpen()) return;
+    const dx = e.changedTouches[0].clientX - tx; tx = null;
+    if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); }
+  }, { passive: true });
+
+  // ----- Démarrage
+  const h = parseInt((location.hash || '').replace('#', ''), 10);
+  slides.forEach(s => s.classList.remove('active'));
+  slides[0].classList.add('active');
+  go(isNaN(h) ? 0 : h - 1);
+  window.addEventListener('hashchange', () => { const k = parseInt(location.hash.replace('#', ''), 10); if (!isNaN(k) && k - 1 !== i) go(k - 1); });
+})();
+</script>
+</body>
+</html>

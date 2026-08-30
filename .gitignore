@@ -4,3 +4,12 @@ node_modules/
 *.log
 .vscode/
 .idea/
+
+# Livrables locaux (ne jamais publier sur le site)
+rendu/
+*.zip
+
+# Documents de consigne / contexte / grille (racine) — jamais publiés
+/*.pdf
+/*.xlsx
+/*.docx
